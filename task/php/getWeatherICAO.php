@@ -16,4 +16,14 @@
     curl_close($ci);
 
     $decode = json_decode($returned, true);
+
+    $output['status']['code'] = "200";
+    $output['status']['name'] = "OK";
+    $output['status']['description'] = "Success";
+    $output['status']['returnedIn'] = intval((microtime(true) - $startTimeExecution) * 1000) . "milliseconds";
+    $output['data'] = $decode['geonames'];
+
+    header('Content-Type: application/json; charset=UTF-8');
+
+    echo json_encode($output);
 ?>
