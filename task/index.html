@@ -23,8 +23,9 @@
                         <th>Submit</th>
                     </tr>
                     <tr>
-                        <td>1. Weather ICAO</td>
-                        <td id="weatherICAO">Enter your airport's ICAO<input type="text" id="icao"></td>
+                        <td>1. Airport Weather ICAO</td>
+                        <td>Enter your airport's ICAO<input id="enterICAO" maxlength="4"><br>
+                        <strong>Data Order: </strong>Airport ICAO code, Station Name, Temperature(Celsius), Humidity, Clouds, Wind Speed</td>
                         <td><button id="buttonAPI1">Run API 1</button></td>
                     </tr>
                     <tr>
@@ -38,13 +39,20 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td colspan="3">RESULTS</td>
+                        <td colspan="3"><strong>RESULTS</strong><br>
+                            <span id="field1"></span>,
+                            <span id="field2"></span>,
+                            <span id="field3"></span>,
+                            <span id="field4"></span>,
+                            <span id="field5"></span>,
+                            <span id="field6"></span>
+                        </td>
                     </tr>
             </table>
         </div>
-        <div id="preloader"></div>
-        <script src="vendors/jquery/jquery-3.6.0.min.js"></script>
-        <script src="vendors/bootstrap/js/bootstrap.min.js"></script>
-        <script src="js/script.js"></script>
+        <!--<div id="preloader"></div>-->
+        <script type="application/javascript" src="vendors/jquery/jquery-3.6.0.min.js"></script>
+        <script type="application/javascript" src="vendors/bootstrap/js/bootstrap.min.js"></script>
+        <script type="application/javascript" src="js/script.js"></script>
     </body>
 </html>

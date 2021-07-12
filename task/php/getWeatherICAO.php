@@ -1,10 +1,10 @@
 <?php
-    ini_set('display_errors', "On");
+    ini_set('display_errors', 'On');
     error_reporting(E_ALL);
 
     $startTimeExecution = microtime(true);
 
-    $url='http://api.geonames.org/weatherIcaoJSON?ICAO='.$_REQUEST[''].'&username=georobert55';
+    $url='http://api.geonames.org/weatherIcaoJSON?formatted=true&ICAO=' . $_REQUEST['ICAO'] . '&username=georobert55';
 
     $ci = curl_init();
     curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);
@@ -21,7 +21,7 @@
     $output['status']['name'] = "OK";
     $output['status']['description'] = "Success";
     $output['status']['returnedIn'] = intval((microtime(true) - $startTimeExecution) * 1000) . "milliseconds";
-    $output['data'] = $decode['geonames'];
+    $output['data'] = $decode['weatherObservation'];
 
     header('Content-Type: application/json; charset=UTF-8');
 
