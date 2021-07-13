@@ -27,6 +27,10 @@ $('#buttonAPI1').click(function() {
     });
 });
 
+$('#buttonAPI2').click(function() {
+
+});
+
 /*
 $(window).on('load', function() {
     if($('#preloader').length) {
