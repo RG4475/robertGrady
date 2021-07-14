@@ -28,7 +28,33 @@ $('#buttonAPI1').click(function() {
 });
 
 $('#buttonAPI2').click(function() {
+    $.ajax({
+        url: "php/getEarthquakeInfo.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            north: $('#north1').val(),
+            south: $('#south1').val(),
+            east: $('#east1').val(),
+            west: $('#west1').val()
+        },
+        success: function(result){
 
+            console.log(JSON.stringify(result));
+
+            if(result.status.name == "OK")
+            {
+                $('#field1').html(result['data']['datetime']);
+                $('#field2').html(result['data']['depth']);
+                $('#field3').html(result['data']['lng']);
+                $('#field4').html(result['data']['magnitude']);
+            }
+        },
+
+        error: function(jqXHR, textStatus, errorThrown) {
+
+        }
+    });
 });
 
 /*
