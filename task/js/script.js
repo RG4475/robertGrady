@@ -12,12 +12,12 @@ $('#buttonAPI1').click(function() {
 
             if(result.status.name == "OK")
             {
-                $('#field1').html(result['data']['ICAO']);
-                $('#field2').html(result['data']['stationName']);
-                $('#field3').html(result['data']['temperature']);
-                $('#field4').html(result['data']['humidity']);
-                $('#field5').html(result['data']['clouds']);
-                $('#field6').html(result['data']['windSpeed']);
+                $('#field1').html("Airport ICAO Code: " + result['data']['ICAO']);
+                $('#field2').html("Station Name: " + result['data']['stationName']);
+                $('#field3').html("Temperature: " + result['data']['temperature']);
+                $('#field4').html("Humidity: " + result['data']['humidity']);
+                $('#field5').html("Clouds: " + result['data']['clouds']);
+                $('#field6').html("Wind Speed: " + result['data']['windSpeed']);
             }
         },
 
@@ -44,10 +44,12 @@ $('#buttonAPI2').click(function() {
 
             if(result.status.name == "OK")
             {
-                $('#field1').html(result['data']['datetime']);
-                $('#field2').html(result['data']['depth']);
-                $('#field3').html(result['data']['lng']);
-                $('#field4').html(result['data']['magnitude']);
+                $('#field1').html("Datetime: " + result['data'][0]['datetime']);
+                $('#field2').html("Depth: " + result['data'][0]['depth']);
+                $('#field3').html("Lng: " + result['data'][0]['lng']);
+                $('#field4').html("Magnitude: " + result['data'][0]['magnitude']);
+                $('#field5').html("");
+                $('#field6').html("");
             }
         },
 
