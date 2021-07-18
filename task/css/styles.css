@@ -1,7 +1,19 @@
-table, th, td{
-    border: 3px solid black;
+table{
+    border: 5px solid black;
 }
 
+tr{
+    border: 2px solid black;
+}
+
+th, td.APIName{
+    font-size: 1.25em;
+}
+
+table#API2Results, #API2Results td, #API2Results th{
+    font-size: 1em;
+    border-width: 2px;
+}
 #preloader {
     position: fixed;
     top: 0;

@@ -6,9 +6,8 @@
         <meta name="author" content="Robert">
         <meta name="description" content="Step 4 task - API Finder">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="vendors/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/styles.css">
     </head>
     <body>
 
@@ -23,33 +22,121 @@
                         <th>Submit</th>
                     </tr>
                     <tr>
-                        <td>1. Airport Weather ICAO</td>
-                        <td>Enter your airport's ICAO<input id="enterICAO" maxlength="4"><br>
-                        <strong>Data Order: </strong>Airport ICAO code, Station Name, Temperature(Celsius), Humidity, Clouds, Wind Speed</td>
+                        <td class="APIName">1. Weather Station with most recent weather observation</td>
+                        <td>Returns the weather station and information of the most recent weather observation for the given ICAO code<br>
+                            Enter your airport's ICAO<input id="enterICAO" maxlength="4"></td>
                         <td><button id="buttonAPI1">Run API 1</button></td>
                     </tr>
                     <tr>
-                        <td>2. Earthquakes</td>
-                        <td>North: <input id="north1" size="6">
+                        <td class="APIName">2. Recent Earthquakes</td>
+                        <td>Returns a list of recent earthquakes, sorted by magnitude descendingly<br>
+                            North: <input id="north1" size="6">
                             East: <input id="east1" size="6">
                             South: <input id="south1" size="6">
-                            West: <input id="west1" size="6"><br>
-                            <strong>Data Order: </strong> Datetime, Depth, lng, Magnitude</td>
+                            West: <input id="west1" size="6">
+                            </td>
                         <td><button id="buttonAPI2">Run API 2</button></td>
                     </tr>
                     <tr>
-                        <td>3. </td>
-                        <td></td>
-                        <td></td>
+                        <td class="APIName">3. Ocean</td>
+                        <td>Returns the name of the ocean or sea for the given latitude and longitude<br>
+                            Latitude: <input id="enterLatitude" size="6">
+                            Longitude: <input id="enterLongitude" size="6">
+                        </td>
+                        <td><button id="buttonAPI3">Run API 3</button></td>
                     </tr>
                     <tr>
-                        <td colspan="3"><strong>RESULTS</strong><br>
+                        <td colspan="3" class="APIName"><strong>RESULTS</strong><br>
                             <span id="field1"></span><br>
                             <span id="field2"></span><br>
                             <span id="field3"></span><br>
                             <span id="field4"></span><br>
                             <span id="field5"></span><br>
                             <span id="field6"></span><br>
+                            <span id="field7"></span><br>
+                            <span id="field7"></span>
+                            <span id="field8"></span><br><br>
+
+                            <h4>Table of Results from API 2</h4>
+                            <table id="API2Results">
+                                <tr>
+                                    <th>Datetime</th>
+                                    <th>Depth</th>
+                                    <th>Longitude</th>
+                                    <th>Magnitude</th>
+                                    <th>Latitude</th>
+                                </tr>
+                                <tr class="EarthquakeInfo">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="EarthquakeInfo">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="EarthquakeInfo">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="EarthquakeInfo">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="EarthquakeInfo">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="EarthquakeInfo">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="EarthquakeInfo">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="EarthquakeInfo">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="EarthquakeInfo">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="EarthquakeInfo">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
             </table>
