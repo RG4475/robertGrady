@@ -12,6 +12,7 @@ $('#buttonAPI1').click(function() {
 
             if(result.status.name == "OK")
             {
+                $('#errorMsg').html("");
                 $('#field1').html("Airport ICAO Code: " + result['data']['ICAO']);
                 $('#field2').html("Station Name: " + result['data']['stationName']);
                 $('#field3').html("Country Code: " + result['data']['countryCode']);
@@ -24,7 +25,42 @@ $('#buttonAPI1').click(function() {
         },
 
         error: function(jqXHR, textStatus, errorThrown) {
-            
+            JSON.stringify(jqXHR);
+            JSON.stringify(textStatus);
+            JSON.stringify(errorThrown);
+
+            if(jqXHR.status == '204')
+            {
+                $('#errorMsg').html(jqXHR.status + "No Response");
+            }
+            else if(jqXHR.status == '400')
+            {
+                $('#errorMsg').html(jqXHR.status + "Bad Request");
+            }
+            else if(jqXHR.status == '401')
+            {
+                $('#errorMsg').html(jqXHR.status + "Unauthorised Request");
+            }
+            else if(jqXHR.status == '403')
+            {
+                $('#errorMsg').html(jqXHR.status + "Request Forbidden");
+            }
+            else if(jqXHR.status == '404')
+            {
+                $('#errorMsg').html(jqXHR.status + "Request Not Found");
+            }
+            else if(jqXHR.status == '500')
+            {
+                $('#errorMsg').html(jqXHR.status + "Internal Server Error");
+            }
+            else if(jqXHR.status == '503')
+            {
+                $('#errorMsg').html(jqXHR.status + "Service Unavailable");
+            }
+            else if(textStatus == 'parsererror')
+            {
+                $('#errorMsg').html(textStatus + " The ICAO code you entered is either incorrect or does not exist");
+            }
         }
     });
 });
@@ -46,6 +82,7 @@ $('#buttonAPI2').click(function() {
 
             if(result.status.name == "OK")
             {
+                $('#errorMsg').html("");
 
                 for(let i = 0; i < result['data'].length; i++)
                 {
@@ -62,7 +99,42 @@ $('#buttonAPI2').click(function() {
         },
 
         error: function(jqXHR, textStatus, errorThrown) {
+            JSON.stringify(jqXHR);
+            JSON.stringify(textStatus);
+            JSON.stringify(errorThrown);
 
+            if(jqXHR.status == '204')
+            {
+                $('#errorMsg').html(jqXHR.status + "No Response");
+            }
+            else if(jqXHR.status == '400')
+            {
+                $('#errorMsg').html(jqXHR.status + "Bad Request");
+            }
+            else if(jqXHR.status == '401')
+            {
+                $('#errorMsg').html(jqXHR.status + "Unauthorised Request");
+            }
+            else if(jqXHR.status == '403')
+            {
+                $('#errorMsg').html(jqXHR.status + "Request Forbidden");
+            }
+            else if(jqXHR.status == '404')
+            {
+                $('#errorMsg').html(jqXHR.status + "Request Not Found");
+            }
+            else if(jqXHR.status == '500')
+            {
+                $('#errorMsg').html(jqXHR.status + "Internal Server Error");
+            }
+            else if(jqXHR.status == '503')
+            {
+                $('#errorMsg').html(jqXHR.status + "Service Unavailable");
+            }
+            else if(textStatus == 'parsererror')
+            {
+                $('#errorMsg').html(textStatus + " The north, east, south and/or west coordinates you have entered are either incorrect or does not exist");
+            }
         }
     });
 });
@@ -82,6 +154,7 @@ $('#buttonAPI3').click(function() {
 
             if(result.status.name == "OK")
             {
+                $('#errorMsg').html("");
                 $('#field1').html("Ocean Name: " + result['data']['name']);
                 $('#field2').html("");
                 $('#field3').html("");
@@ -94,7 +167,42 @@ $('#buttonAPI3').click(function() {
         },
 
         error: function(jqXHR, textStatus, errorThrown) {
-            
+            JSON.stringify(jqXHR);
+            JSON.stringify(textStatus);
+            JSON.stringify(errorThrown);
+
+            if(jqXHR.status == '204')
+            {
+                $('#errorMsg').html(jqXHR.status + "No Response");
+            }
+            else if(jqXHR.status == '400')
+            {
+                $('#errorMsg').html(jqXHR.status + "Bad Request");
+            }
+            else if(jqXHR.status == '401')
+            {
+                $('#errorMsg').html(jqXHR.status + "Unauthorised Request");
+            }
+            else if(jqXHR.status == '403')
+            {
+                $('#errorMsg').html(jqXHR.status + "Request Forbidden");
+            }
+            else if(jqXHR.status == '404')
+            {
+                $('#errorMsg').html(jqXHR.status + "Request Not Found");
+            }
+            else if(jqXHR.status == '500')
+            {
+                $('#errorMsg').html(jqXHR.status + "Internal Server Error");
+            }
+            else if(jqXHR.status == '503')
+            {
+                $('#errorMsg').html(jqXHR.status + "Service Unavailable");
+            }
+            else if(textStatus == 'parsererror')
+            {
+                $('#errorMsg').html(textStatus + " The latitude and/or longitude coordinates you have entered are either incorrect or does not exist");
+            }
         }
     });
 });
