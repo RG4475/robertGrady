@@ -1,1 +1,1 @@
-This folder will contain files from Project 1
+This folder will contain files from the Gazetteer project.
