@@ -27,6 +27,10 @@
     height: 500px;
 }
 
+div.header{
+    clear: both;
+}
+
 @-webkit-keyframes animate-preloader {
     0% {
         -webkit-transform: rotate(0deg);

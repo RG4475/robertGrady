@@ -31,4 +31,24 @@ $(window).on('load', function() {
         $('#currentLocMessage').html("Unfortunately your web browser does not support Geolocation");
     }
 
+    $.ajax("php/getCountryCodes.php",
+    {
+        dataType: 'json',
+
+        success: function(result, status, xhr){
+            console.log(JSON.stringify(result));
+
+            if(result.status.name == "OK")
+            {
+                $('#currentLocMessage').html(result['data']['properties']['name']);
+            }
+        }
+    });
+
+
 });
+
+$('#countrySelect').on('load', function() {
+
+
+})
