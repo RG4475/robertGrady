@@ -40,7 +40,12 @@ $(window).on('load', function() {
 
             if(result.status.name == "OK")
             {
-                $('#currentLocMessage').html(result['data']['properties']['name']);
+                for(let i = 0; i < result['data'].length; i++)
+                {
+                    let optionNum = i + 1;
+                    $('#countrySelect option:nth-child('+ optionNum +')').html(result['data'][i]['properties']['name']).attr("value", result['data'][i]['geometry']['coordinates']);
+                }
+
             }
         }
     });

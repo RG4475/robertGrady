@@ -22,7 +22,7 @@
     $output['status']['name'] = "OK";
     $output['status']['description'] = "Success";
     $output['status']['returnedIn'] = intval((microtime(true) - $startTimeExecution) * 1000) . "milliseconds";
-    $output['data'] = $decode['features'][174];
+    $output['data'] = $decode['features'];
 
     header('Content-Type: application/json; charset=UTF-8');
 
