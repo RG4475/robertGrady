@@ -1,10 +1,12 @@
+var mymap = L.map('mapid');
+
 $(window).on('load', function() {
     if($('#preloader').length) {
         $('#preloader').delay(500).fadeOut('slow', function() {
             $(this).remove();
         });
     }
-    var mymap = L.map('mapid');
+    
     var currentPosMark;
 
     function showPositionInfo(position) {
@@ -95,6 +97,8 @@ $('#countrySelect').change(function() {
         success: function(result, status, xhr){
             console.log(JSON.stringify(result));
 
+            let countryCoordinates = [];
+
             if(result.status.name == "OK")
             {
                 let countryChosen = $('#countrySelect').val();
@@ -110,9 +114,21 @@ $('#countrySelect').change(function() {
                         break;
                     }
                 }
-                let countryPolygons = result['data'][countryIndex]['geometry']['coordinates'];
+                countryCoordinates = result['data'][countryIndex]['geometry']['coordinates'];
+
+
+                let polygonType = result['data'][countryIndex]['geometry']['type'];
+                let countryPolygon;
                 
-                $('#errorMessage').html("Index of country" + countryPolygons[0]);
+                if(polygonType == "Polygon")
+                {
+                    countryPolygon = L.polyline(countryCoordinates, {color: 'red'}).addTo(mymap);
+                    mymap.fitBounds(countryPolygon.getBounds());
+                }
+                
+                
+                
+                $('#errorMessage').html("Index of country" + countryCoordinates);
             }
         }
     })
