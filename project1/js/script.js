@@ -119,13 +119,17 @@ $('#countrySelect').change(function() {
 
                 let polygonType = result['data'][countryIndex]['geometry']['type'];
                 let countryPolygon;
-                
-                if(polygonType == "Polygon")
-                {
-                    countryPolygon = L.polyline(countryCoordinates, {color: 'red'}).addTo(mymap);
-                    mymap.fitBounds(countryPolygon.getBounds());
-                }
-                
+
+                var geojsonFeature = {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": polygonType,
+                        "coordinates": countryCoordinates
+                    }
+                };
+
+                countryPolygon = L.geoJSON(geojsonFeature).addTo(mymap);
+                mymap.fitBounds(countryPolygon.getBounds());
                 
                 
                 $('#errorMessage').html("Index of country" + countryCoordinates);
