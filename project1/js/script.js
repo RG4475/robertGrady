@@ -135,5 +135,23 @@ $('#countrySelect').change(function() {
                 $('#errorMessage').html("Index of country" + countryCoordinates);
             }
         }
+    });
+
+    $.ajax({
+        url: "php/getOpenCageCountry.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            countryName: $('#countrySelect').html()
+        },
+
+        success: function(result){
+            console.log(JSON.stringify(result));
+
+            if(result.status.message == "OK")
+            {
+                $('errorMessage').html(result['data']['currency']);
+            }
+        }
     })
 })
