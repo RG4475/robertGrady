@@ -45,7 +45,8 @@ $(window).on('load', function() {
                 for(let i = 0; i < result['data'].length; i++)
                 {
                     let optionNum = i + 1;
-                    $('#countrySelect option:nth-child('+ optionNum +')').html(result['data'][i]['properties']['name']).attr("value", result['data'][i]['properties']['iso_a3']);
+                    $('#countrySelect option:nth-child('+ optionNum +')').html(result['data'][i]['properties']['name']).attr("value", result['data'][i]['properties']['name']);
+                    //Change attr("value") back to result['data'][i]['properties']['iso_a3']
                 }
 
             }
@@ -108,7 +109,7 @@ $('#countrySelect').change(function() {
                 
                 for(let i = 0; i < result['data'].length; i++)
                 {
-                    if(countryChosen == result['data'][i]['properties']['iso_a3'])
+                    if(countryChosen == result['data'][i]['properties']['name']) //Change back to result['data'][i]['properties']['iso_a3']
                     {
                         countryIndex = i;
                         break;
@@ -132,17 +133,20 @@ $('#countrySelect').change(function() {
                 mymap.fitBounds(countryPolygon.getBounds());
                 
                 
-                $('#errorMessage').html("Index of country" + countryCoordinates);
+                //$('#errorMessage').html("Index of country" + countryCoordinates);
             }
         }
     });
+
+    let countryNameEncoded = encodeURI($('#countrySelect').val());
+    $('#errorMessage').html(countryNameEncoded);
 
     $.ajax({
         url: "php/getOpenCageCountry.php",
         type: 'POST',
         dataType: 'json',
         data: {
-            countryName: $('#countrySelect').html()
+            countryName: countryNameEncoded
         },
 
         success: function(result){
@@ -150,8 +154,8 @@ $('#countrySelect').change(function() {
 
             if(result.status.message == "OK")
             {
-                $('errorMessage').html(result['data']['currency']);
+                $('errorMessage').html("Data Results" + result['data']);
             }
         }
-    })
+    });
 })
