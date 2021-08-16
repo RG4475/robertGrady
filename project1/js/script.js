@@ -45,7 +45,7 @@ $(window).on('load', function() {
                 for(let i = 0; i < result['data'].length; i++)
                 {
                     let optionNum = i + 1;
-                    $('#countrySelect option:nth-child('+ optionNum +')').html(result['data'][i]['properties']['name']).attr("value", result['data'][i]['properties']['name']);
+                    $('#countrySelect option:nth-child('+ optionNum +')').html(result['data'][i]['properties']['name']).attr("value", result['data'][i]['properties']['iso_a3']);
                     //Change attr("value") back to result['data'][i]['properties']['iso_a3']
                 }
 
@@ -109,7 +109,7 @@ $('#countrySelect').change(function() {
                 
                 for(let i = 0; i < result['data'].length; i++)
                 {
-                    if(countryChosen == result['data'][i]['properties']['name']) //Change back to result['data'][i]['properties']['iso_a3']
+                    if(countryChosen == result['data'][i]['properties']['iso_a3']) //Change back to result['data'][i]['properties']['iso_a3']
                     {
                         countryIndex = i;
                         break;
@@ -135,27 +135,29 @@ $('#countrySelect').change(function() {
                 
                 //$('#errorMessage').html("Index of country" + countryCoordinates);
             }
+
+            $.ajax({
+                url: "php/getRestCountry.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    countryCode: $('#countrySelect').val()
+                },
+        
+                success: function(result){
+                    console.log(JSON.stringify(result));
+        
+                    if(result.status.name == "OK")
+                    {
+                        $('#errorMessage').html(result['data']['name']);
+                    }
+                }
+            });
         }
     });
 
-    let countryNameEncoded = encodeURI($('#countrySelect').val());
-    $('#errorMessage').html(countryNameEncoded);
+    countryNameCode = $('#countrySelect').val()
+    $('#errorMessage').html(countryNameCode);
 
-    $.ajax({
-        url: "php/getOpenCageCountry.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            countryName: countryNameEncoded
-        },
 
-        success: function(result){
-            console.log(JSON.stringify(result));
-
-            if(result.status.message == "OK")
-            {
-                $('errorMessage').html("Data Results" + result['data']);
-            }
-        }
-    });
 })
