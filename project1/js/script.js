@@ -136,6 +136,10 @@ $('#countrySelect').change(function() {
                 //$('#errorMessage').html("Index of country" + countryCoordinates);
             }
 
+            let countryISO3Code = $('#countrySelect').val();
+            let countryLatitude;
+            let countryLongitude;
+
             $.ajax({
                 url: "php/getRestCountry.php",
                 type: 'POST',
@@ -146,18 +150,39 @@ $('#countrySelect').change(function() {
         
                 success: function(result){
                     console.log(JSON.stringify(result));
-        
+
                     if(result.status.name == "OK")
                     {
-                        $('#errorMessage').html(result['data']['name']);
+                        countryLatitude = result['data']['latlng'][0];
+                        countryLongitude = result['data']['latlng'][1];
+                        
                     }
+                    $('#errorMessage').html(countryLongitude);
+
+                    $.ajax({
+                        url: "php/getGeonameWikipedia.php",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            latitude: countryLatitude,
+                            longitude: countryLongitude
+                        },
+        
+                        success: function(result){
+                            console.log(JSON.stringify(result));
+        
+                            if(result.status.name == "OK")
+                            {
+                                $('#errorMessage').html(result[0]['summary']);
+                            }
+                        }
+                    });
                 }
+                
             });
+            
         }
     });
-
-    countryNameCode = $('#countrySelect').val()
-    $('#errorMessage').html(countryNameCode);
 
 
 })
