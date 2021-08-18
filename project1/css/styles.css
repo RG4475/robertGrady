@@ -27,8 +27,8 @@
     height: 500px;
 }
 
-div.header{
-    clear: both;
+div.header h4{
+    text-align: center;
 }
 
 @-webkit-keyframes animate-preloader {
