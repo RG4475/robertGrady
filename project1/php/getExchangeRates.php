@@ -3,8 +3,8 @@
     error_reporting(E_ALL);
 
     $startTimeExecution = microtime(true);
-    $apiKey;
-    $url;
+    $apiKey = "8284e76aa331422a95298a710b38d4f5";
+    $url = "https://openexchangerates.org/api/latest.json?app_id=" . $apiKey;
 
     $ci = curl_init();
     curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);

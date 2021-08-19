@@ -33,8 +33,9 @@ $(window).on('load', function() {
         $('#errorMessage').html("Unfortunately your web browser does not support Geolocation");
     }
 
-    $.ajax("php/getCountryCodes.php",
-    {
+    $.ajax({
+        url: "php/getCountryCodes.php",
+        type: 'GET',
         dataType: 'json',
 
         success: function(result, status, xhr){
@@ -91,8 +92,9 @@ $(window).on('load', function() {
 
 $('#countrySelect').change(function() {
 
-    $.ajax("php/getCountryCodes.php",
-    {
+    $.ajax({
+        url: "php/getCountryCodes.php",
+        type: 'GET',
         dataType: 'json',
         
         success: function(result, status, xhr){
@@ -139,6 +141,7 @@ $('#countrySelect').change(function() {
             let countryISO3Code = $('#countrySelect').val();
             let countryLatitude;
             let countryLongitude;
+            let countryCurrency;
 
             $.ajax({
                 url: "php/getRestCountry.php",
@@ -155,9 +158,10 @@ $('#countrySelect').change(function() {
                     {
                         countryLatitude = result['data']['latlng'][0];
                         countryLongitude = result['data']['latlng'][1];
+                        countryCurrency = result['data']['currencies'][0]['code'];
                         
                     }
-                    $('#errorMessage').html(countryLongitude);
+                    $('#errorMessage').html(countryCurrency);
 
                     $.ajax({
                         url: "php/getGeonameWikipedia.php",
@@ -173,14 +177,110 @@ $('#countrySelect').change(function() {
         
                             if(result.status.name == "OK")
                             {
-                                $('#errorMessage').html(result[0]['summary']);
+                                $('#errorMessage').html(result['data'][4]['wikipediaUrl']);
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            JSON.stringify(jqXHR);
+                
+                            if(jqXHR.status == '204')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "No Response");
+                            }
+                            else if(jqXHR.status == '400')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "Bad Request");
+                            }
+                            else if(jqXHR.status == '401')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "Unauthorised Request");
+                            }
+                            else if(jqXHR.status == '403')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "Request Forbidden"); 
+                            }
+                            else if(jqXHR.status == '404')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "Request Not Found"); 
+                            }
+                            else if(jqXHR.status == '500')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "Internal Server Error"); 
+                            }
+                            else if(jqXHR.status == '503')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "Service Unavailable");
                             }
                         }
                     });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JSON.stringify(jqXHR);
+        
+                    if(jqXHR.status == '204')
+                    {
+                        $('#errorMessage').html(jqXHR.status + "No Response");
+                    }
+                    else if(jqXHR.status == '400')
+                    {
+                        $('#errorMessage').html(jqXHR.status + "Bad Request");
+                    }
+                    else if(jqXHR.status == '401')
+                    {
+                        $('#errorMessage').html(jqXHR.status + "Unauthorised Request");
+                    }
+                    else if(jqXHR.status == '403')
+                    {
+                        $('#errorMessage').html(jqXHR.status + "Request Forbidden"); 
+                    }
+                    else if(jqXHR.status == '404')
+                    {
+                        $('#errorMessage').html(jqXHR.status + "Request Not Found"); 
+                    }
+                    else if(jqXHR.status == '500')
+                    {
+                        $('#errorMessage').html(jqXHR.status + "Internal Server Error"); 
+                    }
+                    else if(jqXHR.status == '503')
+                    {
+                        $('#errorMessage').html(jqXHR.status + "Service Unavailable");
+                    }
                 }
                 
             });
             
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            JSON.stringify(jqXHR);
+
+            if(jqXHR.status == '204')
+            {
+                $('#errorMessage').html(jqXHR.status + "No Response");
+            }
+            else if(jqXHR.status == '400')
+            {
+                $('#errorMessage').html(jqXHR.status + "Bad Request");
+            }
+            else if(jqXHR.status == '401')
+            {
+                $('#errorMessage').html(jqXHR.status + "Unauthorised Request");
+            }
+            else if(jqXHR.status == '403')
+            {
+                $('#errorMessage').html(jqXHR.status + "Request Forbidden"); 
+            }
+            else if(jqXHR.status == '404')
+            {
+                $('#errorMessage').html(jqXHR.status + "Request Not Found"); 
+            }
+            else if(jqXHR.status == '500')
+            {
+                $('#errorMessage').html(jqXHR.status + "Internal Server Error"); 
+            }
+            else if(jqXHR.status == '503')
+            {
+                $('#errorMessage').html(jqXHR.status + "Service Unavailable");
+            }
         }
     });
 
