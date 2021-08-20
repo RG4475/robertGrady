@@ -139,9 +139,16 @@ $('#countrySelect').change(function() {
             }
 
             let countryISO3Code = $('#countrySelect').val();
+            let countryFullName;
+            let countryCapital;
+            let countryRegion;
+            let countryPopulation;
             let countryLatitude;
             let countryLongitude;
-            let countryCurrency;
+            let countryCurrencyCode;
+            let countryCurrencyName;
+            let countryCurrencySymbol;
+            let wikipediaUrls = [];
 
             $.ajax({
                 url: "php/getRestCountry.php",
@@ -156,12 +163,18 @@ $('#countrySelect').change(function() {
 
                     if(result.status.name == "OK")
                     {
+                        countryFullName = result['data']['name'];
+                        countryCapital = result['data']['capital'];
+                        countryRegion = result['data']['region'];
+                        countryPopulation = result['data']['population'];
                         countryLatitude = result['data']['latlng'][0];
                         countryLongitude = result['data']['latlng'][1];
-                        countryCurrency = result['data']['currencies'][0]['code'];
+                        countryCurrencyCode = result['data']['currencies'][0]['code'];
+                        countryCurrencyName = result['data']['currencies'][0]['name'];
+                        countryCurrencySymbol = result['data']['currencies'][0]['symbol'];
                         
                     }
-                    $('#errorMessage').html(countryCurrency);
+                    //$('#errorMessage').html(countryCurrencySymbol);
 
                     $.ajax({
                         url: "php/getGeonameWikipedia.php",
@@ -177,7 +190,11 @@ $('#countrySelect').change(function() {
         
                             if(result.status.name == "OK")
                             {
-                                $('#errorMessage').html(result['data'][4]['wikipediaUrl']);
+                                for(let i = 0; i < result['data'].length; i++)
+                                {
+                                    wikipediaUrls.push(result['data'][i]['wikipediaUrl']);
+                                }
+                                $('#errorMessage').html(wikipediaUrls);
                             }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {

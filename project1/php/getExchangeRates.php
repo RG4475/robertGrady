@@ -4,7 +4,7 @@
 
     $startTimeExecution = microtime(true);
     $apiKey = "8284e76aa331422a95298a710b38d4f5";
-    $url = "https://openexchangerates.org/api/latest.json?app_id=" . $apiKey;
+    $url = "https://openexchangerates.org/api/latest.json?app_id=" . $apiKey . "&base=" . $_REQUEST['currencyCode'];
 
     $ci = curl_init();
     curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);
