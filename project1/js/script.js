@@ -139,6 +139,8 @@ $('#countrySelect').change(function() {
             }
 
             let countryISO3Code = $('#countrySelect').val();
+
+            //Rest API
             let countryFullName;
             let countryCapital;
             let countryRegion;
@@ -148,14 +150,30 @@ $('#countrySelect').change(function() {
             let countryCurrencyCode;
             let countryCurrencyName;
             let countryCurrencySymbol;
+            let countryFlag;
+
+            //Geonames API
             let wikipediaUrls = [];
+
+            //OpenWeather API
+            let mainWeather;
+            let description;
+            let currentTemperature;
+            let temperatureCelsius; //Uses data from 'currentTemperature' variable and not OpenWeather API
+            let temperatureFahrenheit; //Uses data from 'currentTemperature' variable and not OpenWeather API
+            let feelsLike;
+            let feelsLikeCelsius; //Uses data from 'feelsLike' variable and not OpenWeather API
+            let feelsLikeFahrenheit; //Uses data from 'feelsLike' variable and not OpenWeather API
+            let pressure;
+            let humidity;
+            let windSpeed;
 
             $.ajax({
                 url: "php/getRestCountry.php",
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    countryCode: $('#countrySelect').val()
+                    countryCode: countryISO3Code
                 },
         
                 success: function(result){
@@ -167,14 +185,17 @@ $('#countrySelect').change(function() {
                         countryCapital = result['data']['capital'];
                         countryRegion = result['data']['region'];
                         countryPopulation = result['data']['population'];
+
                         countryLatitude = result['data']['latlng'][0];
                         countryLongitude = result['data']['latlng'][1];
+
                         countryCurrencyCode = result['data']['currencies'][0]['code'];
                         countryCurrencyName = result['data']['currencies'][0]['name'];
                         countryCurrencySymbol = result['data']['currencies'][0]['symbol'];
+                        countryFlag = result['data']['flag'];
                         
                     }
-                    //$('#errorMessage').html(countryCurrencySymbol);
+                    //$('#errorMessage').html(countryFlag);
 
                     $.ajax({
                         url: "php/getGeonameWikipedia.php",
@@ -194,39 +215,105 @@ $('#countrySelect').change(function() {
                                 {
                                     wikipediaUrls.push(result['data'][i]['wikipediaUrl']);
                                 }
-                                $('#errorMessage').html(wikipediaUrls);
+                                //$('#errorMessage').html(wikipediaUrls);
                             }
+
+                            $.ajax({
+                                url: "php/getCountryWeather.php",
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    latitude: countryLatitude,
+                                    longitude: countryLongitude
+                                },
+
+                                success: function(result){
+                                    console.log(JSON.stringify(result));
+
+                                    if(result.status.name == "OK")
+                                    {
+                                        mainWeather = result['data']['weather'][0]['main'];
+                                        description = result['data']['weather'][0]['description'];
+
+                                        currentTemperature = result['data']['main']['temp'];
+                                        temperatureCelsius = currentTemperature - 273.15;
+                                        temperatureFahrenheit = (temperatureCelsius * 9/5) + 32;
+
+                                        feelsLike = result['data']['main']['feels_like'];
+                                        feelsLikeCelsius = feelsLike - 273.15;
+                                        feelsLikeFahrenheit = (feelsLikeCelsius * 9/5) + 32;
+
+                                        pressure = result['data']['main']['pressure'];
+                                        humidity = result['data']['main']['humidity'];
+                                        windSpeed = result['data']['wind']['speed'];
+                                        $('#errorMessage').html(temperatureFahrenheit);
+                                    }
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    JSON.stringify(jqXHR);
+                        
+                                    if(jqXHR.status == '204')
+                                    {
+                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: No Response");
+                                    }
+                                    else if(jqXHR.status == '400')
+                                    {
+                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Bad Request");
+                                    }
+                                    else if(jqXHR.status == '401')
+                                    {
+                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Unauthorised Request");
+                                    }
+                                    else if(jqXHR.status == '403')
+                                    {
+                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Request Forbidden"); 
+                                    }
+                                    else if(jqXHR.status == '404')
+                                    {
+                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Request Not Found"); 
+                                    }
+                                    else if(jqXHR.status == '500')
+                                    {
+                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Internal Server Error"); 
+                                    }
+                                    else if(jqXHR.status == '503')
+                                    {
+                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Service Unavailable");
+                                    }
+                                }
+
+                            });
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             JSON.stringify(jqXHR);
                 
                             if(jqXHR.status == '204')
                             {
-                                $('#errorMessage').html(jqXHR.status + "No Response");
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: No Response");
                             }
                             else if(jqXHR.status == '400')
                             {
-                                $('#errorMessage').html(jqXHR.status + "Bad Request");
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Bad Request");
                             }
                             else if(jqXHR.status == '401')
                             {
-                                $('#errorMessage').html(jqXHR.status + "Unauthorised Request");
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Unauthorised Request");
                             }
                             else if(jqXHR.status == '403')
                             {
-                                $('#errorMessage').html(jqXHR.status + "Request Forbidden"); 
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Request Forbidden"); 
                             }
                             else if(jqXHR.status == '404')
                             {
-                                $('#errorMessage').html(jqXHR.status + "Request Not Found"); 
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Request Not Found"); 
                             }
                             else if(jqXHR.status == '500')
                             {
-                                $('#errorMessage').html(jqXHR.status + "Internal Server Error"); 
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Internal Server Error"); 
                             }
                             else if(jqXHR.status == '503')
                             {
-                                $('#errorMessage').html(jqXHR.status + "Service Unavailable");
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Service Unavailable");
                             }
                         }
                     });
@@ -236,31 +323,31 @@ $('#countrySelect').change(function() {
         
                     if(jqXHR.status == '204')
                     {
-                        $('#errorMessage').html(jqXHR.status + "No Response");
+                        $('#errorMessage').html(jqXHR.status + "REST COUNTRIES: No Response");
                     }
                     else if(jqXHR.status == '400')
                     {
-                        $('#errorMessage').html(jqXHR.status + "Bad Request");
+                        $('#errorMessage').html(jqXHR.status + "REST COUNTRIES: Bad Request");
                     }
                     else if(jqXHR.status == '401')
                     {
-                        $('#errorMessage').html(jqXHR.status + "Unauthorised Request");
+                        $('#errorMessage').html(jqXHR.status + "REST COUNTRIES: Unauthorised Request");
                     }
                     else if(jqXHR.status == '403')
                     {
-                        $('#errorMessage').html(jqXHR.status + "Request Forbidden"); 
+                        $('#errorMessage').html(jqXHR.status + "REST COUNTRIES: Request Forbidden"); 
                     }
                     else if(jqXHR.status == '404')
                     {
-                        $('#errorMessage').html(jqXHR.status + "Request Not Found"); 
+                        $('#errorMessage').html(jqXHR.status + "REST COUNTRIES: Request Not Found"); 
                     }
                     else if(jqXHR.status == '500')
                     {
-                        $('#errorMessage').html(jqXHR.status + "Internal Server Error"); 
+                        $('#errorMessage').html(jqXHR.status + "REST COUNTRIES: Internal Server Error"); 
                     }
                     else if(jqXHR.status == '503')
                     {
-                        $('#errorMessage').html(jqXHR.status + "Service Unavailable");
+                        $('#errorMessage').html(jqXHR.status + "REST COUNTRIES: Service Unavailable");
                     }
                 }
                 
