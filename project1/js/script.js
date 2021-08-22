@@ -155,7 +155,7 @@ $('#countrySelect').change(function() {
             //Geonames API
             let wikipediaUrls = [];
 
-            //OpenWeather API
+            //Open Weather API
             let mainWeather;
             let description;
             let currentTemperature;
@@ -167,6 +167,9 @@ $('#countrySelect').change(function() {
             let pressure;
             let humidity;
             let windSpeed;
+
+            //Open Exchange Rates API
+            let currentCurrencyRates = [];
 
             $.ajax({
                 url: "php/getRestCountry.php",
@@ -246,8 +249,63 @@ $('#countrySelect').change(function() {
                                         pressure = result['data']['main']['pressure'];
                                         humidity = result['data']['main']['humidity'];
                                         windSpeed = result['data']['wind']['speed'];
-                                        $('#errorMessage').html(temperatureFahrenheit);
+                                        //$('#errorMessage').html(temperatureFahrenheit);
                                     }
+
+                                    $.ajax({
+                                        url: "php/getExchangeRates.php",
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        data: {
+                                            currencyCode: countryCurrencyCode
+                                        },
+
+                                        success: function(result){
+                                            console.log(JSON.stringify(result));
+
+                                            if(result.status.name == "OK")
+                                            {
+                                                for(let property in result['data']['rates'])
+                                                {
+                                                    currentCurrencyRates.push(`${property}: ${result['data']['rates'][property]}`);
+                                                }
+                                                
+                                                $('#errorMessage').html(currentCurrencyRates);
+                                            }
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            JSON.stringify(jqXHR);
+                                
+                                            if(jqXHR.status == '204')
+                                            {
+                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: No Response");
+                                            }
+                                            else if(jqXHR.status == '400')
+                                            {
+                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Bad Request");
+                                            }
+                                            else if(jqXHR.status == '401')
+                                            {
+                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Unauthorised Request");
+                                            }
+                                            else if(jqXHR.status == '403')
+                                            {
+                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Request Forbidden"); 
+                                            }
+                                            else if(jqXHR.status == '404')
+                                            {
+                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Request Not Found"); 
+                                            }
+                                            else if(jqXHR.status == '500')
+                                            {
+                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Internal Server Error"); 
+                                            }
+                                            else if(jqXHR.status == '503')
+                                            {
+                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Service Unavailable");
+                                            }
+                                        }
+                                    });
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
                                     JSON.stringify(jqXHR);
