@@ -31,6 +31,10 @@ div.header h4{
     text-align: center;
 }
 
+#flag {
+    float: right;
+}
+
 @-webkit-keyframes animate-preloader {
     0% {
         -webkit-transform: rotate(0deg);

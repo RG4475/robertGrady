@@ -144,7 +144,10 @@ $('#countrySelect').change(function() {
             let countryFullName;
             let countryCapital;
             let countryRegion;
+            let countryNativeName;
             let countryPopulation;
+            let countryLanguage;
+            let countryLanguageNativeName;
             let countryLatitude;
             let countryLongitude;
             let countryCurrencyCode;
@@ -187,7 +190,10 @@ $('#countrySelect').change(function() {
                         countryFullName = result['data']['name'];
                         countryCapital = result['data']['capital'];
                         countryRegion = result['data']['region'];
+                        countryNativeName = result['data']['nativeName'];
                         countryPopulation = result['data']['population'];
+                        countryLanguage = result['data']['languages'][0]['name'];
+                        countryLanguageNativeName = result['data']['languages'][0]['nativeName'];
 
                         countryLatitude = result['data']['latlng'][0];
                         countryLongitude = result['data']['latlng'][1];
@@ -239,12 +245,12 @@ $('#countrySelect').change(function() {
                                         description = result['data']['weather'][0]['description'];
 
                                         currentTemperature = result['data']['main']['temp'];
-                                        temperatureCelsius = currentTemperature - 273.15;
-                                        temperatureFahrenheit = (temperatureCelsius * 9/5) + 32;
+                                        temperatureCelsius = Math.round(currentTemperature - 273.15);
+                                        temperatureFahrenheit = Math.round((temperatureCelsius * 9/5) + 32);
 
                                         feelsLike = result['data']['main']['feels_like'];
-                                        feelsLikeCelsius = feelsLike - 273.15;
-                                        feelsLikeFahrenheit = (feelsLikeCelsius * 9/5) + 32;
+                                        feelsLikeCelsius = Math.round(feelsLike - 273.15);
+                                        feelsLikeFahrenheit = Math.round((feelsLikeCelsius * 9/5) + 32);
 
                                         pressure = result['data']['main']['pressure'];
                                         humidity = result['data']['main']['humidity'];
@@ -269,8 +275,40 @@ $('#countrySelect').change(function() {
                                                 {
                                                     currentCurrencyRates.push(`${property}: ${result['data']['rates'][property]}`);
                                                 }
+
+                                                var countryPopup = L.popup()
+                                                    .setLatLng([countryLatitude, countryLongitude])
+                                                    .setContent("<h5>" + countryFullName + "     " +
+                                                    "<img id=\"flag\" src=\"" + countryFlag + "\" height=\"50\" width=\"100\"/></h5>" + 
+                                                    "Capital City: " + countryCapital + "<br>" + 
+                                                    "Population: " + countryPopulation + "<br>" + 
+                                                    "Native Name: " + countryNativeName + "<br>" +
+                                                    "Region: " + countryRegion + "<br>" + 
+                                                    "Language: " + countryLanguage + " (" + countryLanguageNativeName + ")<br><br>" +
+                                                    "Current Temperature: " + temperatureFahrenheit + "&#8457; " + temperatureCelsius + "&#8451; <br>" + 
+                                                    "Feels Like: " + feelsLikeFahrenheit + "&#8457; " + feelsLikeCelsius + "&#8451; <br>" + 
+                                                    "Weather: " + mainWeather + " (" + description + ")<br>" +
+                                                    "Pressure: " + pressure + "<br>" +
+                                                    "Humidity: " + humidity + "<br>" +
+                                                    "Wind Speed: " + windSpeed + "<br><br>" + 
+                                                    "<a href=\"" + wikipediaUrls[0] + "\" >" + wikipediaUrls[0] + "</a>" + "<br>" +
+                                                    "<a href=\"" + wikipediaUrls[1] + "\" >" + wikipediaUrls[1] + "</a>" + "<br>" +
+                                                    "<a href=\"" + wikipediaUrls[2] + "\" >" + wikipediaUrls[2] + "</a>" + "<br>" +
+                                                    "<a href=\"" + wikipediaUrls[3] + "\" >" + wikipediaUrls[3] + "</a>" + "<br>" +
+                                                    "<a href=\"" + wikipediaUrls[4] + "\" >" + wikipediaUrls[4] + "</a>" + "<br><br>" +
+                                                    "Currency: " + countryCurrencyName + " (" + countryCurrencyCode + ")<br>" +
+                                                    currentCurrencyRates[7] + "<br>" +
+                                                    currentCurrencyRates[21] + "<br>" + 
+                                                    currentCurrencyRates[26] + "<br>" +
+                                                    currentCurrencyRates[46] + "<br>" +
+                                                    currentCurrencyRates[49] + "<br>" + 
+                                                    currentCurrencyRates[73] + "<br>" +
+                                                    currentCurrencyRates[109] + "<br>" +
+                                                    currentCurrencyRates[150]
+                                                    )
+                                                    .openOn(mymap);
                                                 
-                                                $('#errorMessage').html(currentCurrencyRates);
+                                                //$('#errorMessage').html(currentCurrencyRates);
                                             }
                                         },
                                         error: function(jqXHR, textStatus, errorThrown) {
