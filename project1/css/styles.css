@@ -24,7 +24,8 @@
 }
 
 #mapid {
-    height: 500px;
+    height: 80vh;
+    width: 99vw;
 }
 
 div.header h4{
@@ -33,6 +34,11 @@ div.header h4{
 
 #flag {
     float: right;
+}
+
+#copyrightInfo li{
+    display: inline-block;
+    list-style-type: none;
 }
 
 @-webkit-keyframes animate-preloader {

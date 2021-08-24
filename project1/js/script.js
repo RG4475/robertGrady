@@ -11,11 +11,81 @@ $(window).on('load', function() {
 
     function showPositionInfo(position) {
         mymap.setView([position.coords.latitude, position.coords.longitude], 13);
-        
     }
 
     function showPositionMarker(position) {
-        currentPosMark = L.marker([position.coords.latitude, position.coords.longitude]).addTo(mymap);
+
+        var currentPosLat = position.coords.latitude;
+        var currentPosLon = position.coords.longitude;
+
+        $.ajax({
+            url: "php/getCountryWeather.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                latitude: currentPosLat,
+                longitude: currentPosLon
+            },
+
+            success: function(result){
+                console.log(JSON.stringify(result));
+
+                if(result.status.name == "OK")
+                {
+                    var localTemperature = result['data']['main']['temp'];
+                    var localTempCelsius = Math.round(localTemperature - 273.15);
+                    var localTempFahrenheit = Math.round((localTempCelsius * 9/5) + 32);
+
+                    var localFeelsLike = result['data']['main']['feels_like'];
+                    var localFeelsCelsius = Math.round(localFeelsLike - 273.15);
+                    var localFeelsFahrenheit = Math.round((localFeelsCelsius * 9/5) + 32);
+
+                    currentPosMark = L.popup()
+                        .setLatLng([currentPosLat, currentPosLon])
+                        .setContent("<h5>Current weather in local area</h5>" + 
+                        "Weather: " + result['data']['weather'][0]['main'] + " (" + result['data']['weather'][0]['description'] + ")<br>" +
+                        "Temperature: " + localTempFahrenheit + "&#8457; " + localTempCelsius  + "&#8451; <br>" +
+                        "Feels Like: " + localFeelsFahrenheit  + "&#8457; " + localFeelsCelsius  + "&#8451; <br>" +
+                        "Pressure " + result['data']['main']['pressure'] + "<br>" +
+                        "Humidity " + result['data']['main']['humidity'] + "<br>" +
+                        "Wind Speed " + result['data']['wind']['speed']
+                        )
+                        .openOn(mymap);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                JSON.stringify(jqXHR);
+    
+                if(jqXHR.status == '204')
+                {
+                    $('#errorMessage').html(jqXHR.status + "No Response");
+                }
+                else if(jqXHR.status == '400')
+                {
+                    $('#errorMessage').html(jqXHR.status + "Bad Request");
+                }
+                else if(jqXHR.status == '401')
+                {
+                    $('#errorMessage').html(jqXHR.status + "Unauthorised Request");
+                }
+                else if(jqXHR.status == '403')
+                {
+                    $('#errorMessage').html(jqXHR.status + "Request Forbidden"); 
+                }
+                else if(jqXHR.status == '404')
+                {
+                    $('#errorMessage').html(jqXHR.status + "Request Not Found"); 
+                }
+                else if(jqXHR.status == '500')
+                {
+                    $('#errorMessage').html(jqXHR.status + "Internal Server Error"); 
+                }
+                else if(jqXHR.status == '503')
+                {
+                    $('#errorMessage').html(jqXHR.status + "Service Unavailable");
+                }
+            }
+        });
     }
 
     if(navigator.geolocation) {
@@ -47,9 +117,7 @@ $(window).on('load', function() {
                 {
                     let optionNum = i + 1;
                     $('#countrySelect option:nth-child('+ optionNum +')').html(result['data'][i]['properties']['name']).attr("value", result['data'][i]['properties']['iso_a3']);
-                    //Change attr("value") back to result['data'][i]['properties']['iso_a3']
                 }
-
             }
         },
 
@@ -86,8 +154,6 @@ $(window).on('load', function() {
             }
         }
     });
-
-
 });
 
 $('#countrySelect').change(function() {
@@ -111,7 +177,7 @@ $('#countrySelect').change(function() {
                 
                 for(let i = 0; i < result['data'].length; i++)
                 {
-                    if(countryChosen == result['data'][i]['properties']['iso_a3']) //Change back to result['data'][i]['properties']['iso_a3']
+                    if(countryChosen == result['data'][i]['properties']['iso_a3'])
                     {
                         countryIndex = i;
                         break;
@@ -133,9 +199,6 @@ $('#countrySelect').change(function() {
 
                 countryPolygon = L.geoJSON(geojsonFeature).addTo(mymap);
                 mymap.fitBounds(countryPolygon.getBounds());
-                
-                
-                //$('#errorMessage').html("Index of country" + countryCoordinates);
             }
 
             let countryISO3Code = $('#countrySelect').val();
@@ -204,7 +267,6 @@ $('#countrySelect').change(function() {
                         countryFlag = result['data']['flag'];
                         
                     }
-                    //$('#errorMessage').html(countryFlag);
 
                     $.ajax({
                         url: "php/getGeonameWikipedia.php",
@@ -224,7 +286,6 @@ $('#countrySelect').change(function() {
                                 {
                                     wikipediaUrls.push(result['data'][i]['wikipediaUrl']);
                                 }
-                                //$('#errorMessage').html(wikipediaUrls);
                             }
 
                             $.ajax({
@@ -255,7 +316,6 @@ $('#countrySelect').change(function() {
                                         pressure = result['data']['main']['pressure'];
                                         humidity = result['data']['main']['humidity'];
                                         windSpeed = result['data']['wind']['speed'];
-                                        //$('#errorMessage').html(temperatureFahrenheit);
                                     }
 
                                     $.ajax({
@@ -307,8 +367,6 @@ $('#countrySelect').change(function() {
                                                     currentCurrencyRates[150]
                                                     )
                                                     .openOn(mymap);
-                                                
-                                                //$('#errorMessage').html(currentCurrencyRates);
                                             }
                                         },
                                         error: function(jqXHR, textStatus, errorThrown) {
@@ -377,7 +435,6 @@ $('#countrySelect').change(function() {
                                         $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Service Unavailable");
                                     }
                                 }
-
                             });
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
@@ -446,9 +503,7 @@ $('#countrySelect').change(function() {
                         $('#errorMessage').html(jqXHR.status + "REST COUNTRIES: Service Unavailable");
                     }
                 }
-                
             });
-            
         },
         error: function(jqXHR, textStatus, errorThrown) {
             JSON.stringify(jqXHR);
@@ -483,6 +538,4 @@ $('#countrySelect').change(function() {
             }
         }
     });
-
-
-})
+});
