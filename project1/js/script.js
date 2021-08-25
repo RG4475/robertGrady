@@ -10,50 +10,35 @@ $(window).on('load', function() {
     
     var currentPosMark;
 
-    function showPositionInfo(position) {
-        mymap.setView([position.coords.latitude, position.coords.longitude], 13);
+    function showPositionMarker(position) {
+        currentPosMark = L.marker([position.coords.latitude, position.coords.longitude]).addTo(mymap);
     }
 
-    function showPositionMarker(position) {
+    function showPositionInfo(position) {
 
         var currentPosLat = position.coords.latitude;
         var currentPosLon = position.coords.longitude;
 
         $.ajax({
-            url: "php/getCountryWeather.php",
+            url: "php/getCurrentLocCountry.php",
             type: 'POST',
             dataType: 'json',
             data: {
-                latitude: currentPosLat,
-                longitude: currentPosLon
+                currentLat: currentPosLat,
+                currentLon: currentPosLon
             },
 
             success: function(result){
                 console.log(JSON.stringify(result));
 
+                var currentLocCountry;
                 if(result.status.name == "OK")
                 {
-                    var localTemperature = result['data']['main']['temp'];
-                    var localTempCelsius = Math.round(localTemperature - 273.15);
-                    var localTempFahrenheit = Math.round((localTempCelsius * 9/5) + 32);
-
-                    var localFeelsLike = result['data']['main']['feels_like'];
-                    var localFeelsCelsius = Math.round(localFeelsLike - 273.15);
-                    var localFeelsFahrenheit = Math.round((localFeelsCelsius * 9/5) + 32);
-
-                    currentPosMark = L.popup()
-                        .setLatLng([currentPosLat, currentPosLon])
-                        .setContent("<h5>Current weather in local area</h5>" + 
-                        "Weather: " + result['data']['weather'][0]['main'] + " (" + result['data']['weather'][0]['description'] + ")<br>" +
-                        "Temperature: " + localTempFahrenheit + "&#8457; " + localTempCelsius  + "&#8451; <br>" +
-                        "Feels Like: " + localFeelsFahrenheit  + "&#8457; " + localFeelsCelsius  + "&#8451; <br>" +
-                        "Pressure " + result['data']['main']['pressure'] + "<br>" +
-                        "Humidity " + result['data']['main']['humidity'] + "<br>" +
-                        "Wind Speed " + result['data']['wind']['speed']
-                        )
-                        .openOn(mymap);
+                    currentLocCountry = result['data'][0]['components']['ISO_3166-1_alpha-3'];
+                    $('#countrySelect').val(currentLocCountry).change();
                 }
             },
+
             error: function(jqXHR, textStatus, errorThrown) {
                 JSON.stringify(jqXHR);
     
@@ -86,18 +71,19 @@ $(window).on('load', function() {
                     $('#errorMessage').html(jqXHR.status + "Service Unavailable");
                 }
             }
+
         });
     }
 
     if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPositionInfo);
+        navigator.geolocation.getCurrentPosition(showPositionMarker);
 
         var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(mymap);
 
-        navigator.geolocation.getCurrentPosition(showPositionMarker);
+        navigator.geolocation.getCurrentPosition(showPositionInfo);
     }
 
     else {
