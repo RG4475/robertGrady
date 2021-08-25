@@ -1,4 +1,5 @@
 var mymap = L.map('mapid');
+let countryPolygon = null;
 
 $(window).on('load', function() {
     if($('#preloader').length) {
@@ -187,7 +188,6 @@ $('#countrySelect').change(function() {
 
 
                 let polygonType = result['data'][countryIndex]['geometry']['type'];
-                let countryPolygon;
 
                 var geojsonFeature = {
                     "type": "Feature",
@@ -196,6 +196,11 @@ $('#countrySelect').change(function() {
                         "coordinates": countryCoordinates
                     }
                 };
+
+                if(countryPolygon)
+                {
+                    countryPolygon.clearLayers();
+                }
 
                 countryPolygon = L.geoJSON(geojsonFeature).addTo(mymap);
                 mymap.fitBounds(countryPolygon.getBounds());
