@@ -310,11 +310,12 @@ $('#countrySelect').change(function() {
                                     }
 
                                     $.ajax({
-                                        url: "php/getExchangeRates.php",
+                                        url: "php/getPointsOfInterest.php",
                                         type: 'POST',
                                         dataType: 'json',
                                         data: {
-                                            currencyCode: countryCurrencyCode
+                                            latitude: 37.451,
+                                            longitude: -122.18
                                         },
 
                                         success: function(result){
@@ -322,75 +323,136 @@ $('#countrySelect').change(function() {
 
                                             if(result.status.name == "OK")
                                             {
-                                                for(let property in result['data']['rates'])
-                                                {
-                                                    currentCurrencyRates.push(`${property}: ${result['data']['rates'][property]}`);
-                                                }
-
-                                                $('#selectedCountry').html(countryFullName);
-                                                $('#flag').attr("src", countryFlag);
-                                                $('#capitalCity').html(`Capital city:  ${countryCapital}`);
-                                                $('#population').html(`Population:  ${countryPopulation}`);
-                                                $('#nativeName').html(`Native name:  ${countryNativeName}`);
-                                                $('#region').html(`Region: ${countryRegion}`);
-                                                $('#language').html(`Language: ${countryLanguage} (${countryLanguageNativeName})`);
-                                                $('#currentTemperature').html(`Current temperature: ${temperatureFahrenheit}&#8457;/ ${temperatureCelsius}&#8451;`);
-                                                $('#feelsLike').html(`Feels like: ${feelsLikeFahrenheit}&#8457;/ ${feelsLikeCelsius}&#8451;`);
-                                                $('#weather').html(`Weather: ${mainWeather} (${description})`);
-                                                $('#pressure').html(`Pressure: ${pressure}`);
-                                                $('#humidity').html(`Humidity: ${humidity}`);
-                                                $('#windSpeed').html(`Wind speed: ${windSpeed}`);
-
-                                                for(let i = 0; i < wikipediaUrls.length; i++)
-                                                {
-                                                    let linkNo = i + 1;
-                                                    $('#wikipediaLinks li:nth-child(' + linkNo + ') a').attr("href", "https://" + wikipediaUrls[i]).html("https://" + wikipediaUrls[i]);
-                                                    
-                                                }
-
-                                                $('#currency').html(`Currency: ${countryCurrencyName} (${countryCurrencyCode})`);
-                                                $('#exchangeRates li:nth-child(1)').html(currentCurrencyRates[7]);
-                                                $('#exchangeRates li:nth-child(2)').html(currentCurrencyRates[21]);
-                                                $('#exchangeRates li:nth-child(3)').html(currentCurrencyRates[26]);
-                                                $('#exchangeRates li:nth-child(4)').html(currentCurrencyRates[46]);
-                                                $('#exchangeRates li:nth-child(5)').html(currentCurrencyRates[49]);
-                                                $('#exchangeRates li:nth-child(6)').html(currentCurrencyRates[73]);
-                                                $('#exchangeRates li:nth-child(7)').html(currentCurrencyRates[109]);
-                                                $('#exchangeRates li:nth-child(8)').html(currentCurrencyRates[150]);
+                                                $('#errorMessage').html(result['data'][0]['name']);
                                             }
+
+                                            $.ajax({
+                                                url: "php/getExchangeRates.php",
+                                                type: 'POST',
+                                                dataType: 'json',
+                                                data: {
+                                                    currencyCode: countryCurrencyCode
+                                                },
+        
+                                                success: function(result){
+                                                    console.log(JSON.stringify(result));
+        
+                                                    if(result.status.name == "OK")
+                                                    {
+                                                        for(let property in result['data']['rates'])
+                                                        {
+                                                            currentCurrencyRates.push(`${property}: ${result['data']['rates'][property]}`);
+                                                        }
+
+
+        
+                                                        $('#selectedCountry').html(countryFullName);
+                                                        $('#flag').attr("src", countryFlag);
+                                                        $('#capitalCity').html(`Capital city:  ${countryCapital}`);
+                                                        $('#population').html(`Population:  ${countryPopulation}`);
+                                                        $('#nativeName').html(`Native name:  ${countryNativeName}`);
+                                                        $('#region').html(`Region: ${countryRegion}`);
+                                                        $('#language').html(`Language: ${countryLanguage} (${countryLanguageNativeName})`);
+                                                        $('#currentTemperature').html(`Current temperature: ${temperatureFahrenheit}&#8457;/ ${temperatureCelsius}&#8451;`);
+                                                        $('#feelsLike').html(`Feels like: ${feelsLikeFahrenheit}&#8457;/ ${feelsLikeCelsius}&#8451;`);
+                                                        $('#weather').html(`Weather: ${mainWeather} (${description})`);
+                                                        $('#pressure').html(`Pressure: ${pressure}`);
+                                                        $('#humidity').html(`Humidity: ${humidity}`);
+                                                        $('#windSpeed').html(`Wind speed: ${windSpeed}`);
+        
+                                                        for(let i = 0; i < wikipediaUrls.length; i++)
+                                                        {
+                                                            let linkNo = i + 1;
+                                                            $('#wikipediaLinks li:nth-child(' + linkNo + ') a').attr("href", "https://" + wikipediaUrls[i]).html("https://" + wikipediaUrls[i]);
+                                                            
+                                                        }
+        
+                                                        $('#currency').html(`Currency: ${countryCurrencyName} (${countryCurrencyCode})`);
+                                                        $('#exchangeRates li:nth-child(1)').html(currentCurrencyRates[7]);
+                                                        $('#exchangeRates li:nth-child(2)').html(currentCurrencyRates[21]);
+                                                        $('#exchangeRates li:nth-child(3)').html(currentCurrencyRates[26]);
+                                                        $('#exchangeRates li:nth-child(4)').html(currentCurrencyRates[46]);
+                                                        $('#exchangeRates li:nth-child(5)').html(currentCurrencyRates[49]);
+                                                        $('#exchangeRates li:nth-child(6)').html(currentCurrencyRates[73]);
+                                                        $('#exchangeRates li:nth-child(7)').html(currentCurrencyRates[109]);
+                                                        $('#exchangeRates li:nth-child(8)').html(currentCurrencyRates[150]);
+
+                                                        var myModal = new bootstrap.Modal(document.getElementById('countryModal'), {
+                                                            backdrop: true,
+                                                            keyboard: true,
+                                                            focus: true
+                                                        });
+
+                                                        myModal.show();
+                                                    }
+                                                },
+                                                error: function(jqXHR, textStatus, errorThrown) {
+                                                    JSON.stringify(jqXHR);
+                                        
+                                                    if(jqXHR.status == '204')
+                                                    {
+                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: No Response");
+                                                    }
+                                                    else if(jqXHR.status == '400')
+                                                    {
+                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Bad Request");
+                                                    }
+                                                    else if(jqXHR.status == '401')
+                                                    {
+                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Unauthorised Request");
+                                                    }
+                                                    else if(jqXHR.status == '403')
+                                                    {
+                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Request Forbidden"); 
+                                                    }
+                                                    else if(jqXHR.status == '404')
+                                                    {
+                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Request Not Found"); 
+                                                    }
+                                                    else if(jqXHR.status == '500')
+                                                    {
+                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Internal Server Error"); 
+                                                    }
+                                                    else if(jqXHR.status == '503')
+                                                    {
+                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Service Unavailable");
+                                                    }
+                                                }
+                                            });
                                         },
                                         error: function(jqXHR, textStatus, errorThrown) {
                                             JSON.stringify(jqXHR);
                                 
                                             if(jqXHR.status == '204')
                                             {
-                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: No Response");
+                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: No Response");
                                             }
                                             else if(jqXHR.status == '400')
                                             {
-                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Bad Request");
+                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Bad Request");
                                             }
                                             else if(jqXHR.status == '401')
                                             {
-                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Unauthorised Request");
+                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Unauthorised Request");
                                             }
                                             else if(jqXHR.status == '403')
                                             {
-                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Request Forbidden"); 
+                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Request Forbidden"); 
                                             }
                                             else if(jqXHR.status == '404')
                                             {
-                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Request Not Found"); 
+                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Request Not Found"); 
                                             }
                                             else if(jqXHR.status == '500')
                                             {
-                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Internal Server Error"); 
+                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Internal Server Error"); 
                                             }
                                             else if(jqXHR.status == '503')
                                             {
-                                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Service Unavailable");
+                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Service Unavailable");
                                             }
                                         }
+
                                     });
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
