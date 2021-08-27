@@ -201,6 +201,58 @@
         <div class="main">
             <p id="errorMessage"></p>
             <div id="mapid"></div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#countryModal">
+                Launch demo modal
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="countryModal" tabindex="-1" aria-labelledby="selectedCountry" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="selectedCountry">Modal title</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img id="flag" height="75" width="150" />
+                            <span id="capitalCity"></span><br>
+                            <span id="population"></span><br>
+                            <span id="nativeName"></span><br>
+                            <span id="region"></span><br>
+                            <span id="language"></span><br><br>
+                            <span id="currentTemperature"></span><br>
+                            <span id="feelsLike"></span><br>
+                            <span id="weather"></span><br>
+                            <span id="pressure"></span><br>
+                            <span id="humidity"></span><br>
+                            <span id="windSpeed"></span><br><br>
+                            <ul id="wikipediaLinks">
+                                <li><a></a></li>
+                                <li><a></a></li>
+                                <li><a></a></li>
+                                <li><a></a></li>
+                                <li><a></a></li>
+                            </ul>
+                            <span id="currency"><strong>Currency: </strong></span><br>
+                            <ul id="exchangeRates">
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="footer">
             <ul id="copyrightInfo">

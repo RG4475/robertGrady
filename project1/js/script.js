@@ -327,37 +327,36 @@ $('#countrySelect').change(function() {
                                                     currentCurrencyRates.push(`${property}: ${result['data']['rates'][property]}`);
                                                 }
 
-                                                var countryPopup = L.popup()
-                                                    .setLatLng([countryLatitude, countryLongitude])
-                                                    .setContent("<h5>" + countryFullName + "     " +
-                                                    "<img id=\"flag\" src=\"" + countryFlag + "\" height=\"50\" width=\"100\"/></h5>" + 
-                                                    "Capital City: " + countryCapital + "<br>" + 
-                                                    "Population: " + countryPopulation + "<br>" + 
-                                                    "Native Name: " + countryNativeName + "<br>" +
-                                                    "Region: " + countryRegion + "<br>" + 
-                                                    "Language: " + countryLanguage + " (" + countryLanguageNativeName + ")<br><br>" +
-                                                    "Current Temperature: " + temperatureFahrenheit + "&#8457; " + temperatureCelsius + "&#8451; <br>" + 
-                                                    "Feels Like: " + feelsLikeFahrenheit + "&#8457; " + feelsLikeCelsius + "&#8451; <br>" + 
-                                                    "Weather: " + mainWeather + " (" + description + ")<br>" +
-                                                    "Pressure: " + pressure + "<br>" +
-                                                    "Humidity: " + humidity + "<br>" +
-                                                    "Wind Speed: " + windSpeed + "<br><br>" + 
-                                                    "<a href=\"" + wikipediaUrls[0] + "\" >" + wikipediaUrls[0] + "</a>" + "<br>" +
-                                                    "<a href=\"" + wikipediaUrls[1] + "\" >" + wikipediaUrls[1] + "</a>" + "<br>" +
-                                                    "<a href=\"" + wikipediaUrls[2] + "\" >" + wikipediaUrls[2] + "</a>" + "<br>" +
-                                                    "<a href=\"" + wikipediaUrls[3] + "\" >" + wikipediaUrls[3] + "</a>" + "<br>" +
-                                                    "<a href=\"" + wikipediaUrls[4] + "\" >" + wikipediaUrls[4] + "</a>" + "<br><br>" +
-                                                    "Currency: " + countryCurrencyName + " (" + countryCurrencyCode + ")<br>" +
-                                                    currentCurrencyRates[7] + "<br>" +
-                                                    currentCurrencyRates[21] + "<br>" + 
-                                                    currentCurrencyRates[26] + "<br>" +
-                                                    currentCurrencyRates[46] + "<br>" +
-                                                    currentCurrencyRates[49] + "<br>" + 
-                                                    currentCurrencyRates[73] + "<br>" +
-                                                    currentCurrencyRates[109] + "<br>" +
-                                                    currentCurrencyRates[150]
-                                                    )
-                                                    .openOn(mymap);
+                                                $('#selectedCountry').html(countryFullName);
+                                                $('#flag').attr("src", countryFlag);
+                                                $('#capitalCity').html(`Capital city:  ${countryCapital}`);
+                                                $('#population').html(`Population:  ${countryPopulation}`);
+                                                $('#nativeName').html(`Native name:  ${countryNativeName}`);
+                                                $('#region').html(`Region: ${countryRegion}`);
+                                                $('#language').html(`Language: ${countryLanguage} (${countryLanguageNativeName})`);
+                                                $('#currentTemperature').html(`Current temperature: ${temperatureFahrenheit}&#8457;/ ${temperatureCelsius}&#8451;`);
+                                                $('#feelsLike').html(`Feels like: ${feelsLikeFahrenheit}&#8457;/ ${feelsLikeCelsius}&#8451;`);
+                                                $('#weather').html(`Weather: ${mainWeather} (${description})`);
+                                                $('#pressure').html(`Pressure: ${pressure}`);
+                                                $('#humidity').html(`Humidity: ${humidity}`);
+                                                $('#windSpeed').html(`Wind speed: ${windSpeed}`);
+
+                                                for(let i = 0; i < wikipediaUrls.length; i++)
+                                                {
+                                                    let linkNo = i + 1;
+                                                    $('#wikipediaLinks li:nth-child(' + linkNo + ') a').attr("href", "https://" + wikipediaUrls[i]).html("https://" + wikipediaUrls[i]);
+                                                    
+                                                }
+
+                                                $('#currency').html(`Currency: ${countryCurrencyName} (${countryCurrencyCode})`);
+                                                $('#exchangeRates li:nth-child(1)').html(currentCurrencyRates[7]);
+                                                $('#exchangeRates li:nth-child(2)').html(currentCurrencyRates[21]);
+                                                $('#exchangeRates li:nth-child(3)').html(currentCurrencyRates[26]);
+                                                $('#exchangeRates li:nth-child(4)').html(currentCurrencyRates[46]);
+                                                $('#exchangeRates li:nth-child(5)').html(currentCurrencyRates[49]);
+                                                $('#exchangeRates li:nth-child(6)').html(currentCurrencyRates[73]);
+                                                $('#exchangeRates li:nth-child(7)').html(currentCurrencyRates[109]);
+                                                $('#exchangeRates li:nth-child(8)').html(currentCurrencyRates[150]);
                                             }
                                         },
                                         error: function(jqXHR, textStatus, errorThrown) {
