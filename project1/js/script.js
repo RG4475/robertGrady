@@ -209,8 +209,16 @@ $('#countrySelect').change(function() {
             let countryCurrencySymbol;
             let countryFlag;
 
-            //Geonames API
+            //Geonames Wikipedia URLs API
             let wikipediaUrls = [];
+            
+            //Geonames Points of Interest API
+            let poiLats = [];
+            let poiLngs = [];
+            let poiNames = [];
+            let poiTypeClasses = [];
+            let poiTypeNames = [];
+            let poiMarkers = [];
 
             //Open Weather API
             let mainWeather;
@@ -227,6 +235,7 @@ $('#countrySelect').change(function() {
 
             //Open Exchange Rates API
             let currentCurrencyRates = [];
+
 
             $.ajax({
                 url: "php/getRestCountry.php",
@@ -323,7 +332,22 @@ $('#countrySelect').change(function() {
 
                                             if(result.status.name == "OK")
                                             {
-                                                $('#errorMessage').html(result['data'][0]['name']);
+                                                //$('#errorMessage').html(result['data'][0]['typeClass']);
+
+                                                for(let i = 0; i < result['data'].length; i++)
+                                                {
+                                                    poiLats.push(result['data'][i]['lat']);
+                                                    poiLngs.push(result['data'][i]['lng']);
+                                                    poiNames.push(result['data'][i]['name']);
+                                                    poiTypeClasses.push(result['data'][i]['typeClass']);
+                                                    poiTypeNames.push(result['data'][i]['typeName']);
+
+                                                    poiMarkers.push(L.marker([poiLats[i], poiLngs[i]]).addTo(mymap));
+                                                }
+
+                                                
+                                                $('#errorMessage').html(poiLats[0] + " " + poiLngs[0]);
+                                                
                                             }
 
                                             $.ajax({

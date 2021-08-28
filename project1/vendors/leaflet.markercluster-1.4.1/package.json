@@ -39,8 +39,5 @@
 		"map",
 		"cluster"
 	],
-	"license": "MIT",
-	"dependencies": {
-		"leaflet-extra-markers": "^1.2.1"
-	}
+	"license": "MIT"
 }
