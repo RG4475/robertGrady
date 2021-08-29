@@ -218,7 +218,8 @@ $('#countrySelect').change(function() {
             let poiNames = [];
             let poiTypeClasses = [];
             let poiTypeNames = [];
-            let poiMarkers = [];
+
+            var poiMarkers = [];
 
             //Open Weather API
             let mainWeather;
@@ -342,8 +343,17 @@ $('#countrySelect').change(function() {
                                                     poiTypeClasses.push(result['data'][i]['typeClass']);
                                                     poiTypeNames.push(result['data'][i]['typeName']);
 
-                                                    poiMarkers.push(L.marker([poiLats[i], poiLngs[i]]).addTo(mymap));
+                                                    //poiMarkers.push(L.marker([poiLats[i], poiLngs[i]]).addTo(mymap));
                                                 }
+
+                                                poiMarkers = L.markerClusterGroup();
+
+                                                for(let i = 0; i < result['data'].length; i++)
+                                                {
+                                                    poiMarkers.addLayer(L.marker([poiLats[i], poiLngs[i]]));
+                                                }
+
+                                                mymap.addLayer(poiMarkers);
 
                                                 
                                                 $('#errorMessage').html(poiLats[0] + " " + poiLngs[0]);
