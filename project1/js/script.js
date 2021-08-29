@@ -196,6 +196,7 @@ $('#countrySelect').change(function() {
 
             //Rest API
             let countryFullName;
+            let countryISO2Code;
             let countryCapital;
             let countryRegion;
             let countryNativeName;
@@ -209,15 +210,13 @@ $('#countrySelect').change(function() {
             let countryCurrencySymbol;
             let countryFlag;
 
-            //Geonames Wikipedia URLs API
+            //Geonames API
             let wikipediaUrls = [];
             
-            //Geonames Points of Interest API
-            let poiLats = [];
-            let poiLngs = [];
-            let poiNames = [];
-            let poiTypeClasses = [];
-            let poiTypeNames = [];
+            //GeoDB Cities API
+            let cityLats = [];
+            let cityLngs = [];
+            let cityNames = [];
 
             var poiMarkers = [];
 
@@ -252,6 +251,7 @@ $('#countrySelect').change(function() {
                     if(result.status.name == "OK")
                     {
                         countryFullName = result['data']['name'];
+                        countryISO2Code = result['data']['alpha2Code'];
                         countryCapital = result['data']['capital'];
                         countryRegion = result['data']['region'];
                         countryNativeName = result['data']['nativeName'];
@@ -266,6 +266,8 @@ $('#countrySelect').change(function() {
                         countryCurrencyName = result['data']['currencies'][0]['name'];
                         countryCurrencySymbol = result['data']['currencies'][0]['symbol'];
                         countryFlag = result['data']['flag'];
+
+                        //$('#errorMessage').html(countryISO2Code);
                         
                     }
 
@@ -320,12 +322,11 @@ $('#countrySelect').change(function() {
                                     }
 
                                     $.ajax({
-                                        url: "php/getPointsOfInterest.php",
+                                        url: "php/getCities.php",
                                         type: 'POST',
                                         dataType: 'json',
                                         data: {
-                                            latitude: 37.451,
-                                            longitude: -122.18
+                                            iso2: countryISO2Code
                                         },
 
                                         success: function(result){
@@ -337,26 +338,24 @@ $('#countrySelect').change(function() {
 
                                                 for(let i = 0; i < result['data'].length; i++)
                                                 {
-                                                    poiLats.push(result['data'][i]['lat']);
-                                                    poiLngs.push(result['data'][i]['lng']);
-                                                    poiNames.push(result['data'][i]['name']);
-                                                    poiTypeClasses.push(result['data'][i]['typeClass']);
-                                                    poiTypeNames.push(result['data'][i]['typeName']);
+                                                    cityLats.push(result['data'][i]['latitude']);
+                                                    cityLngs.push(result['data'][i]['longitude']);
+                                                    cityNames.push(result['data'][i]['name']);
 
-                                                    //poiMarkers.push(L.marker([poiLats[i], poiLngs[i]]).addTo(mymap));
+                                                    //poiMarkers.push(L.marker([cityLats[i], cityLngs[i]]).addTo(mymap));
                                                 }
 
                                                 poiMarkers = L.markerClusterGroup();
 
                                                 for(let i = 0; i < result['data'].length; i++)
                                                 {
-                                                    poiMarkers.addLayer(L.marker([poiLats[i], poiLngs[i]]));
+                                                    poiMarkers.addLayer(L.marker([cityLats[i], cityLngs[i]]));
                                                 }
 
                                                 mymap.addLayer(poiMarkers);
 
                                                 
-                                                $('#errorMessage').html(poiLats[0] + " " + poiLngs[0]);
+                                                $('#errorMessage').html(cityNames);
                                                 
                                             }
 
