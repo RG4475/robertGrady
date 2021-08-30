@@ -1,5 +1,6 @@
 var mymap = L.map('mapid');
 let countryPolygon = null;
+var cityMarkers = null;
 
 $(window).on('load', function() {
     if($('#preloader').length) {
@@ -218,8 +219,6 @@ $('#countrySelect').change(function() {
             let cityLngs = [];
             let cityNames = [];
 
-            var poiMarkers = [];
-
             //Open Weather API
             let mainWeather;
             let description;
@@ -342,17 +341,27 @@ $('#countrySelect').change(function() {
                                                     cityLngs.push(result['data'][i]['longitude']);
                                                     cityNames.push(result['data'][i]['name']);
 
-                                                    //poiMarkers.push(L.marker([cityLats[i], cityLngs[i]]).addTo(mymap));
+                                                    //cityMarkers.push(L.marker([cityLats[i], cityLngs[i]]).addTo(mymap));
                                                 }
 
-                                                poiMarkers = L.markerClusterGroup();
+                                                if(cityMarkers)
+                                                {
+                                                    cityMarkers.clearLayers();
+                                                }
+
+                                                cityMarkers = L.markerClusterGroup();
 
                                                 for(let i = 0; i < result['data'].length; i++)
                                                 {
-                                                    poiMarkers.addLayer(L.marker([cityLats[i], cityLngs[i]]));
+                                                    cityMarkers.addLayer(L.marker([cityLats[i], cityLngs[i]]));
+                                                    cityMarkers.addLayer(L.popup()
+                                                        .setLatLng([cityLats[i], cityLngs[i]])
+                                                        .setContent(cityNames[i])
+                                                        .openOn(mymap)
+                                                    );
                                                 }
 
-                                                mymap.addLayer(poiMarkers);
+                                                mymap.addLayer(cityMarkers);
 
                                                 
                                                 $('#errorMessage').html(cityNames);
@@ -377,6 +386,7 @@ $('#countrySelect').change(function() {
                                                             currentCurrencyRates.push(`${property}: ${result['data']['rates'][property]}`);
                                                         }
 
+                                                        //$('#errorMessage').html(currentCurrencyRates.length);
 
         
                                                         $('#selectedCountry').html(countryFullName);
@@ -401,14 +411,20 @@ $('#countrySelect').change(function() {
                                                         }
         
                                                         $('#currency').html(`Currency: ${countryCurrencyName} (${countryCurrencyCode})`);
-                                                        $('#exchangeRates li:nth-child(1)').html(currentCurrencyRates[7]);
-                                                        $('#exchangeRates li:nth-child(2)').html(currentCurrencyRates[21]);
-                                                        $('#exchangeRates li:nth-child(3)').html(currentCurrencyRates[26]);
-                                                        $('#exchangeRates li:nth-child(4)').html(currentCurrencyRates[46]);
-                                                        $('#exchangeRates li:nth-child(5)').html(currentCurrencyRates[49]);
-                                                        $('#exchangeRates li:nth-child(6)').html(currentCurrencyRates[73]);
-                                                        $('#exchangeRates li:nth-child(7)').html(currentCurrencyRates[109]);
-                                                        $('#exchangeRates li:nth-child(8)').html(currentCurrencyRates[150]);
+                                                        $('#majorRates li:nth-child(1)').html(currentCurrencyRates[7]);
+                                                        $('#majorRates li:nth-child(2)').html(currentCurrencyRates[21]);
+                                                        $('#majorRates li:nth-child(3)').html(currentCurrencyRates[26]);
+                                                        $('#majorRates li:nth-child(4)').html(currentCurrencyRates[46]);
+                                                        $('#majorRates li:nth-child(5)').html(currentCurrencyRates[49]);
+                                                        $('#majorRates li:nth-child(6)').html(currentCurrencyRates[73]);
+                                                        $('#majorRates li:nth-child(7)').html(currentCurrencyRates[109]);
+                                                        $('#majorRates li:nth-child(8)').html(currentCurrencyRates[150]);
+
+                                                        for(let i = 0; i < currentCurrencyRates.length; i++)
+                                                        {
+                                                            let currencyNo = i + 1;
+                                                            $('#allRates li:nth-child(' + currencyNo + ')').html(currentCurrencyRates[i]);
+                                                        }
 
                                                         var myModal = new bootstrap.Modal(document.getElementById('countryModal'), {
                                                             backdrop: true,
