@@ -348,17 +348,17 @@ $('#countrySelect').change(function() {
                                                 {
                                                     cityMarkers.clearLayers();
                                                 }
+                                                var redMarker = L.AwesomeMarkers.icon({
+                                                    markerColor: 'red',
+                                                    icon: 'home'
+                                                  });
 
                                                 cityMarkers = L.markerClusterGroup();
 
                                                 for(let i = 0; i < result['data'].length; i++)
                                                 {
-                                                    cityMarkers.addLayer(L.marker([cityLats[i], cityLngs[i]]));
-                                                    cityMarkers.addLayer(L.popup()
-                                                        .setLatLng([cityLats[i], cityLngs[i]])
-                                                        .setContent(cityNames[i])
-                                                        .openOn(mymap)
-                                                    );
+                                                    cityMarkers.addLayer(L.marker([cityLats[i], cityLngs[i]], {icon: redMarker}).bindPopup(cityNames[i]));
+                                                    
                                                 }
 
                                                 mymap.addLayer(cityMarkers);
