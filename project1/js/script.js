@@ -268,8 +268,6 @@ $('#countrySelect').change(function() {
                         countryCurrencyName = result['data']['currencies'][0]['name'];
                         countryCurrencySymbol = result['data']['currencies'][0]['symbol'];
                         countryFlag = result['data']['flag'];
-
-                        //$('#errorMessage').html(countryISO2Code);
                         
                     }
 
@@ -336,7 +334,6 @@ $('#countrySelect').change(function() {
 
                                             if(result.status.name == "OK")
                                             {
-                                                //$('#errorMessage').html(result['data'][0]['typeClass']);
 
                                                 for(let i = 0; i < result['data'].length; i++)
                                                 {
@@ -344,7 +341,6 @@ $('#countrySelect').change(function() {
                                                     cityLngs.push(result['data'][i]['longitude']);
                                                     cityNames.push(result['data'][i]['name']);
 
-                                                    //cityMarkers.push(L.marker([cityLats[i], cityLngs[i]]).addTo(mymap));
                                                 }
 
                                                 if(cityMarkers)
@@ -364,9 +360,6 @@ $('#countrySelect').change(function() {
                                                 }
 
                                                 mymap.addLayer(cityMarkers);
-
-                                                
-                                                $('#errorMessage').html(cityNames);
                                                 
                                             }
 
@@ -387,8 +380,6 @@ $('#countrySelect').change(function() {
                                                         {
                                                             currentCurrencyRates.push(`${property}: ${result['data']['rates'][property]}`);
                                                         }
-
-                                                        //$('#errorMessage').html(currentCurrencyRates.length);
 
         
                                                         $('#selectedCountry').html(countryFullName);
