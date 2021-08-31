@@ -9,10 +9,13 @@ $(window).on('load', function() {
         });
     }
     
+    var homeMarker = L.AwesomeMarkers.icon({
+        markerColor: 'green',
+      });
     var currentPosMark;
 
     function showPositionMarker(position) {
-        currentPosMark = L.marker([position.coords.latitude, position.coords.longitude]).addTo(mymap);
+        currentPosMark = L.marker([position.coords.latitude, position.coords.longitude], {icon: homeMarker}).bindPopup("Current Location").addTo(mymap);
     }
 
     function showPositionInfo(position) {
@@ -349,8 +352,7 @@ $('#countrySelect').change(function() {
                                                     cityMarkers.clearLayers();
                                                 }
                                                 var redMarker = L.AwesomeMarkers.icon({
-                                                    markerColor: 'red',
-                                                    icon: 'home'
+                                                    markerColor: 'red'
                                                   });
 
                                                 cityMarkers = L.markerClusterGroup();
