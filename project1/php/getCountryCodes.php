@@ -4,6 +4,26 @@
 
     $startTimeExecution = microtime(true);
 
+    $countryData = json_decode(file_get_contents("../js/countryBorders.geo.json"), true);
+
+    $country = [];
+
+    foreach($countryData['features'] as $feature) {
+
+        $temp = null;
+        $temp['code'] = $feature["properties"]['iso_a3'];
+        $temp['name'] = $feature["properties"]['name'];
+
+        array_push($country, $temp);
+    }
+
+    usort($country, function($item1, $item2) {
+
+        return $item1['name'] <=> $item2['name'];
+    });
+
+    
+    /*
     $url='../js/countryBorders.geo.json';
 
     $ci = curl_init();
@@ -18,11 +38,12 @@
     $returned = file_get_contents($url);
     $decode = json_decode($returned, true);
 
+    */
     $output['status']['code'] = "200";
     $output['status']['name'] = "OK";
     $output['status']['description'] = "Success";
     $output['status']['returnedIn'] = intval((microtime(true) - $startTimeExecution) * 1000) . "milliseconds";
-    $output['data'] = $decode['features'];
+    $output['data'] = $country;
 
     header('Content-Type: application/json; charset=UTF-8');
 

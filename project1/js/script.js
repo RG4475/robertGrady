@@ -107,7 +107,7 @@ $(window).on('load', function() {
                 for(let i = 0; i < result['data'].length; i++)
                 {
                     let optionNum = i + 1;
-                    $('#countrySelect option:nth-child('+ optionNum +')').html(result['data'][i]['properties']['name']).attr("value", result['data'][i]['properties']['iso_a3']);
+                    $('#countrySelect option:nth-child('+ optionNum +')').html(result['data'][i]['name']).attr("value", result['data'][i]['code']);
                 }
             }
         },
@@ -150,35 +150,21 @@ $(window).on('load', function() {
 $('#countrySelect').change(function() {
 
     $.ajax({
-        url: "php/getCountryCodes.php",
-        type: 'GET',
+        url: "php/getCountryPolygons.php",
+        type: 'POST',
         dataType: 'json',
+        data: {
+            countryCode: $('#countrySelect').val()
+        },
         
         success: function(result, status, xhr){
             console.log(JSON.stringify(result));
 
-            let countryCoordinates = [];
-
             if(result.status.name == "OK")
             {
-                let countryChosen = $('#countrySelect').val();
-
-                let countryIndex;
-
+                let polygonType = result['data'][0];
+                let countryCoordinates = result['data'][1];
                 
-                for(let i = 0; i < result['data'].length; i++)
-                {
-                    if(countryChosen == result['data'][i]['properties']['iso_a3'])
-                    {
-                        countryIndex = i;
-                        break;
-                    }
-                }
-                countryCoordinates = result['data'][countryIndex]['geometry']['coordinates'];
-
-
-                let polygonType = result['data'][countryIndex]['geometry']['type'];
-
                 var geojsonFeature = {
                     "type": "Feature",
                     "geometry": {
