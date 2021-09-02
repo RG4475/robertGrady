@@ -1,5 +1,5 @@
 var mymap = L.map('mapid');
-let countryPolygon = null;
+var border = null;
 var cityMarkers = null;
 
 $(window).on('load', function() {
@@ -162,24 +162,17 @@ $('#countrySelect').change(function() {
 
             if(result.status.name == "OK")
             {
-                let polygonType = result['data'][0];
-                let countryCoordinates = result['data'][1];
-                
-                var geojsonFeature = {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": polygonType,
-                        "coordinates": countryCoordinates
-                    }
-                };
-
-                if(countryPolygon)
-                {
-                    countryPolygon.clearLayers();
+                if(mymap.hasLayer(border)) {
+                    mymap.removeLayer(border);
                 }
 
-                countryPolygon = L.geoJSON(geojsonFeature).addTo(mymap);
-                mymap.fitBounds(countryPolygon.getBounds());
+                border = L.geoJson(result.data, {
+                    color: '#ff7800',
+                    weight: 2,
+                    opacity: 0.65
+                }).addTo(mymap);
+
+                mymap.fitBounds(border.getBounds());
             }
 
             let countryISO3Code = $('#countrySelect').val();
