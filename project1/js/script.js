@@ -403,8 +403,15 @@ $('#countrySelect').change(function() {
                                                             keyboard: true,
                                                             focus: true
                                                         });
+                                                        function showCountryModals()
+                                                        {
+                                                            myModal.show();
+                                                        }
 
-                                                        myModal.show();
+                                                        showCountryModals();
+
+                                                        border.on('click', showCountryModals);
+
                                                     }
                                                 },
                                                 error: function(jqXHR, textStatus, errorThrown) {
