@@ -17,11 +17,21 @@
 
     $decode = json_decode($returned, true);
 
+    $wikipediaUrls = [];
+
+    foreach($decode['geonames'] as $wikurl)
+    {
+        $temp = null;
+        $temp = $wikurl['wikipediaUrl'];
+
+        array_push($wikipediaUrls, $temp);
+    }
+
     $output['status']['code'] = "200";
     $output['status']['name'] = "OK";
     $output['status']['description'] = "Success";
     $output['status']['returnedIn'] = intval((microtime(true) - $startTimeExecution) * 1000) . "milliseconds";
-    $output['data'] = $decode['geonames'];
+    $output['data'] = $wikipediaUrls;
 
     header('Content-Type: application/json; charset=UTF-8');
 

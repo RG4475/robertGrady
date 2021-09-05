@@ -18,11 +18,22 @@
 
     $decode = json_decode($returned, true);
 
+    $cities = [];
+
+    foreach($decode['data'] as $city) {
+        $temp = null;
+        $temp['latitude'] = $city['latitude'];
+        $temp['longitude'] = $city['longitude'];
+        $temp['name'] = $city['name'];
+
+        array_push($cities, $temp);
+    }
+
     $output['status']['code'] = "200";
     $output['status']['name'] = "OK";
     $output['status']['description'] = "Success";
     $output['status']['returnedIn'] = intval((microtime(true) - $startTimeExecution) * 1000) . "milliseconds";
-    $output['data'] = $decode['data'];
+    $output['data'] = $cities;
 
     header('Content-Type: application/json; charset=UTF-8');
 

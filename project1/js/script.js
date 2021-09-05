@@ -266,7 +266,7 @@ $('#countrySelect').change(function() {
                             {
                                 for(let i = 0; i < result['data'].length; i++)
                                 {
-                                    wikipediaUrls.push(result['data'][i]['wikipediaUrl']);
+                                    wikipediaUrls.push(result['data'][i]);
                                 }
                             }
 
