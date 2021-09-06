@@ -217,6 +217,23 @@ $('#countrySelect').change(function() {
             //Open Exchange Rates API
             let currentCurrencyRates = [];
 
+            //Corona API
+            let todayDeaths;
+            let todayCases;
+            let totalDeaths;
+            let totalCases;
+            let totalRecovered;
+            let totalCritical;
+            let deathRate;
+            let recoveryRate;
+            let casesPerMillionPopulation;
+
+            //Calendarific API
+            let holidayDates = [];
+
+            //News API
+            let newsArticles = [];
+
 
             $.ajax({
                 url: "php/getRestCountry.php",
@@ -379,7 +396,6 @@ $('#countrySelect').change(function() {
                                                         {
                                                             let linkNo = i + 1;
                                                             $('#wikipediaLinks li:nth-child(' + linkNo + ') a').attr("href", "https://" + wikipediaUrls[i]).html("https://" + wikipediaUrls[i]);
-                                                            
                                                         }
         
                                                         $('#currency').html(`Currency: ${countryCurrencyName} (${countryCurrencyCode})`);
@@ -403,14 +419,78 @@ $('#countrySelect').change(function() {
                                                             keyboard: true,
                                                             focus: true
                                                         });
-                                                        function showCountryModals()
-                                                        {
-                                                            myModal.show();
-                                                        }
 
-                                                        showCountryModals();
+                                                        $.ajax({
+                                                            url: "php/getCovidData.php",
+                                                            type: 'POST',
+                                                            dataType: 'json',
+                                                            data: {
+                                                                countryISO2: countryISO2Code
+                                                            },
 
-                                                        border.on('click', showCountryModals);
+                                                            success: function(result) {
+                                                                console.log(JSON.stringify(result));
+
+                                                                if(result.status.name == "OK") 
+                                                                {
+                                                                    todayDeaths = result['todaysData']['deaths'];
+                                                                    todayCases = result['todaysData']['confirmed'];
+                                                                    totalDeaths = result['totalData']['deaths'];
+                                                                    totalCases = result['totalData']['confirmed'];
+                                                                    totalRecovered = result['totalData']['recovered'];
+                                                                    totalCritical = result['totalData']['critical'];
+                                                                    deathRate = result['totalData']['calculated']['death_rate'];
+                                                                    recoveryRate = result['totalData']['calculated']['recovery_rate'];
+                                                                    casesPerMillionPopulation = result['totalData']['calculated']['cases_per_million_population'];
+                                                                    //$('#errorMessage').html(casesPerMillionPopulation);
+                                                                }
+
+                                                                $.ajax({
+                                                                    url: "php/getNationalHolidays.php",
+                                                                    type: 'POST',
+                                                                    dataType: 'json',
+                                                                    data: {
+                                                                        countryISO2: countryISO2Code
+                                                                    },
+
+                                                                    success: function(result) {
+                                                                        console.log(JSON.stringify(result));
+
+                                                                        if(result.status.name == "OK")
+                                                                        {
+                                                                            //$('#errorMessage').html(result['data'][0]['date']);
+                                                                        }
+
+                                                                        $.ajax({
+                                                                            url: "php/getCountryNews.php",
+                                                                            type: 'POST',
+                                                                            dataType: 'json',
+                                                                            data: {
+                                                                                countryISO2: countryISO2Code
+                                                                            },
+
+                                                                            success: function(result) {
+                                                                                console.log(JSON.stringify(result));
+
+                                                                                if(result.status.name == "OK")
+                                                                                {
+                                                                                    //$('#errorMessage').html(result['data'][6]['title']);
+                                                                                    
+                                                                                    function showCountryModals()
+                                                                                    {
+                                                                                        myModal.show();
+                                                                                    }
+                            
+                                                                                    showCountryModals();
+                            
+                                                                                    border.on('click', showCountryModals);
+                                                                                }
+                                                                            }
+                                                                        })
+                                                                    }
+                                                                })
+                                                            }
+                                                        });
 
                                                     }
                                                 },

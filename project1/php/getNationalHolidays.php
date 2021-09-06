@@ -23,7 +23,7 @@
 
         $temp = null;
         $temp['name'] = $holiday['name'];
-        $temp['date'] = $holiday['date']['datetime']['day'] . "-" . $holiday['date']['datetime']['month'] . "-" . $holiday['date']['datetime']['year'];
+        $temp['date'] = $holiday['date']['datetime']['day'] . "\\" . $holiday['date']['datetime']['month'] . "\\" . $holiday['date']['datetime']['year'];
         $temp['type'] = $holiday['type'][0];
         $temp['celebratedIn'] = $holiday['locations'];
 
