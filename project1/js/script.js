@@ -87,6 +87,26 @@ $(window).on('load', function() {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(mymap);
 
+        var infoModal = new bootstrap.Modal(document.getElementById('infoModal'), {
+            backdrop: true,
+            keyboard: true,
+            focus: true
+        });
+
+        var weatherModal = new bootstrap.Modal(document.getElementById('weatherModal'), {
+            backdrop: true,
+            keyboard: true,
+            focus: true
+        });
+
+        L.easyButton('<span class="star">&starf;</span>', function() {
+            infoModal.show();
+        }).addTo(mymap);
+
+        L.easyButton('<span class="star">&starf;</span>', function() {
+            weatherModal.show();
+        }).addTo(mymap);
+
         navigator.geolocation.getCurrentPosition(showPositionInfo);
     }
 
@@ -380,17 +400,17 @@ $('#countrySelect').change(function() {
         
                                                         $('#selectedCountry').html(countryFullName);
                                                         $('#flag').attr("src", countryFlag);
-                                                        $('#capitalCity').html(`Capital city:  ${countryCapital}`);
-                                                        $('#population').html(`Population:  ${countryPopulation}`);
-                                                        $('#nativeName').html(`Native name:  ${countryNativeName}`);
-                                                        $('#region').html(`Region: ${countryRegion}`);
-                                                        $('#language').html(`Language: ${countryLanguage} (${countryLanguageNativeName})`);
-                                                        $('#currentTemperature').html(`Current temperature: ${temperatureFahrenheit}&#8457;/ ${temperatureCelsius}&#8451;`);
-                                                        $('#feelsLike').html(`Feels like: ${feelsLikeFahrenheit}&#8457;/ ${feelsLikeCelsius}&#8451;`);
-                                                        $('#weather').html(`Weather: ${mainWeather} (${description})`);
-                                                        $('#pressure').html(`Pressure: ${pressure}`);
-                                                        $('#humidity').html(`Humidity: ${humidity}`);
-                                                        $('#windSpeed').html(`Wind speed: ${windSpeed}`);
+                                                        $('#capitalCity').html(countryCapital);
+                                                        $('#population').html(countryPopulation);
+                                                        $('#nativeName').html(countryNativeName);
+                                                        $('#region').html(countryRegion);
+                                                        $('#language').html(`${countryLanguage} (${countryLanguageNativeName})`);
+                                                        $('#currentTemperature').html(`${temperatureFahrenheit}&#8457;/ ${temperatureCelsius}&#8451;`);
+                                                        $('#feelsLike').html(`${feelsLikeFahrenheit}&#8457;/ ${feelsLikeCelsius}&#8451;`);
+                                                        $('#weather').html(`${mainWeather} (${description})`);
+                                                        $('#pressure').html(pressure);
+                                                        $('#humidity').html(humidity);
+                                                        $('#windSpeed').html(windSpeed);
         
                                                         for(let i = 0; i < wikipediaUrls.length; i++)
                                                         {
@@ -414,11 +434,7 @@ $('#countrySelect').change(function() {
                                                             $('#allRates li:nth-child(' + currencyNo + ')').html(currentCurrencyRates[i]);
                                                         }
 
-                                                        var myModal = new bootstrap.Modal(document.getElementById('countryModal'), {
-                                                            backdrop: true,
-                                                            keyboard: true,
-                                                            focus: true
-                                                        });
+
 
                                                         $.ajax({
                                                             url: "php/getCovidData.php",
@@ -458,7 +474,7 @@ $('#countrySelect').change(function() {
 
                                                                         if(result.status.name == "OK")
                                                                         {
-                                                                            //$('#errorMessage').html(result['data'][0]['date']);
+                                                                            //$('#errorMessage').html(result['data'].length);
                                                                         }
 
                                                                         $.ajax({
@@ -474,16 +490,7 @@ $('#countrySelect').change(function() {
 
                                                                                 if(result.status.name == "OK")
                                                                                 {
-                                                                                    //$('#errorMessage').html(result['data'][6]['title']);
-                                                                                    
-                                                                                    function showCountryModals()
-                                                                                    {
-                                                                                        myModal.show();
-                                                                                    }
-                            
-                                                                                    showCountryModals();
-                            
-                                                                                    border.on('click', showCountryModals);
+                                                                                    //$('#errorMessage').html(result['data'].length);
                                                                                 }
                                                                             }
                                                                         })

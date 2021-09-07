@@ -41,6 +41,12 @@ div.header h4{
     list-style-type: none;
 }
 
+caption {
+    color: #000;
+    text-align: center;
+    caption-side: top;
+}
+
 @-webkit-keyframes animate-preloader {
     0% {
         -webkit-transform: rotate(0deg);

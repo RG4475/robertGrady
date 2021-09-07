@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="vendors/leaflet.markercluster-1.4.1/dist/MarkerCluster.css">
         <link rel="stylesheet" href="vendors/leaflet.markercluster-1.4.1/dist/MarkerCluster.Default.css">
         <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
-        
+        <link rel="stylesheet" href="vendors/leaflet.EasyButton-2.4.0/src/easy-button.css">
         <link rel="stylesheet" href="vendors/leaflet.awesome-markers-2.0.2/dist/leaflet.awesome-markers.css">
         
     </head>
@@ -203,25 +203,43 @@
         <div class="main">
             <p id="errorMessage"></p>
             <div id="mapid"><ion-icon name="home"></ion-icon></div>
-            <div class="modal fade" id="countryModal">
-                <div class="modal-dialog modal-dialog-scrollable">
+
+            <div class="modal fade" id="infoModal">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="selectedCountry">Country</h4>
+                            <img id="flag" height="75" width="150" />
                         </div>
                         <div class="modal-body">
-                            <img id="flag" height="75" width="150" />
-                            <span id="capitalCity"></span><br>
-                            <span id="population"></span><br>
-                            <span id="nativeName"></span><br>
-                            <span id="region"></span><br>
-                            <span id="language"></span><br><br>
-                            <span id="currentTemperature"></span><br>
-                            <span id="feelsLike"></span><br>
-                            <span id="weather"></span><br>
-                            <span id="pressure"></span><br>
-                            <span id="humidity"></span><br>
-                            <span id="windSpeed"></span><br><br>
+                            <table class="table table-striped">
+                                <thead>
+                                    <caption><h4 class="modal-title">COUNTRY INFORMATION</h4></caption>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Capital City:</th>
+                                        <td id="capitalCity"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Population:</th>
+                                        <td id="population"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Native Name:</th>
+                                        <td id="nativeName"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Region:</th>
+                                        <td id="region"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Language:</th>
+                                        <td id="language"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h5 class="modal-title">Wikipedia Links</h5>
                             <ul id="wikipediaLinks">
                                 <li><a></a></li>
                                 <li><a></a></li>
@@ -229,6 +247,73 @@
                                 <li><a></a></li>
                                 <li><a></a></li>
                             </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="weatherModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="selectedCountry">Country</h4>
+                            <img id="flag" height="75" width="150" />
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <caption><h4 class="modal-title">CURRENT WEATHER</h4></caption>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Temperature</th>
+                                        <td id="currentTemperature"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Feels Like</th>
+                                        <td id="feelsLike"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Weather</th>
+                                        <td id="weather"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Pressure</th>
+                                        <td id="pressure"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Humidity</th>
+                                        <td id="humidity"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Wind Speed</th>
+                                        <td id="windSpeed"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--
+            <div class="modal fade" id="countryModal">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="selectedCountry">Country</h4>
+                        </div>
+                        <div class="modal-body">
+                            //<span id="currentTemperature"></span><br>
+                            //<span id="feelsLike"></span><br>
+                            //<span id="weather"></span><br>
+                            //<span id="pressure"></span><br>
+                            //<span id="humidity"></span><br>
+                            <span id="windSpeed"></span><br><br>
                             <span id="currency"><strong>Currency: </strong></span><br>
                             <p><strong>Major Currencies (scroll below for all currencies)</strong></p>
                             <ul id="majorRates">
@@ -420,7 +505,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
         <div class="footer">
             <ul id="copyrightInfo">
@@ -445,6 +530,7 @@
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
         <script src="vendors/leaflet.awesome-markers-2.0.2/dist/leaflet.awesome-markers.js"></script>
         <script type="application/javascript" src="vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script type="application/javascript" src="vendors/leaflet.EasyButton-2.4.0/src/easy-button.js"></script>
         <script type="application/javascript" src="js/script.js"></script>
     </body>
 </html>
