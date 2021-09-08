@@ -21,13 +21,15 @@
 
     foreach($decode['response']['holidays'] as $holiday) {
 
-        $temp = null;
-        $temp['name'] = $holiday['name'];
-        $temp['date'] = $holiday['date']['datetime']['day'] . "\\" . $holiday['date']['datetime']['month'] . "\\" . $holiday['date']['datetime']['year'];
-        $temp['type'] = $holiday['type'][0];
-        $temp['celebratedIn'] = $holiday['locations'];
+        if($holiday['type'][0] == "National holiday")
+        {
+            $temp = null;
+            $temp['name'] = $holiday['name'];
+            $temp['date'] = $holiday['date']['iso'];
+    
+            array_push($countryHolidays, $temp);
+        }
 
-        array_push($countryHolidays, $temp);
     }
 
     $output['status']['code'] = "200";

@@ -99,12 +99,42 @@ $(window).on('load', function() {
             focus: true
         });
 
+        var covidModal = new bootstrap.Modal(document.getElementById('covidModal'), {
+            backdrop: true,
+            keyboard: true,
+            focus: true
+        });
+
+        var holidayModal = new bootstrap.Modal(document.getElementById('holidayModal'), {
+            backdrop: true,
+            keyboard: true,
+            focus: true
+        });
+
+        var newsModal = new bootstrap.Modal(document.getElementById('newsModal'), {
+            backdrop: true,
+            keyboard: true,
+            focus: true
+        });
+
         L.easyButton('<span class="star">&starf;</span>', function() {
             infoModal.show();
         }).addTo(mymap);
 
         L.easyButton('<span class="star">&starf;</span>', function() {
             weatherModal.show();
+        }).addTo(mymap);
+
+        L.easyButton('<span class="star">&starf;</span>', function() {
+            covidModal.show();
+        }).addTo(mymap);
+
+        L.easyButton('<span class="star">&starf;</span>', function() {
+            holidayModal.show();
+        }).addTo(mymap);
+
+        L.easyButton('<span class="star">&starf;</span>', function() {
+            newsModal.show();
         }).addTo(mymap);
 
         navigator.geolocation.getCurrentPosition(showPositionInfo);
@@ -398,8 +428,8 @@ $('#countrySelect').change(function() {
                                                         }
 
         
-                                                        $('#selectedCountry').html(countryFullName);
-                                                        $('#flag').attr("src", countryFlag);
+                                                        $('.selectedCountry').html(countryFullName);
+                                                        $('.flag').attr("src", countryFlag);
                                                         $('#capitalCity').html(countryCapital);
                                                         $('#population').html(countryPopulation);
                                                         $('#nativeName').html(countryNativeName);
@@ -459,6 +489,16 @@ $('#countrySelect').change(function() {
                                                                     recoveryRate = result['totalData']['calculated']['recovery_rate'];
                                                                     casesPerMillionPopulation = result['totalData']['calculated']['cases_per_million_population'];
                                                                     //$('#errorMessage').html(casesPerMillionPopulation);
+
+                                                                    $('#todayCases').html(todayCases);
+                                                                    $('#todayDeaths').html(todayDeaths);
+                                                                    $('#totalCases').html(totalCases);
+                                                                    $('#totalDeaths').html(totalDeaths);
+                                                                    $('#totalRecovered').html(totalRecovered);
+                                                                    $('#totalCritical').html(totalCritical);
+                                                                    $('#deathRate').html(deathRate);
+                                                                    $('#recoveryRate').html(recoveryRate);
+                                                                    $('#casesPerMillion').html(casesPerMillionPopulation);
                                                                 }
 
                                                                 $.ajax({
@@ -474,7 +514,16 @@ $('#countrySelect').change(function() {
 
                                                                         if(result.status.name == "OK")
                                                                         {
-                                                                            //$('#errorMessage').html(result['data'].length);
+                                                                            let totalNationalHolidays = result['data'].length;
+                                                                            $('#holidayTable tr:nth-child(1) th:nth-child(2)').html(totalNationalHolidays);
+
+                                                                            for(let i = 0; i < totalNationalHolidays; i++)
+                                                                            {
+                                                                                let holidayNo = i + 1;
+
+                                                                                $('#holidayTable tbody tr:nth-child(' + holidayNo +') td:nth-child(1)').html(result['data'][i]['date']);
+                                                                                $('#holidayTable tbody tr:nth-child(' + holidayNo + ') td:nth-child(2)').html(result['data'][i]['name']);
+                                                                            }
                                                                         }
 
                                                                         $.ajax({
@@ -490,6 +539,17 @@ $('#countrySelect').change(function() {
 
                                                                                 if(result.status.name == "OK")
                                                                                 {
+                                                                                    /*for(let i = 0; i < result['data'].length; i++)
+                                                                                    {
+                                                                                        let newsNo = i + 1;
+
+                                                                                        
+                                                                                    }*/
+
+                                                                                    $('#recentNews dt:nth-child(1)').html(result['data'][0]['author']);
+                                                                                    $('#recentNews dt:nth-child(1) dd:nth-child(1)').html(result['data'][0]['title']);
+                                                                                    $('#recentNews dt:nth-child(1) dd:nth-child(2)').html(result['data'][0]['source']);
+
                                                                                     //$('#errorMessage').html(result['data'].length);
                                                                                 }
                                                                             }

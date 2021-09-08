@@ -208,8 +208,8 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="selectedCountry">Country</h4>
-                            <img id="flag" height="75" width="150" />
+                            <h4 class="modal-title selectedCountry">Country</h4>
+                            <img class="flag" height="75" width="150" />
                         </div>
                         <div class="modal-body">
                             <table class="table table-striped">
@@ -258,8 +258,8 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="selectedCountry">Country</h4>
-                            <img id="flag" height="75" width="150" />
+                            <h4 class="modal-title selectedCountry">Country</h4>
+                            <img class="flag" height="75" width="150" />
                         </div>
                         <div class="modal-body">
                             <table class="table table-striped">
@@ -300,6 +300,198 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="covidModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title selectedCountry">Country</h4>
+                            <img class="flag" height="75" width="150" />
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <caption><h4 class="modal-title">COVID DATA</h4></caption>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Cases Today</th>
+                                        <td id="todayCases"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Deaths Today</th>
+                                        <td id="todayDeaths"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Total Cases</th>
+                                        <td id="totalCases"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Total Deaths</th>
+                                        <td id="totalDeaths"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Total Recovered</th>
+                                        <td id="totalRecovered"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Total Critical</th>
+                                        <td id="totalCritical"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Death Rate</th>
+                                        <td id="deathRate"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Recovery Rate</th>
+                                        <td id="recoveryRate"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Cases Per Million</th>
+                                        <td id="casesPerMillion"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="holidayModal">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title selectedCountry">Country</h4>
+                            <img class="flag" height="75" width="150" />
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped" id="holidayTable">
+                                <thead>
+                                    <caption><h4 class="modal-title">NATIONAL HOLIDAYS</h4></caption>
+                                    <tr>
+                                        <th scope="row">No of National Holidays</th>
+                                        <th scope="row"></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Date</th>
+                                        <th scope="row">Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td><td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="newsModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title selectedCountry">Country</h4>
+                            <img class="flag" height="75" width="150" />
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="modal-title">RECENT NEWS</h4>
+                            <dl id="recentNews">
+                                <dt>
+                                    <dd></dd>
+                                    <dd></dd>
+                                </dt>
+                                <dt>
+                                    <dd></dd>
+                                    <dd></dd>
+                                </dt>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--
             <div class="modal fade" id="countryModal">
                 <div class="modal-dialog modal-dialog-scrollable">
@@ -313,7 +505,7 @@
                             //<span id="weather"></span><br>
                             //<span id="pressure"></span><br>
                             //<span id="humidity"></span><br>
-                            <span id="windSpeed"></span><br><br>
+                            //<span id="windSpeed"></span><br><br>
                             <span id="currency"><strong>Currency: </strong></span><br>
                             <p><strong>Major Currencies (scroll below for all currencies)</strong></p>
                             <ul id="majorRates">

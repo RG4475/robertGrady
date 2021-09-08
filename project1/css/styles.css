@@ -47,6 +47,14 @@ caption {
     caption-side: top;
 }
 
+.modal-body h4{
+    text-align: center;
+}
+
+dt{
+    font-size: 1.2em;
+}
+
 @-webkit-keyframes animate-preloader {
     0% {
         -webkit-transform: rotate(0deg);
