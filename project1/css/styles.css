@@ -47,12 +47,17 @@ caption {
     caption-side: top;
 }
 
-.modal-body h4{
+.modal-body h4, .modal-body h5{
     text-align: center;
 }
 
-dt{
-    font-size: 1.2em;
+.recentNews, #ratesModal table {
+    max-width: 50%;
+    float: left;
+}
+
+.recentNews a{
+    font-size: 1.1em;
 }
 
 @-webkit-keyframes animate-preloader {

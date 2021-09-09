@@ -117,6 +117,12 @@ $(window).on('load', function() {
             focus: true
         });
 
+        var ratesModal = new bootstrap.Modal(document.getElementById('ratesModal'), {
+            backdrop: true,
+            keyboard: true,
+            focus: true
+        });
+
         L.easyButton('<span class="star">&starf;</span>', function() {
             infoModal.show();
         }).addTo(mymap);
@@ -135,6 +141,10 @@ $(window).on('load', function() {
 
         L.easyButton('<span class="star">&starf;</span>', function() {
             newsModal.show();
+        }).addTo(mymap);
+
+        L.easyButton('<span class="star">&starf;</span>', function() {
+            ratesModal.show();
         }).addTo(mymap);
 
         navigator.geolocation.getCurrentPosition(showPositionInfo);
@@ -448,23 +458,29 @@ $('#countrySelect').change(function() {
                                                             $('#wikipediaLinks li:nth-child(' + linkNo + ') a').attr("href", "https://" + wikipediaUrls[i]).html("https://" + wikipediaUrls[i]);
                                                         }
         
-                                                        $('#currency').html(`Currency: ${countryCurrencyName} (${countryCurrencyCode})`);
-                                                        $('#majorRates li:nth-child(1)').html(currentCurrencyRates[7]);
-                                                        $('#majorRates li:nth-child(2)').html(currentCurrencyRates[21]);
-                                                        $('#majorRates li:nth-child(3)').html(currentCurrencyRates[26]);
-                                                        $('#majorRates li:nth-child(4)').html(currentCurrencyRates[46]);
-                                                        $('#majorRates li:nth-child(5)').html(currentCurrencyRates[49]);
-                                                        $('#majorRates li:nth-child(6)').html(currentCurrencyRates[73]);
-                                                        $('#majorRates li:nth-child(7)').html(currentCurrencyRates[109]);
-                                                        $('#majorRates li:nth-child(8)').html(currentCurrencyRates[150]);
+                                                        $('#currency').html(`${countryCurrencyName} (${countryCurrencyCode})`);
 
-                                                        for(let i = 0; i < currentCurrencyRates.length; i++)
-                                                        {
-                                                            let currencyNo = i + 1;
-                                                            $('#allRates li:nth-child(' + currencyNo + ')').html(currentCurrencyRates[i]);
+                                                        let majori = 1;
+
+                                                        for(let majorCurrency in result['data']['rates']) {
+
+                                                            if(majorCurrency == "AUD" || majorCurrency == "BTC" || majorCurrency == "CAD" || majorCurrency == "EUR" || majorCurrency == "GBP" || majorCurrency == "JPY" || majorCurrency == "NZD" || majorCurrency == "USD")
+                                                            {
+                                                                $('#majorRates tr:nth-child(' + majori + ') td:nth-child(1)').html(majorCurrency);
+                                                                $('#majorRates tr:nth-child(' + majori + ') td:nth-child(2)').html(result['data']['rates'][majorCurrency]);
+
+                                                                majori++;
+                                                            }
                                                         }
 
+                                                        let allCurri = 1;
 
+                                                        for(let allCurrency in result['data']['rates']) {
+                                                            $('#allRates tr:nth-child(' + allCurri + ') td:nth-child(1)').html(allCurrency);
+                                                            $('#allRates tr:nth-child(' + allCurri + ') td:nth-child(2)').html(result['data']['rates'][allCurrency]);
+                                                            
+                                                            allCurri++;
+                                                        }
 
                                                         $.ajax({
                                                             url: "php/getCovidData.php",
@@ -539,18 +555,15 @@ $('#countrySelect').change(function() {
 
                                                                                 if(result.status.name == "OK")
                                                                                 {
-                                                                                    /*for(let i = 0; i < result['data'].length; i++)
+                                                                                    for(let i = 0; i < result['data'].length; i++)
                                                                                     {
                                                                                         let newsNo = i + 1;
 
-                                                                                        
-                                                                                    }*/
-
-                                                                                    $('#recentNews dt:nth-child(1)').html(result['data'][0]['author']);
-                                                                                    $('#recentNews dt:nth-child(1) dd:nth-child(1)').html(result['data'][0]['title']);
-                                                                                    $('#recentNews dt:nth-child(1) dd:nth-child(2)').html(result['data'][0]['source']);
-
-                                                                                    //$('#errorMessage').html(result['data'].length);
+                                                                                        $('.recentNews:nth-child(' + newsNo +') tr:nth-child(1) th a').html(result['data'][i]['title']);
+                                                                                        $('.recentNews:nth-child(' + newsNo +') tr:nth-child(1) th a').attr("href", result['data'][i]['url']);
+                                                                                        $('.recentNews:nth-child(' + newsNo + ') tr:nth-child(2) td:nth-child(2)').html(result['data'][i]['source']);
+                                                                                        $('.recentNews:nth-child(' + newsNo + ') tr:nth-child(3) td:nth-child(2)').html(result['data'][i]['author']);
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         })
