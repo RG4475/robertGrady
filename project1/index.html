@@ -14,6 +14,10 @@
         <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
         <link rel="stylesheet" href="vendors/leaflet.EasyButton-2.4.0/src/easy-button.css">
         <link rel="stylesheet" href="vendors/leaflet.awesome-markers-2.0.2/dist/leaflet.awesome-markers.css">
+        <link rel="stylesheet" href="vendors/fontawesome-free-5.15.4-web/css/fontawesome.css">
+        <link rel="stylesheet" href="vendors/fontawesome-free-5.15.4-web/css/brands.css">
+        <link rel="stylesheet" href="vendors/fontawesome-free-5.15.4-web/css/regular.css">
+        <link rel="stylesheet" href="vendors/fontawesome-free-5.15.4-web/css/solid.css">
         
     </head>
     <body>
@@ -214,27 +218,27 @@
                         <div class="modal-body">
                             <table class="table table-striped">
                                 <thead>
-                                    <caption><h4 class="modal-title">COUNTRY INFORMATION</h4></caption>
+                                    <caption><h4 class="modal-title"><i class="fas fa-info"></i>COUNTRY INFORMATION</h4></caption>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">Capital City:</th>
+                                        <th scope="row"><i class="fas fa-city"></i>Capital City:</th>
                                         <td id="capitalCity"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Population:</th>
+                                        <th scope="row"><i class="fas fa-users"></i>Population:</th>
                                         <td id="population"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Native Name:</th>
+                                        <th scope="row"><i class="fas fa-signature"></i>Native Name:</th>
                                         <td id="nativeName"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Region:</th>
+                                        <th scope="row"><i class="fas fa-globe"></i>Region:</th>
                                         <td id="region"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Language:</th>
+                                        <th scope="row"><i class="fas fa-language"></i>Language:</th>
                                         <td id="language"></td>
                                     </tr>
                                 </tbody>
@@ -264,31 +268,31 @@
                         <div class="modal-body">
                             <table class="table table-striped">
                                 <thead>
-                                    <caption><h4 class="modal-title">CURRENT WEATHER</h4></caption>
+                                    <caption><h4 class="modal-title"><i class="fas fa-cloud-sun-rain"></i>CURRENT WEATHER</h4></caption>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">Temperature</th>
+                                        <th scope="row"><i class="fas fa-temperature-high"></i>Temperature</th>
                                         <td id="currentTemperature"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Feels Like</th>
+                                        <th scope="row"><i class="fas fa-temperature-high"></i>Feels Like</th>
                                         <td id="feelsLike"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Weather</th>
+                                        <th scope="row"><i class="fas fa-cloud-sun-rain"></i>Weather</th>
                                         <td id="weather"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Pressure</th>
+                                        <th scope="row"><i class="fas fa-wind"></i>Pressure</th>
                                         <td id="pressure"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Humidity</th>
+                                        <th scope="row"><i class="fas fa-temperature-high"></i>Humidity</th>
                                         <td id="humidity"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Wind Speed</th>
+                                        <th scope="row"><i class="fas fa-wind"></i>Wind Speed</th>
                                         <td id="windSpeed"></td>
                                     </tr>
                                 </tbody>
@@ -310,43 +314,43 @@
                         <div class="modal-body">
                             <table class="table table-striped">
                                 <thead>
-                                    <caption><h4 class="modal-title">COVID DATA</h4></caption>
+                                    <caption><h4 class="modal-title"><i class="fas fa-virus"></i>COVID DATA</h4></caption>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">Cases Today</th>
+                                        <th scope="row"><i class="fas fa-viruses"></i>Cases Today</th>
                                         <td id="todayCases"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Deaths Today</th>
+                                        <th scope="row"><i class="fas fa-skull-crossbones"></i>Deaths Today</th>
                                         <td id="todayDeaths"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Total Cases</th>
+                                        <th scope="row"><i class="fas fa-viruses"></i>Total Cases</th>
                                         <td id="totalCases"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Total Deaths</th>
-                                        <td id="totalDeaths"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Total Recovered</th>
-                                        <td id="totalRecovered"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Total Critical</th>
+                                        <th scope="row"><i class="fas fa-ambulance"></i>Total Critical</th>
                                         <td id="totalCritical"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Death Rate</th>
+                                        <th scope="row"><i class="fas fa-book-dead"></i>Total Deaths</th>
+                                        <td id="totalDeaths"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><i class="fas fa-heart"></i>Total Recovered</th>
+                                        <td id="totalRecovered"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><i class="fas fa-skull-crossbones"></i>Death Rate</th>
                                         <td id="deathRate"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Recovery Rate</th>
+                                        <th scope="row"><i class="fas fa-heartbeat"></i>Recovery Rate</th>
                                         <td id="recoveryRate"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Cases Per Million</th>
+                                        <th scope="row"><i class="fas fa-viruses"></i>Cases Per Million</th>
                                         <td id="casesPerMillion"></td>
                                     </tr>
                                 </tbody>
@@ -368,7 +372,7 @@
                         <div class="modal-body">
                             <table class="table table-striped" id="holidayTable">
                                 <thead>
-                                    <caption><h4 class="modal-title">NATIONAL HOLIDAYS</h4></caption>
+                                    <caption><h4 class="modal-title"><i class="fas fa-gifts"></i>NATIONAL HOLIDAYS</h4></caption>
                                     <tr>
                                         <th scope="row">No of National Holidays</th>
                                         <th scope="row"></th>
@@ -466,6 +470,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -485,7 +492,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -500,7 +507,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -515,7 +522,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -530,7 +537,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -545,7 +552,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -560,7 +567,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -575,7 +582,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -590,7 +597,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -605,7 +612,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -620,7 +627,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -635,7 +642,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -650,7 +657,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -665,7 +672,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -680,7 +687,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -695,7 +702,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -710,7 +717,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -725,7 +732,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -740,7 +747,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -755,7 +762,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -770,7 +777,7 @@
                             <table class="table table-striped recentNews">
                                 <tbody>
                                     <tr>
-                                        <th scope="row" colspan="2"><a></a></th>
+                                        <th scope="row" colspan="2"><i class="fas fa-newspaper"></i><a></a></th>
                                     </tr>
                                     <tr>
                                         <td scope="row">Source:</td>
@@ -782,6 +789,9 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -794,7 +804,7 @@
                             <img class="flag" height="75" width="150" />
                         </div>
                         <div class="modal-body">
-                            <h4 class="modal-title">EXCHANGE RATES</h4>
+                            <h4 class="modal-title"><i class="fas fa-pound-sign"></i>EXCHANGE RATES</h4>
                             <h5 class="modal-title" id="currency"></h5><br>
 
                             <table class="table table-striped" id="majorRates">
@@ -1014,6 +1024,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
 
@@ -1029,7 +1042,8 @@
                 <li>Exchange Rates from <a href="https://openexchangerates.org/">Open Exchange Rates</a> - </li>
                 <li>Covid 19 Data from <a href="https://about-corona.net/">About Corona</a> - </li>
                 <li>Country National Holiday information from <a href="https://calendarific.com/">Calendarific</a> - </li>
-                <li>Country National News from <a href="https://newsapi.org/">News API</a></li>
+                <li>Country National News from <a href="https://newsapi.org/">News API</a> - </li>
+                <li>Icons from <a href="https://fontawesome.com/start">Font Awesome</a></li>
             </ul>
                 <p>For copyright info of map see bottom right corner of map</p>
 

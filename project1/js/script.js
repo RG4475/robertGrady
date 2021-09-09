@@ -10,7 +10,9 @@ $(window).on('load', function() {
     }
     
     var homeMarker = L.AwesomeMarkers.icon({
-        markerColor: 'green',
+        prefix: 'fa',
+        icon: 'fas fa-map-pin',
+        markerColor: 'green'
       });
     var currentPosMark;
 
@@ -123,27 +125,27 @@ $(window).on('load', function() {
             focus: true
         });
 
-        L.easyButton('<span class="star">&starf;</span>', function() {
+        L.easyButton('fa-info', function() {
             infoModal.show();
         }).addTo(mymap);
 
-        L.easyButton('<span class="star">&starf;</span>', function() {
+        L.easyButton('fa-cloud-sun-rain', function() {
             weatherModal.show();
         }).addTo(mymap);
 
-        L.easyButton('<span class="star">&starf;</span>', function() {
+        L.easyButton('fa-virus', function() {
             covidModal.show();
         }).addTo(mymap);
 
-        L.easyButton('<span class="star">&starf;</span>', function() {
+        L.easyButton('fa-gifts', function() {
             holidayModal.show();
         }).addTo(mymap);
 
-        L.easyButton('<span class="star">&starf;</span>', function() {
+        L.easyButton('fa-newspaper', function() {
             newsModal.show();
         }).addTo(mymap);
 
-        L.easyButton('<span class="star">&starf;</span>', function() {
+        L.easyButton('fa-pound-sign', function() {
             ratesModal.show();
         }).addTo(mymap);
 
@@ -404,6 +406,8 @@ $('#countrySelect').change(function() {
                                                     cityMarkers.clearLayers();
                                                 }
                                                 var redMarker = L.AwesomeMarkers.icon({
+                                                    prefix: 'fa',
+                                                    icon: 'fas fa-location-arrow',
                                                     markerColor: 'red'
                                                   });
 
