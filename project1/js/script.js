@@ -537,11 +537,25 @@ $('#countrySelect').change(function() {
                                                                             let totalNationalHolidays = result['data'].length;
                                                                             $('#holidayTable tr:nth-child(1) th:nth-child(2)').html(totalNationalHolidays);
 
+                                                                            for(let i = 1; i <= 30; i++)
+                                                                            {
+                                                                                $('#holidayTable tbody tr:nth-child(' + i +') td:nth-child(1)').empty();
+                                                                                $('#holidayTable tbody tr:nth-child(' + i + ') td:nth-child(2)').empty();
+                                                                            }
+
                                                                             for(let i = 0; i < totalNationalHolidays; i++)
                                                                             {
                                                                                 let holidayNo = i + 1;
 
-                                                                                $('#holidayTable tbody tr:nth-child(' + holidayNo +') td:nth-child(1)').html(result['data'][i]['date']);
+                                                                                if(countryISO3Code == "USA")
+                                                                                {
+                                                                                    $('#holidayTable tbody tr:nth-child(' + holidayNo +') td:nth-child(1)').html(Date.parse(result['data'][i]['date']).toString("M/d/yyyy"));
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    $('#holidayTable tbody tr:nth-child(' + holidayNo +') td:nth-child(1)').html(Date.parse(result['data'][i]['date']).toString("d/M/yyyy"));
+                                                                                }
+
                                                                                 $('#holidayTable tbody tr:nth-child(' + holidayNo + ') td:nth-child(2)').html(result['data'][i]['name']);
                                                                             }
                                                                         }
@@ -569,13 +583,108 @@ $('#countrySelect').change(function() {
                                                                                         $('.recentNews:nth-child(' + newsNo + ') tr:nth-child(3) td:nth-child(2)').html(result['data'][i]['author']);
                                                                                     }
                                                                                 }
+                                                                            },
+                                                                            error: function(jqXHR, textStatus, errorThrown) {
+                                                                                JSON.stringify(jqXHR);
+                                                                    
+                                                                                if(jqXHR.status == '204')
+                                                                                {
+                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: No Response");
+                                                                                }
+                                                                                else if(jqXHR.status == '400')
+                                                                                {
+                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Bad Request");
+                                                                                }
+                                                                                else if(jqXHR.status == '401')
+                                                                                {
+                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Unauthorised Request");
+                                                                                }
+                                                                                else if(jqXHR.status == '403')
+                                                                                {
+                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Request Forbidden"); 
+                                                                                }
+                                                                                else if(jqXHR.status == '404')
+                                                                                {
+                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Request Not Found"); 
+                                                                                }
+                                                                                else if(jqXHR.status == '500')
+                                                                                {
+                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Internal Server Error"); 
+                                                                                }
+                                                                                else if(jqXHR.status == '503')
+                                                                                {
+                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Service Unavailable");
+                                                                                }
                                                                             }
-                                                                        })
+                                                                        });
+                                                                    },
+                                                                    error: function(jqXHR, textStatus, errorThrown) {
+                                                                        JSON.stringify(jqXHR);
+                                                            
+                                                                        if(jqXHR.status == '204')
+                                                                        {
+                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: No Response");
+                                                                        }
+                                                                        else if(jqXHR.status == '400')
+                                                                        {
+                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Bad Request");
+                                                                        }
+                                                                        else if(jqXHR.status == '401')
+                                                                        {
+                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Unauthorised Request");
+                                                                        }
+                                                                        else if(jqXHR.status == '403')
+                                                                        {
+                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Request Forbidden"); 
+                                                                        }
+                                                                        else if(jqXHR.status == '404')
+                                                                        {
+                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Request Not Found"); 
+                                                                        }
+                                                                        else if(jqXHR.status == '500')
+                                                                        {
+                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Internal Server Error"); 
+                                                                        }
+                                                                        else if(jqXHR.status == '503')
+                                                                        {
+                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Service Unavailable");
+                                                                        }
                                                                     }
-                                                                })
+                                                                });
+                                                            },
+                                                            error: function(jqXHR, textStatus, errorThrown) {
+                                                                JSON.stringify(jqXHR);
+                                                    
+                                                                if(jqXHR.status == '204')
+                                                                {
+                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: No Response");
+                                                                }
+                                                                else if(jqXHR.status == '400')
+                                                                {
+                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Bad Request");
+                                                                }
+                                                                else if(jqXHR.status == '401')
+                                                                {
+                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Unauthorised Request");
+                                                                }
+                                                                else if(jqXHR.status == '403')
+                                                                {
+                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Request Forbidden"); 
+                                                                }
+                                                                else if(jqXHR.status == '404')
+                                                                {
+                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Request Not Found"); 
+                                                                }
+                                                                else if(jqXHR.status == '500')
+                                                                {
+                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Internal Server Error"); 
+                                                                }
+                                                                else if(jqXHR.status == '503')
+                                                                {
+                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Service Unavailable");
+                                                                }
                                                             }
                                                         });
-
                                                     }
                                                 },
                                                 error: function(jqXHR, textStatus, errorThrown) {
