@@ -14,7 +14,117 @@
             <h1>COMPANY DIRECTORY</h1>
         </div>
         <div class="main">
-
+            <ul class="nav nav-tabs" id="tableSelector" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="location-tab" data-bs-toggle="tab" data-bs-target="#location" type="button" role="tab" aria-controls="location" aria-selected="true">Location</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="department-tab" data-bs-toggle="tab" data-bs-target="#department" type="button" role="tab" aria-controls="department" aria-selected="false">Department</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="personnel-tab" data-bs-toggle="tab" data-bs-target="#personnel" type="button" role="tab" aria-controls="personnel" aria-selected="false">Personnel</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="tableSelectorData">
+                <div class="tab-pane fade show active" id="location" role="tabpanel" aria-labelledby="location-tab">
+                    <table class="table table-bordered table-hover" id="locationTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID
+                                    <button type="button" class="btn btn-success">Add</button></th>
+                                <th scope="col">Location Name</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>London</td>
+                                <td><button type="button" class="btn btn-primary">Modify</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Paris</td>
+                                <td><button type="button" class="btn btn-primary">Modify</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="department" role="tabpanel" aria-labelledby="department-tab">
+                    <table class="table table-bordered table-hover" id="departmentTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID
+                                    <button type="button" class="btn btn-success">Add</button></th>
+                                <th scope="col">Department Name</th>
+                                <th scope="col">Location ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Human Resources</td>
+                                <td>1</td>
+                                <td><button type="button" class="btn btn-primary">Modify</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Business Development</td>
+                                <td>1</td>
+                                <td><button type="button" class="btn btn-primary">Modify</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="personnel" role="tabpanel" aria-labelledby="personnel-tab">
+                    <table class="table table-bordered table-hover" id="personnelTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID
+                                    <button type="button" class="btn btn-success">Add</button>
+                                </th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Job Title</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Department ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Richard</td>
+                                <td>Ricklingson</td>
+                                <td>Products Manager</td>
+                                <td>ricklingsonR@email.com</td>
+                                <td>2</td>
+                                <td><button type="button" class="btn btn-primary">Modify</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>James</td>
+                                <td>Sorrendon</td>
+                                <td>Head of Resources</td>
+                                <td>sorrendonJ@email.com</td>
+                                <td>1</td>
+                                <td><button type="button" class="btn btn-primary">Modify</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div id="preloader"></div>
         <script type="application/javascript" src="libs/jquery/jquery-3.6.0.min.js"></script>
