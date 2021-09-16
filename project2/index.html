@@ -14,6 +14,7 @@
             <h1>COMPANY DIRECTORY</h1>
         </div>
         <div class="main">
+            <p id="errorMessage"></p>
             <ul class="nav nav-tabs" id="tableSelector" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="location-tab" data-bs-toggle="tab" data-bs-target="#location" type="button" role="tab" aria-controls="location" aria-selected="true">Location</button>
@@ -31,12 +32,13 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID
-                                    <button type="button" class="btn btn-success">Add</button></th>
+                                    <button type="button" class="btn btn-success" id="addLocation">Add</button></th>
                                 <th scope="col">Location Name</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
+                            <!--
                             <tr>
                                 <th scope="row">1</th>
                                 <td>London</td>
@@ -51,20 +53,37 @@
                                     <button type="button" class="btn btn-danger">Delete</button>
                                 </td>
                             </tr>
+                            -->
                         </tbody>
                     </table>
+                    <div class="modal fade" id="addLocationModal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Add New Location</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Add new locations to the database</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="department" role="tabpanel" aria-labelledby="department-tab">
                     <table class="table table-bordered table-hover" id="departmentTable">
                         <thead>
                             <tr>
                                 <th scope="col">ID
-                                    <button type="button" class="btn btn-success">Add</button></th>
+                                    <button type="button" class="btn btn-success" id="addDepartment">Add</button></th>
                                 <th scope="col">Department Name</th>
                                 <th scope="col">Location ID</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <!--
                             <tr>
                                 <th scope="row">1</th>
                                 <td>Human Resources</td>
@@ -81,15 +100,31 @@
                                     <button type="button" class="btn btn-danger">Delete</button>
                                 </td>
                             </tr>
+                            -->
                         </tbody>
                     </table>
+                    <div class="modal fade" id="addDepartmentModal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Add New Department</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Add new departments to the database</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="personnel" role="tabpanel" aria-labelledby="personnel-tab">
                     <table class="table table-bordered table-hover" id="personnelTable">
                         <thead>
                             <tr>
                                 <th scope="col">ID
-                                    <button type="button" class="btn btn-success">Add</button>
+                                    <button type="button" class="btn btn-success" id="addPersonnel">Add</button>
                                 </th>
                                 <th scope="col">First Name</th>
                                 <th scope="col">Last Name</th>
@@ -99,6 +134,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!--
                             <tr>
                                 <th scope="row">1</th>
                                 <td>Richard</td>
@@ -121,8 +157,24 @@
                                     <button type="button" class="btn btn-danger">Delete</button>
                                 </td>
                             </tr>
+                            -->
                         </tbody>
                     </table>
+                    <div class="modal fade" id="addPersonnelModal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Add New Personnel</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Add new personnel to the database</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
