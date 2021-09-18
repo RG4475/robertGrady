@@ -1,3 +1,58 @@
+function generateTableHead(table, data) {
+    let thead = table.createTHead();
+    let row = thead.insertRow();
+
+    for(let key of data) {
+        let th = document.createElement("th");
+        let text = document.createTextNode(key);
+        th.appendChild(text);
+        row.appendChild(th);
+    }
+}
+
+function generateTable(table, data) {
+    for(let element of data) {
+        let row = table.insertRow();
+        for(key in element) {
+            let cell = row.insertCell();
+            let text = document.createTextNode(element[key]);
+            cell.appendChild(text);
+        }
+    }
+}
+
+function generateChosenTable(table, data) {
+
+    let chosenData = data;
+
+    let chosenTable = document.querySelector(table);
+    let chosenKeys = Object.keys(chosenData[0]);
+    generateTable(chosenTable, chosenData);
+    generateTableHead(chosenTable, chosenKeys);
+}
+
+function generateButton(att1, val1, att2, val2, att3, val3, nodeText, tableSelect) {
+    let addButton = document.createElement("button");
+    let attributeType = document.createAttribute(att1);
+    attributeType.value = val1;
+    addButton.setAttributeNode(attributeType);
+
+    attributeType = document.createAttribute(att2);
+    attributeType.value = val2;
+    addButton.setAttributeNode(attributeType);
+
+    attributeType = document.createAttribute(att3);
+    attributeType.value = val3;
+    addButton.setAttributeNode(attributeType);
+
+    let buttonText = document.createTextNode(nodeText);
+    addButton.appendChild(buttonText);
+
+    let findTable = document.getElementById(tableSelect);
+    let headerRow = findTable.getElementsByTagName("tr")[0];
+    let firstHeader = headerRow.getElementsByTagName("th")[0].appendChild(addButton);
+}
+
 $(window).on('load', function() {
     if($('#preloader').length) {
         $('#preloader').delay(500).fadeOut('slow', function() {
@@ -41,30 +96,6 @@ $(window).on('load', function() {
         focus: true
     });
 
-    $('#addLocation').click(function() {
-        addLocationModal.show();
-    });
-
-    $('#addDepartment').click(function() {
-        addDepartmentModal.show();
-    });
-
-    $('#addPersonnel').click(function() {
-        addPersonnelModal.show();
-    });
-
-    $('#modifyLocation').click(function() {
-        modifyLocationModal.show();
-    });
-
-    $('#modifyDepartment').click(function() {
-        modifyDepartmentModal.show();
-    });
-
-    $('#modifyPersonnel').click(function() {
-        modifyPersonnelModal.show();
-    });
-
     $.ajax({
         url: "libs/php/getAllDepartments.php",
         type: 'GET',
@@ -76,7 +107,43 @@ $(window).on('load', function() {
             if(result.status.name == "ok")
             {
                 //$('#errorMessage').html(result['data'].length);
-                
+
+                generateChosenTable("table#departmentTable", result['data']);
+
+                generateButton("type", "button", "class", "btn btn-success", "id", "addDepartment", "Add", "departmentTable");
+                generateButton("type", "button", "class", "btn btn-success", "id", "modifyDepartment", "Modify", "departmentTable");
+
+                $('#addDepartment').click(function() {
+                    addDepartmentModal.show();
+                });
+
+                $('#modifyDepartment').click(function() {
+                    modifyDepartmentModal.show();
+                });
+                /*
+                let addButton = document.createElement("button");
+                let attributeType = document.createAttribute("type");
+                attributeType.value = "button";
+                addButton.setAttributeNode(attributeType);
+
+                attributeType = document.createAttribute("class");
+                attributeType.value = "btn btn-success";
+                addButton.setAttributeNode(attributeType);
+
+                attributeType = document.createAttribute("id");
+                attributeType.value = "addDepartment";
+                addButton.setAttributeNode(attributeType);
+
+                let buttonText = document.createTextNode("Add");
+                addButton.appendChild(buttonText);
+
+                let departmentTable = document.getElementById("departmentTable");
+                deptTableFirstRow = departmentTable.getElementsByTagName("tr")[0];
+                let firstHeader = deptTableFirstRow.getElementsByTagName("th")[0].appendChild(addButton);
+
+                */
+
+                /*
                 for(let i = 0; i < result['data'].length; i++)
                 {
                 var newDepartmentRow = document.createElement("tr");
@@ -95,15 +162,19 @@ $(window).on('load', function() {
                 insertDepartmentlocationID.appendChild(locationIDText);
                 newDepartmentRow.appendChild(insertDepartmentlocationID);
 
+                */
+
                 /*
+                var departmentTable = document.getElementById("departmentTable");
+                departmentTable.getElementsByTagName("tbody")[0].appendChild(newDepartmentRow);
+                */
+                //}
+
+                /*PLACE THE CODE IN THIS COMMENT INSIDE THE FOR LOOP IF UNCOMMENTING
                 var hiddenDepartmentID = document.createElement("input");
                 var hiddenDeptIDText = document.createAttribute("type");
                 */
 
-
-                var departmentTable = document.getElementById("departmentTable");
-                departmentTable.getElementsByTagName("tbody")[0].appendChild(newDepartmentRow);
-                }
                 /*
                 for(let i = 0; i < result['data'].length; i++)
                 {
@@ -113,8 +184,6 @@ $(window).on('load', function() {
                     $("#departmentTable tbody tr:nth-child(1) th:nth-child(1)").html("Yellow Pages");
                 }
                 */
-
-                
             }
         },
 
@@ -135,6 +204,19 @@ $(window).on('load', function() {
             if(result.status.name == "ok")
             {
                 //$('#errorMessage').html(result['data'].length);
+
+                generateChosenTable("table#personnelTable", result['data']);
+
+                generateButton("type", "button", "class", "btn btn-success", "id", "addPersonnel", "Add", "personnelTable");
+                generateButton("type", "button", "class", "btn btn-success", "id", "modifyPersonnel", "Modify", "personnelTable");
+
+                $('#addPersonnel').click(function() {
+                    addPersonnelModal.show();
+                });
+
+                $('#modifyPersonnel').click(function() {
+                    modifyPersonnelModal.show();
+                });
             }
         },
 
@@ -153,7 +235,20 @@ $(window).on('load', function() {
 
             if(result.status.name == "ok")
             {
-                $('#errorMessage').html(result['data'].length);
+                //('#errorMessage').html(result['data'].length);
+
+                generateChosenTable("table#locationTable", result['data']);
+
+                generateButton("type", "button", "class", "btn btn-success", "id", "addLocation", "Add", "locationTable");
+                generateButton("type", "button", "class", "btn btn-success", "id", "modifyLocation", "Modify", "locationTable");
+
+                $('#addLocation').click(function() {
+                    addLocationModal.show();
+                });
+
+                $('#modifyLocation').click(function() {
+                    modifyLocationModal.show();
+                });
             }
         },
 
