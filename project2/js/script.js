@@ -113,6 +113,26 @@ $(window).on('load', function() {
                 generateButton("type", "button", "class", "btn btn-success", "id", "addDepartment", "Add", "departmentTable");
                 generateButton("type", "button", "class", "btn btn-success", "id", "modifyDepartment", "Modify", "departmentTable");
 
+                for(let i = 0; i < result['data'].length; i++)
+                {
+                    $('.departmentIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['id'] + ' - ' + result['data'][i]['name'] + '</option>');
+                }
+
+                /*
+                let highestid = result['data'][result['data'].length - 1]['id'];
+
+                if(highestid < 20)
+                {
+                    $('#newDepartmentID').val(20);
+                }
+                else
+                {
+                    highestid = parseInt(result['data'][result['data'].length - 1]['id'], 10);
+                    $('#newDepartmentID').val(highestid + 1);
+                }
+                */
+
+
                 $('#addDepartment').click(function() {
                     addDepartmentModal.show();
                 });
@@ -210,6 +230,8 @@ $(window).on('load', function() {
                 generateButton("type", "button", "class", "btn btn-success", "id", "addPersonnel", "Add", "personnelTable");
                 generateButton("type", "button", "class", "btn btn-success", "id", "modifyPersonnel", "Modify", "personnelTable");
 
+                $('#newPersonnelID').val(result['data'].length + 1);
+
                 $('#addPersonnel').click(function() {
                     addPersonnelModal.show();
                 });
@@ -217,6 +239,8 @@ $(window).on('load', function() {
                 $('#modifyPersonnel').click(function() {
                     modifyPersonnelModal.show();
                 });
+
+
             }
         },
 
@@ -242,6 +266,39 @@ $(window).on('load', function() {
                 generateButton("type", "button", "class", "btn btn-success", "id", "addLocation", "Add", "locationTable");
                 generateButton("type", "button", "class", "btn btn-success", "id", "modifyLocation", "Modify", "locationTable");
 
+                for(let i = 0; i < result['data'].length; i++)
+                {
+                    $('.locationIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['id'] + ' - ' + result['data'][i]['name'] + '</option>');
+                }
+
+                $('#newLocationID').val(result['data'].length + 1);
+
+                /*
+
+                let addToLocationDropDowns = document.createElement("option");
+
+                let locationOptionAttr = document.createAttribute("value");
+                locationOptionAttr.value = "London";
+                addToLocationDropDowns.setAttributeNode(locationOptionAttr);
+
+                let locationTextNode = document.createTextNode("London");
+                addToLocationDropDowns.appendChild(locationTextNode);
+
+                locationSelectDropDowns.appendChild(addToLocationDropDowns);
+
+                addToLocationDropDowns = document.createElement("option");
+
+                locationOptionAttr = document.createAttribute("value");
+                locationOptionAttr.value = "Paris";
+                addToLocationDropDowns.setAttributeNode(locationOptionAttr);
+
+                locationTextNode = document.createTextNode("Paris");
+                addToLocationDropDowns.appendChild(locationTextNode);
+
+                locationSelectDropDowns.appendChild(addToLocationDropDowns);
+
+                */
+
                 $('#addLocation').click(function() {
                     addLocationModal.show();
                 });
@@ -255,5 +312,39 @@ $(window).on('load', function() {
         error: function(jqXHR, textStatus, errorThrown) {
 
         }
-    })
+    });
+
+    $('#addDepartment').click(function() {
+
+        let departmentName = $('#newDepartmentName').val();
+        let chosenLocationID = $('#locationIDSelectAdd').val();
+
+        if(departmentName && chosenLocationID)
+        {
+
+            $.ajax({
+                url: "libs/php/insertDepartment.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    name: departmentName,
+                    locationID: chosenLocationID
+                },
+
+                success: function(result, status, xhr) {
+                    console.log(JSON.stringify(result));
+
+                    if(result.status.name == "ok") {
+                        location.reload();
+                    }
+                }
+            });
+        }
+        else
+        {
+            
+            $('#errorMessage strong').html("The new details were not sent because you were missing the Department Name or Location ID");
+            addDepartmentModal.show();
+        }
+    });
 });

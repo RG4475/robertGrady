@@ -14,7 +14,7 @@
             <h1>COMPANY DIRECTORY</h1>
         </div>
         <div class="main">
-            <p id="errorMessage"></p>
+            <p id="errorMessage"><strong></strong></p>
             <ul class="nav nav-tabs" id="tableSelector" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="location-tab" data-bs-toggle="tab" data-bs-target="#location" type="button" role="tab" aria-controls="location" aria-selected="true">Location</button>
@@ -114,14 +114,13 @@
                                     <h3>Add New Department</h3>
                                 </div>
                                 <div class="modal-body">
-                                    Department ID: <input type="text" id="newDepartmentID" value="1" disabled><br>
+                                    <!--Department ID: <input type="text" id="newDepartmentID" disabled><br>-->
                                     Department Name: <input type="text" id="newDepartmentName"><br>
-                                    Location ID: <select id="locationIDSelect">
-                                        <option value="1">1: London</option>
+                                    Location ID: <select class="locationIDSelect" id="locationIDSelectAdd">
                                     </select>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Add</button>
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addDepartment">Add</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -136,9 +135,8 @@
                                 <div class="modal-body">
                                     Department ID: <input type="text" id="modifyDepartmentID" value="1" disabled><br>
                                     Department Name: <input type="text" id="modifyDepartmentName"><br>
-                                    Location ID: <select id="modifyLocationIDSelect">
-                                        <option value="1">1: London</option>
-                                    </select> 
+                                    Location ID: <select class="locationIDSelect">
+                                    </select>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
@@ -194,8 +192,7 @@
                                     Last Name: <input type="text" id="newPersonnelLastName"><br>
                                     Job Title: <input type="text" id="newPersonnelJobTitle"><br>
                                     Email: <input type="text" id="newPersonnelEmail"><br>
-                                    Department ID: <select id="departmentIDSelect"><br>
-                                        <option value="1">1: Human Resources</option>
+                                    Department ID: <select class="departmentIDSelect"><br>
                                     </select>
                                 </div>
                                 <div class="modal-footer">
@@ -217,8 +214,7 @@
                                     Last Name: <input type="text" id="modifyPersonnelLastName"><br>
                                     Job Title: <input type="text" id="modifyPersonnelJobTitle"><br>
                                     Email: <input type="text" id="modifyPersonnelEmail"><br>
-                                    Department ID: <select id="modifyDepartmentIDSelect"><br>
-                                        <option value="1">1: Human Resources</option>
+                                    Department ID: <select class="departmentIDSelect"><br>
                                     </select> 
                                 </div>
                                 <div class="modal-footer">
