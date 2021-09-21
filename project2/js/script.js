@@ -136,9 +136,9 @@ $(window).on('load', function() {
                     addDepartmentModal.show();
                 });
 
-                $('#departmentTable tbody tr td:nth-child(1)').on("click", function() {
+                $('#departmentTable tbody tr').on("click", function() {
 
-                    let chosenDeptId = event.target.innerHTML;
+                    let chosenDeptId = $(this).find('td:first').html();
 
                     $.ajax({
                         url: "libs/php/getDepartmentByID.php",
