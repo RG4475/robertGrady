@@ -208,7 +208,10 @@ $(window).on('load', function() {
         },
 
         error: function(jqXHR, textStatus, errorThrown){
+            JSON.stringify(jqXHR);
+            JSON.stringify(errorThrown);
 
+            $('#errorMessage').html(jqXHR + errorThrown);
         }
 
     });
@@ -245,7 +248,10 @@ $(window).on('load', function() {
         },
 
         error: function(jqXHR, textStatus, errorThrown) {
+            JSON.stringify(jqXHR);
+            JSON.stringify(errorThrown);
 
+            $('#errorMessage').html(jqXHR + errorThrown);
         }
     });
 
@@ -310,7 +316,10 @@ $(window).on('load', function() {
         },
 
         error: function(jqXHR, textStatus, errorThrown) {
+            JSON.stringify(jqXHR);
+            JSON.stringify(errorThrown);
 
+            $('#errorMessage').html(jqXHR + errorThrown);
         }
     });
 
@@ -337,14 +346,58 @@ $(window).on('load', function() {
                     if(result.status.name == "ok") {
                         location.reload();
                     }
+                },
+
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JSON.stringify(jqXHR);
+                    JSON.stringify(errorThrown);
+        
+                    $('#errorMessage').html(jqXHR + errorThrown);
                 }
             });
         }
         else
         {
             
-            $('#errorMessage strong').html("The new details were not sent because you were missing the Department Name or Location ID");
+            $('#errorMessage strong').html("The new Department details were not sent because you were missing the Department Name or Location ID");
             addDepartmentModal.show();
+        }
+    });
+
+    $('#addLocation').click(function() {
+
+        let locationName = $('#newLocationName').val();
+
+        if(locationName)
+        {
+            $.ajax({
+                url: "libs/php/insertLocation.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    name: locationName
+                },
+
+                success: function(result, status, xhr) {
+                    console.log(JSON.stringify(result));
+
+                    if(result.status.name == "ok")
+                    {
+                        location.reload();
+                    }
+                },
+
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JSON.stringify(jqXHR);
+                    JSON.stringify(errorThrown);
+        
+                    $('#errorMessage').html(jqXHR + errorThrown);
+                }
+            });
+        }
+        else
+        {
+            $('#errorMessage strong').html("The new Location details were not sent because you were missing the Location Name");
         }
     });
 });
