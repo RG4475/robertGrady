@@ -27,6 +27,11 @@ button.btn-success{
     margin-right: 50px;
 }
 
+sup{
+    color: red;
+    font-weight: bold;
+}
+
 @-webkit-keyframes animate-preloader {
     0% {
         -webkit-transform: rotate(0deg);

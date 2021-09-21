@@ -111,7 +111,6 @@ $(window).on('load', function() {
                 generateChosenTable("table#departmentTable", result['data']);
 
                 generateButton("type", "button", "class", "btn btn-success", "id", "addDepartment", "Add", "departmentTable");
-                generateButton("type", "button", "class", "btn btn-success", "id", "modifyDepartment", "Modify", "departmentTable");
 
                 for(let i = 0; i < result['data'].length; i++)
                 {
@@ -137,7 +136,37 @@ $(window).on('load', function() {
                     addDepartmentModal.show();
                 });
 
-                $('#modifyDepartment').click(function() {
+                $('#departmentTable tbody tr td:nth-child(1)').on("click", function() {
+
+                    let chosenDeptId = event.target.innerHTML;
+
+                    $.ajax({
+                        url: "libs/php/getDepartmentByID.php",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            id: chosenDeptId
+                        },
+
+                        success: function(result, status, xhr) {
+                            console.log(JSON.stringify(result));
+
+                            if(result.status.name == "ok") {
+
+                                $('#modifyDepartmentID').val(chosenDeptId);
+                                $('#modifyDepartmentName').val(result['data'][0]['name']);
+                                $('#currentLocationID').html(result['data'][0]['locationID']);
+                            }
+                        },
+
+                        error: function(jqXHR, textStatus, errorThrown){
+                            JSON.stringify(jqXHR);
+                            JSON.stringify(errorThrown);
+                
+                            $('#errorMessage').html(jqXHR + errorThrown);
+                        }
+                    })
+
                     modifyDepartmentModal.show();
                 });
                 /*
@@ -231,7 +260,6 @@ $(window).on('load', function() {
                 generateChosenTable("table#personnelTable", result['data']);
 
                 generateButton("type", "button", "class", "btn btn-success", "id", "addPersonnel", "Add", "personnelTable");
-                generateButton("type", "button", "class", "btn btn-success", "id", "modifyPersonnel", "Modify", "personnelTable");
 
                 $('#newPersonnelID').val(result['data'].length + 1);
 
@@ -239,7 +267,7 @@ $(window).on('load', function() {
                     addPersonnelModal.show();
                 });
 
-                $('#modifyPersonnel').click(function() {
+                $('#personnelTable tbody tr td:nth-child(1)').on("click", function() {
                     modifyPersonnelModal.show();
                 });
 
@@ -270,7 +298,6 @@ $(window).on('load', function() {
                 generateChosenTable("table#locationTable", result['data']);
 
                 generateButton("type", "button", "class", "btn btn-success", "id", "addLocation", "Add", "locationTable");
-                generateButton("type", "button", "class", "btn btn-success", "id", "modifyLocation", "Modify", "locationTable");
 
                 for(let i = 0; i < result['data'].length; i++)
                 {
@@ -309,8 +336,17 @@ $(window).on('load', function() {
                     addLocationModal.show();
                 });
 
-                $('#modifyLocation').click(function() {
+                $('#locationTable tbody tr td:nth-child(1)').on("click", function() {
+
+                    $('#errorMessage').html(event.target.innerHTML)
                     modifyLocationModal.show();
+                    
+                    /*
+                    function placeAllInfoIntoModal(event)
+                    {
+                        $('modifyLocationID')
+                    }
+                    */
                 });
             }
         },
@@ -400,4 +436,51 @@ $(window).on('load', function() {
             $('#errorMessage strong').html("The new Location details were not sent because you were missing the Location Name");
         }
     });
+
+    $('#addPersonnel').click(function() {
+
+        let personnelFirstName = $('#newPersonnelFirstName').val();
+        let personnelLastName = $('#newPersonnelLastName').val();
+        let personnelJobTitle = $('#newPersonnelJobTitle').val();
+        let personnelEmail = $('#newPersonnelEmail').val();
+        let personnelDepartment = $('#departmentIDSelectAdd').val();
+
+        if(personnelFirstName && personnelLastName && personnelEmail && personnelDepartment)
+        {
+            $.ajax({
+                url: "libs/php/insertPersonnel.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    firstName: personnelFirstName,
+                    lastName: personnelLastName,
+                    jobTitle: personnelJobTitle,
+                    email: personnelEmail,
+                    departmentID: personnelDepartment
+                },
+
+                success: function(result, status, xhr) {
+                    console.log(JSON.stringify(result));
+
+                    if(result.status.name == "ok")
+                    {
+                        location.reload();
+                    }
+                },
+
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JSON.stringify(jqXHR);
+                    JSON.stringify(errorThrown);
+        
+                    $('#errorMessage').html(jqXHR + errorThrown);
+                }
+            })
+        }
+        else
+        {
+            $('#errorMessage strong').html("The new Personnel details were not sent because you were missing some bits of information. Everything but the Job Title is required");
+        }
+    });
+
+
 });

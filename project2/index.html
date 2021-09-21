@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <!--Location ID: <input type="text" id="newLocationID" disabled><br>-->
-                                    Location Name: <input type="text" id="newLocationName">
+                                    Location Name:<sup>*</sup> <input type="text" id="newLocationName">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addLocation">Add</button>
@@ -115,8 +115,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <!--Department ID: <input type="text" id="newDepartmentID" disabled><br>-->
-                                    Department Name: <input type="text" id="newDepartmentName"><br>
-                                    Location ID: <select class="locationIDSelect" id="locationIDSelectAdd">
+                                    Department Name:<sup>*</sup> <input type="text" id="newDepartmentName"><br>
+                                    Location ID:<sup>*</sup> <select class="locationIDSelect" id="locationIDSelectAdd">
                                     </select>
                                 </div>
                                 <div class="modal-footer">
@@ -135,8 +135,8 @@
                                 <div class="modal-body">
                                     Department ID: <input type="text" id="modifyDepartmentID" value="1" disabled><br>
                                     Department Name: <input type="text" id="modifyDepartmentName"><br>
-                                    Location ID: <select class="locationIDSelect">
-                                    </select>
+                                    Location ID: <select class="locationIDSelect" id="locationIDSelectModify">
+                                    </select> <strong>Current Location ID: </strong><span id="currentLocationID"></span>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
@@ -187,16 +187,16 @@
                                     <h3>Add New Personnel</h3>
                                 </div>
                                 <div class="modal-body">
-                                    Personnel ID: <input type="text" id="newPersonnelID" disabled><br>
-                                    First Name: <input type="text" id="newPersonnelFirstName"><br>
-                                    Last Name: <input type="text" id="newPersonnelLastName"><br>
+                                    <!--Personnel ID: <input type="text" id="newPersonnelID" disabled><br>-->
+                                    First Name:<sup>*</sup> <input type="text" id="newPersonnelFirstName"><br>
+                                    Last Name:<sup>*</sup> <input type="text" id="newPersonnelLastName"><br>
                                     Job Title: <input type="text" id="newPersonnelJobTitle"><br>
-                                    Email: <input type="text" id="newPersonnelEmail"><br>
-                                    Department ID: <select class="departmentIDSelect"><br>
+                                    Email:<sup>*</sup> <input type="text" id="newPersonnelEmail"><br>
+                                    Department ID:<sup>*</sup> <select class="departmentIDSelect" id="departmentIDSelectAdd"><br>
                                     </select>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Add</button>
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addPersonnel">Add</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
