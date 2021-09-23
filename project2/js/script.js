@@ -512,12 +512,12 @@ $(window).on('load', function() {
             }
             else
             {
-                $('#errorMessage strong').html("LOCATION ID " + selectedLocationID + " NOT UPDATED");
+                $('#modifyLocationError strong').html("LOCATION ID " + selectedLocationID + " NOT UPDATED");
             }
         }
         else
         {
-            $('#errorMessage strong').html("Location ID " + selectedLocationID + " was not updated because you were missing the Location Name");
+            $('#modifyLocationError strong').html("Location ID " + selectedLocationID + " was not updated because you were missing the Location Name");
         }
     });
 
@@ -561,12 +561,12 @@ $(window).on('load', function() {
             }
             else
             {
-                $('#errorMessage strong').html("DEPARTMENT ID " + selectedDepartmentID + " NOT UPDATED");
+                $('#modifyDepartmentError strong').html("DEPARTMENT ID " + selectedDepartmentID + " NOT UPDATED");
             }
         }
         else
         {
-            $('#errorMessage strong').html("Department ID " + selectedDepartmentID + " was not updated because you were missing either the department name or location ID");
+            $('#modifyDepartmentError strong').html("Department ID " + selectedDepartmentID + " was not updated because you were missing either the department name or location ID");
         }
     });
 
@@ -616,14 +616,59 @@ $(window).on('load', function() {
             }
             else 
             {
-                $('#errorMessage strong').html("PERSONNEL ID " + selectedPersonnelID + " NOT UPDATED");
+                $('#modifyPersonnelError strong').html("PERSONNEL ID " + selectedPersonnelID + " NOT UPDATED");
             }
         }
         else
         {
-            $('#errorMessage strong').html("Personnel ID " + selectedPersonnelID + " was not updated because you were missing some information. All fields except for Job Title are required");
+            $('#modifyPersonnelError strong').html("Personnel ID " + selectedPersonnelID + " was not updated because you were missing some information. All fields except for Job Title are required");
         }
     });
+
+    $('#deletePersonnel').click(function() {
+        let deletePersonnel = $('#modifyPersonnelID').val();
+
+        if(deletePersonnel)
+        {
+            let confirmPersonnelDeletion = confirm("Are you sure you wish to delete this personnel?");
+
+            if(confirmPersonnelDeletion)
+            {
+                $.ajax({
+                    url: "libs/php/deletePersonnelByID.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        id: deletePersonnel
+                    },
+
+                    success: function(result, status, xhr) {
+                        console.log(JSON.stringify(result));
+
+                        if(result.status.name == "ok")
+                        {
+                            location.reload();
+                        }
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        JSON.stringify(jqXHR);
+                        JSON.stringify(errorThrown);
+            
+                        $('#errorMessage').html(jqXHR + errorThrown);
+                    }
+                })
+            }
+            else
+            {
+                $('#modifyPersonnelError strong').html("PERSONNEL ID " + deletePersonnel + " NOT DELETED");
+            }
+        }
+        else
+        {
+            $('#modifyPersonnelError strong').html("Personnel ID " + deletePersonnel + " was not deleted because you have forgotten the personnel ID");
+        }
+    })
 
 
 });

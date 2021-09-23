@@ -75,11 +75,12 @@
                                 </div>
                                 <div class="modal-body">
                                     Location ID: <input type="text" id="modifyLocationID" disabled><br>
-                                    Location Name: <input type="text" id="modifyLocationName">
+                                    Location Name: <input type="text" id="modifyLocationName"><br><br>
+                                    <p id="modifyLocationError"><strong></strong></p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="modifyLocation">Modify</button>
+                                    <button type="button" class="btn btn-success" id="modifyLocation">Modify</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -136,11 +137,12 @@
                                     Department ID: <input type="text" id="modifyDepartmentID" disabled><br>
                                     Department Name: <input type="text" id="modifyDepartmentName"><br>
                                     Location ID: <select class="locationIDSelect" id="locationIDSelectModify">
-                                    </select>Current Location ID: <strong><span id="currentLocationID"></span></strong>
+                                    </select>Current Location ID: <strong><span id="currentLocationID"></span></strong><br><br>
+                                    <p id="modifyDepartmentError"><strong></strong></p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="modifyDepartment">Modify</button>
+                                    <button type="button" class="btn btn-success" id="modifyDepartment">Modify</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -216,11 +218,12 @@
                                     Email: <input type="text" id="modifyPersonnelEmail"><br>
                                     Department ID: <select class="departmentIDSelect" id="departmentIDSelectModify"><br>
                                     </select><br>
-                                    Current Department ID: <strong><span id="currentDepartmentID"></span></strong>
+                                    Current Department ID: <strong><span id="currentDepartmentID"></span></strong><br><br>
+                                    <p id="modifyPersonnelError"><strong></strong></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="modifyPersonnel">Modify</button>
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="deletePersonnel">Delete</button>
+                                    <button type="button" class="btn btn-success" id="modifyPersonnel">Modify</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
