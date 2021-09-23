@@ -138,34 +138,13 @@ $(window).on('load', function() {
 
                 $('#departmentTable tbody tr').on("click", function() {
 
-                    let chosenDeptId = $(this).find('td:first').html();
+                    let chosenDeptId = $(this).find('td:nth-child(1)').html();
+                    let chosenDeptName = $(this).find('td:nth-child(2)').html();
+                    let chosenLocID = $(this).find('td:nth-child(3)').html();
 
-                    $.ajax({
-                        url: "libs/php/getDepartmentByID.php",
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            id: chosenDeptId
-                        },
-
-                        success: function(result, status, xhr) {
-                            console.log(JSON.stringify(result));
-
-                            if(result.status.name == "ok") {
-
-                                $('#modifyDepartmentID').val(chosenDeptId);
-                                $('#modifyDepartmentName').val(result['data'][0]['name']);
-                                $('#currentLocationID').html(result['data'][0]['locationID']);
-                            }
-                        },
-
-                        error: function(jqXHR, textStatus, errorThrown){
-                            JSON.stringify(jqXHR);
-                            JSON.stringify(errorThrown);
-                
-                            $('#errorMessage').html(jqXHR + errorThrown);
-                        }
-                    })
+                    $('#modifyDepartmentID').val(chosenDeptId);
+                    $('#modifyDepartmentName').val(chosenDeptName);
+                    $('#currentLocationID').html(chosenLocID);
 
                     modifyDepartmentModal.show();
                 });
@@ -267,7 +246,22 @@ $(window).on('load', function() {
                     addPersonnelModal.show();
                 });
 
-                $('#personnelTable tbody tr td:nth-child(1)').on("click", function() {
+                $('#personnelTable tbody tr').on("click", function() {
+
+                    let chosenPersonID = $(this).find('td:nth-child(1)').html();
+                    let chosenPersonFirstName = $(this).find('td:nth-child(2)').html();
+                    let chosenPersonLastName = $(this).find('td:nth-child(3)').html();
+                    let chosenJobTitle = $(this).find('td:nth-child(4)').html();
+                    let chosenEmail = $(this).find('td:nth-child(5)').html();
+                    let chosenDeptID = $(this).find('td:nth-child(6)').html();
+
+                    $('#modifyPersonnelID').val(chosenPersonID);
+                    $('#modifyPersonnelFirstName').val(chosenPersonFirstName);
+                    $('#modifyPersonnelLastName').val(chosenPersonLastName);
+                    $('#modifyPersonnelJobTitle').val(chosenJobTitle);
+                    $('#modifyPersonnelEmail').val(chosenEmail);
+                    $('#currentDepartmentID').html(chosenDeptID);
+
                     modifyPersonnelModal.show();
                 });
 
@@ -336,17 +330,15 @@ $(window).on('load', function() {
                     addLocationModal.show();
                 });
 
-                $('#locationTable tbody tr td:nth-child(1)').on("click", function() {
+                $('#locationTable tbody tr').on("click", function() {
 
-                    $('#errorMessage').html(event.target.innerHTML)
-                    modifyLocationModal.show();
+                    let chosenLocationID = $(this).find('td:nth-child(1)').html();
+                    let chosenLocationName = $(this).find('td:nth-child(2)').html();
+
+                    $('#modifyLocationID').val(chosenLocationID);
+                    $('#modifyLocationName').val(chosenLocationName);
                     
-                    /*
-                    function placeAllInfoIntoModal(event)
-                    {
-                        $('modifyLocationID')
-                    }
-                    */
+                    modifyLocationModal.show();
                 });
             }
         },
@@ -479,6 +471,157 @@ $(window).on('load', function() {
         else
         {
             $('#errorMessage strong').html("The new Personnel details were not sent because you were missing some bits of information. Everything but the Job Title is required");
+        }
+    });
+
+    $('#modifyLocation').click(function() {
+        let selectedLocationID = $('#modifyLocationID').val();
+        let modifiedLocationName = $('#modifyLocationName').val();
+
+        if(selectedLocationID && modifiedLocationName)
+        {
+            let confirmLocationModify = confirm("Are you sure you wish to proceed modifying this location?");
+
+            if(confirmLocationModify)
+            {
+                $.ajax({
+                    url: "libs/php/modifyLocation.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        name: modifiedLocationName,
+                        id: selectedLocationID
+                    },
+    
+                    success: function(result, status, xhr) {
+                        console.log(JSON.stringify(result));
+    
+                        if(result.status.name == "ok")
+                        {
+                            location.reload();
+                        }
+                    },
+                    
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        JSON.stringify(jqXHR);
+                        JSON.stringify(errorThrown);
+            
+                        $('#errorMessage').html(jqXHR + errorThrown);
+                    }
+                })
+            }
+            else
+            {
+                $('#errorMessage strong').html("LOCATION ID " + selectedLocationID + " NOT UPDATED");
+            }
+        }
+        else
+        {
+            $('#errorMessage strong').html("Location ID " + selectedLocationID + " was not updated because you were missing the Location Name");
+        }
+    });
+
+    $('#modifyDepartment').click(function() {
+        let selectedDepartmentID = $('#modifyDepartmentID').val();
+        let modifiedDepartmentName = $('#modifyDepartmentName').val();
+        let modifiedLocationID = $('#locationIDSelectModify').val();
+
+        if(selectedDepartmentID && modifiedDepartmentName && modifiedLocationID)
+        {
+            let confirmDepartmentModify = confirm("Are you sure you wish to proceed modifying this department?");
+
+            if(confirmDepartmentModify)
+            {
+                $.ajax({
+                    url: "libs/php/modifyDepartment.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        name: modifiedDepartmentName,
+                        locationID: modifiedLocationID,
+                        id: selectedDepartmentID
+                    },
+
+                    success: function(result, status, xhr) {
+                        console.log(JSON.stringify(result));
+
+                        if(result.status.name == "ok")
+                        {
+                            location.reload();
+                        }
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        JSON.stringify(jqXHR);
+                        JSON.stringify(errorThrown);
+            
+                        $('#errorMessage').html(jqXHR + errorThrown);
+                    }
+                })
+            }
+            else
+            {
+                $('#errorMessage strong').html("DEPARTMENT ID " + selectedDepartmentID + " NOT UPDATED");
+            }
+        }
+        else
+        {
+            $('#errorMessage strong').html("Department ID " + selectedDepartmentID + " was not updated because you were missing either the department name or location ID");
+        }
+    });
+
+    $('#modifyPersonnel').click(function() {
+        let selectedPersonnelID = $('#modifyPersonnelID').val();
+        let modifiedPersonnelFirstName = $('#modifyPersonnelFirstName').val();
+        let modifiedPersonnelLastName = $('#modifyPersonnelLastName').val();
+        let modifiedPersonnelJobTitle = $('#modifyPersonnelJobTitle').val();
+        let modifiedPersonnelEmail = $('#modifyPersonnelEmail').val();
+        let modifiedDepartmentID = $('#departmentIDSelectModify').val();
+
+        if(selectedPersonnelID && modifiedPersonnelFirstName && modifiedPersonnelLastName && modifiedPersonnelEmail && modifiedDepartmentID)
+        {
+            let confirmPersonnelModify = confirm("Are you sure you wish to proceed modifying this personnel?");
+
+            if(confirmPersonnelModify)
+            {
+                $.ajax({
+                    url: "libs/php/modifyPersonnel.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        firstName: modifiedPersonnelFirstName,
+                        lastName: modifiedPersonnelLastName,
+                        jobTitle: modifiedPersonnelJobTitle,
+                        email: modifiedPersonnelEmail,
+                        departmentID: modifiedDepartmentID,
+                        id: selectedPersonnelID
+                    },
+
+                    success: function(result, status, xhr) {
+                        console.log(JSON.stringify(result));
+
+                        if(result.status.name == "ok")
+                        {
+                            location.reload();
+                        }
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        JSON.stringify(jqXHR);
+                        JSON.stringify(errorThrown);
+            
+                        $('#errorMessage').html(jqXHR + errorThrown);
+                    }
+                });
+            }
+            else 
+            {
+                $('#errorMessage strong').html("PERSONNEL ID " + selectedPersonnelID + " NOT UPDATED");
+            }
+        }
+        else
+        {
+            $('#errorMessage strong').html("Personnel ID " + selectedPersonnelID + " was not updated because you were missing some information. All fields except for Job Title are required");
         }
     });
 

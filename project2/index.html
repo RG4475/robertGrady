@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Modify</button>
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="modifyLocation">Modify</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -133,14 +133,14 @@
                                     <h3>Modify Department</h3>
                                 </div>
                                 <div class="modal-body">
-                                    Department ID: <input type="text" id="modifyDepartmentID" value="1" disabled><br>
+                                    Department ID: <input type="text" id="modifyDepartmentID" disabled><br>
                                     Department Name: <input type="text" id="modifyDepartmentName"><br>
                                     Location ID: <select class="locationIDSelect" id="locationIDSelectModify">
-                                    </select> <strong>Current Location ID: </strong><span id="currentLocationID"></span>
+                                    </select>Current Location ID: <strong><span id="currentLocationID"></span></strong>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Modify</button>
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="modifyDepartment">Modify</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -214,12 +214,13 @@
                                     Last Name: <input type="text" id="modifyPersonnelLastName"><br>
                                     Job Title: <input type="text" id="modifyPersonnelJobTitle"><br>
                                     Email: <input type="text" id="modifyPersonnelEmail"><br>
-                                    Department ID: <select class="departmentIDSelect"><br>
-                                    </select> 
+                                    Department ID: <select class="departmentIDSelect" id="departmentIDSelectModify"><br>
+                                    </select><br>
+                                    Current Department ID: <strong><span id="currentDepartmentID"></span></strong>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Modify</button>
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="modifyPersonnel">Modify</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
