@@ -666,7 +666,83 @@ $(window).on('load', function() {
         }
         else
         {
-            $('#modifyPersonnelError strong').html("Personnel ID " + deletePersonnel + " was not deleted because you have forgotten the personnel ID");
+            $('#modifyPersonnelError strong').html("No personnel deleted because you have forgotten the personnel ID");
+        }
+    });
+
+    $('#deleteDepartment').click(function() {
+        let deleteDepartment = $('#modifyDepartmentID').val();
+
+        if(deleteDepartment)
+        {
+            let confirmDepartmentDeletion = confirm("Are you sure you wish to delete this department?");
+
+            if(confirmDepartmentDeletion)
+            {
+                $.ajax({
+                    url: "libs/php/findDepartment.php",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        id: deleteDepartment
+                    },
+
+                    success: function(result, status, xhr) {
+                        console.log(JSON.stringify(result));
+
+                        if(result.status.name == "ok")
+                        {
+                            if(result['data'].length == 0)
+                            {
+                                $.ajax({
+                                    url: "libs/php/deleteDepartmentByID.php",
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        id: deleteDepartment
+                                    },
+
+                                    success: function(result, status, xhr) {
+                                        console.log(JSON.stringify(result));
+
+                                        if(result.status.name == "ok")
+                                        {
+                                            location.reload();
+                                        }
+                                    },
+                                    
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                        JSON.stringify(jqXHR);
+                                        JSON.stringify(errorThrown);
+                            
+                                        $('#errorMessage').html(jqXHR + errorThrown);
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                $('#modifyDepartmentError strong').html("Department ID " + deleteDepartment + " cannot be deleted as there are still some personnel who work at this department");
+                            }
+                        }
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        JSON.stringify(jqXHR);
+                        JSON.stringify(errorThrown);
+            
+                        $('#errorMessage').html(jqXHR + errorThrown);
+                    }
+
+                })
+            }
+            else
+            {
+                $('#modifyDepartmentError strong').html("DEPARTMENT ID " + deleteDepartment + " NOT DELETED");
+            }
+        }
+        else
+        {
+            $('#modifyDepartmentError strong').html("No department deleted because you have forgotten the Department ID");
         }
     })
 

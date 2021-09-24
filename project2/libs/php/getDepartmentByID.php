@@ -77,4 +77,32 @@
 
 	mysqli_close($conn);
 
+
+	/*
+		PICKING UP A SPECIFIC DEPARTMENT
+
+		SELECT d.id AS departmentID, d.name AS departmentName, p.id AS personnelID
+		FROM department d
+		LEFT JOIN personnel p
+		ON d.id = p.departmentID
+		WHERE d.id = 1
+	*/
+
+	/*
+		PICKING UP ALL DEPARTMENTS (sorted by departmentID ascendingly)
+	
+		SELECT d.id AS departmentID, d.name AS departmentName, p.id AS personnelID
+		FROM department d
+		LEFT JOIN personnel p
+		ON d.id = p.departmentID
+		ORDER BY departmentID
+	*/
+
+	/*
+		SELECT d.id, d.name, COUNT(p.departmentID)
+		FROM personnel p
+		LEFT JOIN department d
+		ON p.departmentID = d.id
+		GROUP BY d.id
+	*/
 ?>
