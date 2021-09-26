@@ -28,6 +28,8 @@
             </ul>
             <div class="tab-content" id="tableSelectorData">
                 <div class="tab-pane fade show active" id="location" role="tabpanel" aria-labelledby="location-tab">
+                    <h4><button type="button" class="btn btn-success btn-sm" id="newLocation">+</button><strong>SEARCH: </strong><input type="text" id="locationSearcher">
+                    <button type="button" class="btn btn-primary btn-sm" id="searchLocation">Search</button></h4>
                     <table class="table table-bordered table-hover" id="locationTable">
                         <thead>
                         </thead>
@@ -79,7 +81,7 @@
                                     <p id="modifyLocationError"><strong></strong></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                                    <button type="button" class="btn btn-danger" id="deleteLocation">Delete</button>
                                     <button type="button" class="btn btn-success" id="modifyLocation">Modify</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
@@ -88,6 +90,8 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="department" role="tabpanel" aria-labelledby="department-tab">
+                    <h4><button type="button" class="btn btn-success btn-sm" id="newDepartment">+</button><strong>SEARCH: </strong><input type="text" id="departmentSearcher">
+                        <button type="button" class="btn btn-primary btn-sm" id="searchDepartment">Search</button></h4>
                     <table class="table table-bordered table-hover" id="departmentTable">
                             <!--
                             <tr>
@@ -150,6 +154,8 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="personnel" role="tabpanel" aria-labelledby="personnel-tab">
+                    <h4><button type="button" class="btn btn-success btn-sm" id="newPersonnel">+</button><strong>SEARCH: </strong><input type="text" id="personnelSearcher">
+                        <button type="button" class="btn btn-primary btn-sm" id="searchPersonnel">Search</button></h4>
                     <table class="table table-bordered table-hover" id="personnelTable">
                         <thead>
                                     <!--<button type="button" class="btn btn-success" id="addPersonnel">Add</button>-->

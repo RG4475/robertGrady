@@ -31,28 +31,6 @@ function generateChosenTable(table, data) {
     generateTableHead(chosenTable, chosenKeys);
 }
 
-function generateButton(att1, val1, att2, val2, att3, val3, nodeText, tableSelect) {
-    let addButton = document.createElement("button");
-    let attributeType = document.createAttribute(att1);
-    attributeType.value = val1;
-    addButton.setAttributeNode(attributeType);
-
-    attributeType = document.createAttribute(att2);
-    attributeType.value = val2;
-    addButton.setAttributeNode(attributeType);
-
-    attributeType = document.createAttribute(att3);
-    attributeType.value = val3;
-    addButton.setAttributeNode(attributeType);
-
-    let buttonText = document.createTextNode(nodeText);
-    addButton.appendChild(buttonText);
-
-    let findTable = document.getElementById(tableSelect);
-    let headerRow = findTable.getElementsByTagName("tr")[0];
-    let firstHeader = headerRow.getElementsByTagName("th")[0].appendChild(addButton);
-}
-
 $(window).on('load', function() {
     if($('#preloader').length) {
         $('#preloader').delay(500).fadeOut('slow', function() {
@@ -110,8 +88,6 @@ $(window).on('load', function() {
 
                 generateChosenTable("table#departmentTable", result['data']);
 
-                generateButton("type", "button", "class", "btn btn-success", "id", "addDepartment", "Add", "departmentTable");
-
                 for(let i = 0; i < result['data'].length; i++)
                 {
                     $('.departmentIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['id'] + ' - ' + result['data'][i]['name'] + '</option>');
@@ -132,7 +108,7 @@ $(window).on('load', function() {
                 */
 
 
-                $('#addDepartment').click(function() {
+                $('#newDepartment').click(function() {
                     addDepartmentModal.show();
                 });
 
@@ -238,11 +214,9 @@ $(window).on('load', function() {
 
                 generateChosenTable("table#personnelTable", result['data']);
 
-                generateButton("type", "button", "class", "btn btn-success", "id", "addPersonnel", "Add", "personnelTable");
-
                 $('#newPersonnelID').val(result['data'].length + 1);
 
-                $('#addPersonnel').click(function() {
+                $('#newPersonnel').click(function() {
                     addPersonnelModal.show();
                 });
 
@@ -291,8 +265,6 @@ $(window).on('load', function() {
 
                 generateChosenTable("table#locationTable", result['data']);
 
-                generateButton("type", "button", "class", "btn btn-success", "id", "addLocation", "Add", "locationTable");
-
                 for(let i = 0; i < result['data'].length; i++)
                 {
                     $('.locationIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['id'] + ' - ' + result['data'][i]['name'] + '</option>');
@@ -326,7 +298,7 @@ $(window).on('load', function() {
 
                 */
 
-                $('#addLocation').click(function() {
+                $('#newLocation').click(function() {
                     addLocationModal.show();
                 });
 
@@ -744,7 +716,98 @@ $(window).on('load', function() {
         {
             $('#modifyDepartmentError strong').html("No department deleted because you have forgotten the Department ID");
         }
-    })
+    });
+
+    $('#deleteLocation').click(function() {
+        let deleteLocation = $('#modifyLocationID').val();
+
+        if(deleteLocation)
+        {
+            let confirmLocationDeletion = confirm("Are you sure you wish to delete this location?");
+
+            if(confirmLocationDeletion)
+            {
+                $.ajax({
+                    url: "libs/php/findLocation.php",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        id: deleteLocation
+                    },
+
+                    success: function(result, status, xhr) {
+                        console.log(JSON.stringify(result));
+
+                        if(result.status.name == "ok")
+                        {
+                            if(result['data'].length == 0)
+                            {
+                                $.ajax({
+                                    url: "libs/php/findPersonnelInLocation.php",
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    data: {
+                                        locationId: deleteLocation
+                                    },
+
+                                    success: function(result, status, xhr) {
+                                        console.log(JSON.stringify(result));
+
+                                        if(result.status.name == "ok")
+                                        {
+                                            if(result['data'].length == 0)
+                                            {
+                                                $.ajax({
+                                                    url: "libs/php/deleteLocationByID.php",
+                                                    type: 'POST',
+                                                    dataType: 'json',
+                                                    data: {
+                                                        id: deleteLocation
+                                                    },
+
+                                                    success: function(result, status, xhr) {
+                                                        console.log(JSON.stringify(result));
+
+                                                        if(result.status.name == "ok")
+                                                        {
+                                                            location.reload();
+                                                        }
+                                                    },
+
+                                                    error: function(jqXHR, textStatus, errorThrown) {
+                                                        JSON.stringify(jqXHR);
+                                                        JSON.stringify(errorThrown);
+                                            
+                                                        $('#errorMessage').html(jqXHR + errorThrown);
+                                                    }
+                                                });
+                                            }
+                                            else
+                                            {
+                                                $('#modifyLocationError strong').html("Location ID " + deleteLocation + " cannot be deleted as there are still some personnel who work at this location");
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                $('#modifyLocationError strong').html("Location ID " + deleteLocation + " cannot be deleted as there are still some departments at this location");
+                            }
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $('#modifyLocationError strong').html("LOCATION ID " + deleteLocation + " NOT DELETED");
+            }
+        }
+        else
+        {
+            $('#modifyLocationError strong').html("No location deleted because you have forgotten the Location ID");
+        }
+    });
 
 
 });
