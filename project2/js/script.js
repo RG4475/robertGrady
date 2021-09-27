@@ -97,6 +97,9 @@ $(window).on('load', function() {
                     $('.departmentIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['id'] + ' - ' + result['data'][i]['name'] + '</option>');
                 }
 
+                let findHighestID = result['data'].length - 1;
+                $('#newDepartmentID').val(parseInt(result['data'][findHighestID]['id']) + 1);
+
                 $('#newDepartment').click(function() {
                     addDepartmentModal.show();
                 });
@@ -139,7 +142,8 @@ $(window).on('load', function() {
 
                 generateChosenTable("table#personnelTable", result['data']);
 
-                $('#newPersonnelID').val(result['data'].length + 1);
+                let findHighestID = result['data'].length - 1;
+                $('#newPersonnelID').val(parseInt(result['data'][findHighestID]['id']) + 1);
 
                 $('#newPersonnel').click(function() {
                     addPersonnelModal.show();
@@ -194,7 +198,8 @@ $(window).on('load', function() {
                     $('.locationIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['id'] + ' - ' + result['data'][i]['name'] + '</option>');
                 }
 
-                $('#newLocationID').val(result['data'].length + 1);
+                let findHighestID = result['data'].length - 1;
+                $('#newLocationID').val(parseInt(result['data'][findHighestID]['id']) + 1);
 
                 $('#newLocation').click(function() {
                     addLocationModal.show();
@@ -223,6 +228,7 @@ $(window).on('load', function() {
 
     $('#addDepartment').click(function() {
 
+        let departmentID = $('#newDepartmentID').val();
         let departmentName = $('#newDepartmentName').val();
         let chosenLocationID = $('#locationIDSelectAdd').val();
 
@@ -234,6 +240,7 @@ $(window).on('load', function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
+                    id: departmentID,
                     name: departmentName,
                     locationID: chosenLocationID
                 },
@@ -257,13 +264,13 @@ $(window).on('load', function() {
         else
         {
             
-            $('#errorMessage strong').html("The new Department details were not sent because you were missing the Department Name or Location ID");
-            addDepartmentModal.show();
+            $('#addDepartmentError strong').html("The new Department details were not sent because you were missing the Department Name or Location ID");
         }
     });
 
     $('#addLocation').click(function() {
 
+        let locationID = $('#newLocationID').val();
         let locationName = $('#newLocationName').val();
 
         if(locationName)
@@ -273,6 +280,7 @@ $(window).on('load', function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
+                    id: locationID,
                     name: locationName
                 },
 
@@ -295,12 +303,13 @@ $(window).on('load', function() {
         }
         else
         {
-            $('#errorMessage strong').html("The new Location details were not sent because you were missing the Location Name");
+            $('#addLocationError strong').html("The new Location details were not sent because you were missing the Location Name");
         }
     });
 
     $('#addPersonnel').click(function() {
 
+        let personnelID = $('#newPersonnelID').val();
         let personnelFirstName = $('#newPersonnelFirstName').val();
         let personnelLastName = $('#newPersonnelLastName').val();
         let personnelJobTitle = $('#newPersonnelJobTitle').val();
@@ -314,6 +323,7 @@ $(window).on('load', function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
+                    id: personnelID,
                     firstName: personnelFirstName,
                     lastName: personnelLastName,
                     jobTitle: personnelJobTitle,
@@ -336,11 +346,11 @@ $(window).on('load', function() {
         
                     $('#errorMessage').html(jqXHR + errorThrown);
                 }
-            })
+            });
         }
         else
         {
-            $('#errorMessage strong').html("The new Personnel details were not sent because you were missing some bits of information. Everything but the Job Title is required");
+            $('#addPersonnelError strong').html("The new Personnel details were not sent because you were missing some bits of information. Everything but the Job Title is required");
         }
     });
 
@@ -378,7 +388,7 @@ $(window).on('load', function() {
             
                         $('#errorMessage').html(jqXHR + errorThrown);
                     }
-                })
+                });
             }
             else
             {
@@ -427,7 +437,7 @@ $(window).on('load', function() {
             
                         $('#errorMessage').html(jqXHR + errorThrown);
                     }
-                })
+                });
             }
             else
             {
@@ -527,7 +537,7 @@ $(window).on('load', function() {
             
                         $('#errorMessage').html(jqXHR + errorThrown);
                     }
-                })
+                });
             }
             else
             {
@@ -603,7 +613,7 @@ $(window).on('load', function() {
                         $('#errorMessage').html(jqXHR + errorThrown);
                     }
 
-                })
+                });
             }
             else
             {
@@ -685,6 +695,13 @@ $(window).on('load', function() {
                                                 $('#modifyLocationError strong').html("Location ID " + deleteLocation + " cannot be deleted as there are still some personnel who work at this location");
                                             }
                                         }
+                                    },
+
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                        JSON.stringify(jqXHR);
+                                        JSON.stringify(errorThrown);
+                            
+                                        $('#errorMessage').html(jqXHR + errorThrown);
                                     }
                                 });
                             }
@@ -693,6 +710,13 @@ $(window).on('load', function() {
                                 $('#modifyLocationError strong').html("Location ID " + deleteLocation + " cannot be deleted as there are still some departments at this location");
                             }
                         }
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        JSON.stringify(jqXHR);
+                        JSON.stringify(errorThrown);
+            
+                        $('#errorMessage').html(jqXHR + errorThrown);
                     }
                 });
             }
@@ -752,8 +776,15 @@ $(window).on('load', function() {
     
                         modifyPersonnelModal.show();
                     });
+                },
+
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JSON.stringify(jqXHR);
+                    JSON.stringify(errorThrown);
+        
+                    $('#errorMessage').html(jqXHR + errorThrown);
                 }
-            })
+            });
         }
 
     });
@@ -792,6 +823,13 @@ $(window).on('load', function() {
     
                         modifyDepartmentModal.show();
                     });
+                },
+
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JSON.stringify(jqXHR);
+                    JSON.stringify(errorThrown);
+        
+                    $('#errorMessage').html(jqXHR + errorThrown);
                 }
             });
         }
@@ -829,10 +867,17 @@ $(window).on('load', function() {
                         modifyLocationModal.show();
                     });
 
+                },
+
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JSON.stringify(jqXHR);
+                    JSON.stringify(errorThrown);
+        
+                    $('#errorMessage').html(jqXHR + errorThrown);
                 }
-            })
+            });
         }
-    })
+    });
 
     $('#clearPersonnelSearch').click(function() {
         location.reload();
@@ -844,7 +889,7 @@ $(window).on('load', function() {
 
     $('#clearLocationSearch').click(function() {
         location.reload();
-    })
+    });
 
 
 });

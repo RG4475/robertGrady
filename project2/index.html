@@ -43,10 +43,12 @@
                                     <h3>Add New Location</h3>
                                 </div>
                                 <div class="modal-body">
-                                    Location Name:<sup>*</sup> <input type="text" id="newLocationName">
+                                    <input type="hidden" id="newLocationID"><br>
+                                    Location Name:<sup>*</sup> <input type="text" id="newLocationName"><br><br>
+                                    <p id="addLocationError"><strong></strong></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addLocation">Add</button>
+                                    <button type="button" class="btn btn-success" id="addLocation">Add</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -60,7 +62,7 @@
                                 </div>
                                 <div class="modal-body">
                                     Location ID: <input type="text" id="modifyLocationID" disabled><br>
-                                    Location Name: <input type="text" id="modifyLocationName"><br><br>
+                                    Location Name:<sup>*</sup> <input type="text" id="modifyLocationName"><br><br>
                                     <p id="modifyLocationError"><strong></strong></p>
                                 </div>
                                 <div class="modal-footer">
@@ -84,12 +86,14 @@
                                     <h3>Add New Department</h3>
                                 </div>
                                 <div class="modal-body">
+                                    <input type="hidden" id="newDepartmentID"><br>
                                     Department Name:<sup>*</sup> <input type="text" id="newDepartmentName"><br>
-                                    Location ID:<sup>*</sup> <select class="locationIDSelect" id="locationIDSelectAdd">
-                                    </select>
+                                    Location:<sup>*</sup> <select class="locationIDSelect" id="locationIDSelectAdd">
+                                    </select><br><br>
+                                    <p id="addDepartmentError"><strong></strong></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addDepartment">Add</button>
+                                    <button type="button" class="btn btn-success" id="addDepartment">Add</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -103,8 +107,8 @@
                                 </div>
                                 <div class="modal-body">
                                     Department ID: <input type="text" id="modifyDepartmentID" disabled><br>
-                                    Department Name: <input type="text" id="modifyDepartmentName"><br>
-                                    Location: <select class="locationIDSelect" id="locationIDSelectModify">
+                                    Department Name:<sup>*</sup> <input type="text" id="modifyDepartmentName"><br>
+                                    Location:<sup>*</sup> <select class="locationIDSelect" id="locationIDSelectModify">
                                     </select>Current Location: <strong><span id="currentLocationID"></span></strong><br><br>
                                     <p id="modifyDepartmentError"><strong></strong></p>
                                 </div>
@@ -133,15 +137,17 @@
                                     <h3>Add New Personnel</h3>
                                 </div>
                                 <div class="modal-body">
+                                    <input type="hidden" id="newPersonnelID"><br>
                                     First Name:<sup>*</sup> <input type="text" id="newPersonnelFirstName"><br>
                                     Last Name:<sup>*</sup> <input type="text" id="newPersonnelLastName"><br>
                                     Job Title: <input type="text" id="newPersonnelJobTitle"><br>
                                     Email:<sup>*</sup> <input type="text" id="newPersonnelEmail"><br>
-                                    Department ID:<sup>*</sup> <select class="departmentIDSelect" id="departmentIDSelectAdd"><br>
-                                    </select>
+                                    Department:<sup>*</sup> <select class="departmentIDSelect" id="departmentIDSelectAdd"><br>
+                                    </select><br><br>
+                                    <p id="addPersonnelError"><strong></strong></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="addPersonnel">Add</button>
+                                    <button type="button" class="btn btn-success" id="addPersonnel">Add</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -155,11 +161,11 @@
                                 </div>
                                 <div class="modal-body">
                                     Personnel ID: <input type="text" id="modifyPersonnelID" disabled><br>
-                                    First Name: <input type="text" id="modifyPersonnelFirstName"><br>
-                                    Last Name: <input type="text" id="modifyPersonnelLastName"><br>
-                                    Job Title: <input type="text" id="modifyPersonnelJobTitle"><br>
-                                    Email: <input type="text" id="modifyPersonnelEmail"><br>
-                                    Department: <select class="departmentIDSelect" id="departmentIDSelectModify"><br>
+                                    First Name:<sup>*</sup> <input type="text" id="modifyPersonnelFirstName"><br>
+                                    Last Name:<sup>*</sup> <input type="text" id="modifyPersonnelLastName"><br>
+                                    Job Title:<sup>*</sup> <input type="text" id="modifyPersonnelJobTitle"><br>
+                                    Email:<sup>*</sup> <input type="text" id="modifyPersonnelEmail"><br>
+                                    Department:<sup>*</sup> <select class="departmentIDSelect" id="departmentIDSelectModify"><br>
                                     </select><br>
                                     Current Department: <strong><span id="currentDepartment"></span></strong><br><br>
                                     <p id="modifyPersonnelError"><strong></strong></p>
