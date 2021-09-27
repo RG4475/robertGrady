@@ -89,7 +89,6 @@ $(window).on('load', function() {
 
             if(result.status.name == "ok")
             {
-                //$('#errorMessage').html(result['data'].length);
 
                 generateChosenTable("table#departmentTable", result['data']);
 
@@ -97,21 +96,6 @@ $(window).on('load', function() {
                 {
                     $('.departmentIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['id'] + ' - ' + result['data'][i]['name'] + '</option>');
                 }
-
-                /*
-                let highestid = result['data'][result['data'].length - 1]['id'];
-
-                if(highestid < 20)
-                {
-                    $('#newDepartmentID').val(20);
-                }
-                else
-                {
-                    highestid = parseInt(result['data'][result['data'].length - 1]['id'], 10);
-                    $('#newDepartmentID').val(highestid + 1);
-                }
-                */
-
 
                 $('#newDepartment').click(function() {
                     addDepartmentModal.show();
@@ -129,70 +113,7 @@ $(window).on('load', function() {
 
                     modifyDepartmentModal.show();
                 });
-                /*
-                let addButton = document.createElement("button");
-                let attributeType = document.createAttribute("type");
-                attributeType.value = "button";
-                addButton.setAttributeNode(attributeType);
 
-                attributeType = document.createAttribute("class");
-                attributeType.value = "btn btn-success";
-                addButton.setAttributeNode(attributeType);
-
-                attributeType = document.createAttribute("id");
-                attributeType.value = "addDepartment";
-                addButton.setAttributeNode(attributeType);
-
-                let buttonText = document.createTextNode("Add");
-                addButton.appendChild(buttonText);
-
-                let departmentTable = document.getElementById("departmentTable");
-                deptTableFirstRow = departmentTable.getElementsByTagName("tr")[0];
-                let firstHeader = deptTableFirstRow.getElementsByTagName("th")[0].appendChild(addButton);
-
-                */
-
-                /*
-                for(let i = 0; i < result['data'].length; i++)
-                {
-                var newDepartmentRow = document.createElement("tr");
-                var insertDepartmentID = document.createElement("th");
-                var IDtext = document.createTextNode(result['data'][i]['id']);
-                insertDepartmentID.appendChild(IDtext);
-                newDepartmentRow.appendChild(insertDepartmentID);
-
-                var insertDepartmentName = document.createElement("td");
-                var departmentNameText = document.createTextNode(result['data'][i]['name']);
-                insertDepartmentName.appendChild(departmentNameText);
-                newDepartmentRow.appendChild(insertDepartmentName);
-
-                var insertDepartmentlocationID = document.createElement("td");
-                var locationIDText = document.createTextNode(result['data'][i]['locationID']);
-                insertDepartmentlocationID.appendChild(locationIDText);
-                newDepartmentRow.appendChild(insertDepartmentlocationID);
-
-                */
-
-                /*
-                var departmentTable = document.getElementById("departmentTable");
-                departmentTable.getElementsByTagName("tbody")[0].appendChild(newDepartmentRow);
-                */
-                //}
-
-                /*PLACE THE CODE IN THIS COMMENT INSIDE THE FOR LOOP IF UNCOMMENTING
-                var hiddenDepartmentID = document.createElement("input");
-                var hiddenDeptIDText = document.createAttribute("type");
-                */
-
-                /*
-                for(let i = 0; i < result['data'].length; i++)
-                {
-                    dept = i + 1;
-                    $("#departmentTable tbody").append($("tr"));
-                    $("#departmentTable tbody tr:nth-child(1)").append($("th"));
-                    $("#departmentTable tbody tr:nth-child(1) th:nth-child(1)").html("Yellow Pages");
-                }
-                */
             }
         },
 
@@ -215,7 +136,6 @@ $(window).on('load', function() {
 
             if(result.status.name == "ok")
             {
-                //$('#errorMessage').html(result['data'].length);
 
                 generateChosenTable("table#personnelTable", result['data']);
 
@@ -266,7 +186,6 @@ $(window).on('load', function() {
 
             if(result.status.name == "ok")
             {
-                //('#errorMessage').html(result['data'].length);
 
                 generateChosenTable("table#locationTable", result['data']);
 
@@ -276,32 +195,6 @@ $(window).on('load', function() {
                 }
 
                 $('#newLocationID').val(result['data'].length + 1);
-
-                /*
-
-                let addToLocationDropDowns = document.createElement("option");
-
-                let locationOptionAttr = document.createAttribute("value");
-                locationOptionAttr.value = "London";
-                addToLocationDropDowns.setAttributeNode(locationOptionAttr);
-
-                let locationTextNode = document.createTextNode("London");
-                addToLocationDropDowns.appendChild(locationTextNode);
-
-                locationSelectDropDowns.appendChild(addToLocationDropDowns);
-
-                addToLocationDropDowns = document.createElement("option");
-
-                locationOptionAttr = document.createAttribute("value");
-                locationOptionAttr.value = "Paris";
-                addToLocationDropDowns.setAttributeNode(locationOptionAttr);
-
-                locationTextNode = document.createTextNode("Paris");
-                addToLocationDropDowns.appendChild(locationTextNode);
-
-                locationSelectDropDowns.appendChild(addToLocationDropDowns);
-
-                */
 
                 $('#newLocation').click(function() {
                     addLocationModal.show();
@@ -839,16 +732,117 @@ $(window).on('load', function() {
                 success: function(result, status, xhr) {
                     console.log(JSON.stringify(result));
 
-                    //$('#errorMessage').html(result['data'].length);
-
                     generateChosenTable("table#personnelTable", result['data']);
+
+                    $('#personnelTable tbody tr').on("click", function() {
+
+                        let chosenPersonID = $(this).find('td:nth-child(1)').html();
+                        let chosenPersonLastName = $(this).find('td:nth-child(2)').html();
+                        let chosenPersonFirstName = $(this).find('td:nth-child(3)').html();
+                        let chosenJobTitle = $(this).find('td:nth-child(4)').html();
+                        let chosenEmail = $(this).find('td:nth-child(5)').html();
+                        let chosenDepartment = $(this).find('td:nth-child(6)').html();
+    
+                        $('#modifyPersonnelID').val(chosenPersonID);
+                        $('#modifyPersonnelFirstName').val(chosenPersonFirstName);
+                        $('#modifyPersonnelLastName').val(chosenPersonLastName);
+                        $('#modifyPersonnelJobTitle').val(chosenJobTitle);
+                        $('#modifyPersonnelEmail').val(chosenEmail);
+                        $('#currentDepartment').html(chosenDepartment);
+    
+                        modifyPersonnelModal.show();
+                    });
                 }
             })
         }
 
     });
 
+    $('#departmentSearcher').change(function() {
+        deleteTableRows("departmentTable");
+
+        let departmentSearchCondition = $('#departmentSearcher').val();
+
+        if(departmentSearchCondition)
+        {
+            $.ajax({
+                url: "libs/php/searchDepartment.php",
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    id: departmentSearchCondition,
+                    dName: departmentSearchCondition,
+                    lName: departmentSearchCondition
+                },
+
+                success: function(result, status, xhr) {
+                    console.log(JSON.stringify(result));
+
+                    generateChosenTable("table#departmentTable", result['data']);
+
+                    $('#departmentTable tbody tr').on("click", function() {
+
+                        let chosenDeptId = $(this).find('td:nth-child(1)').html();
+                        let chosenDeptName = $(this).find('td:nth-child(2)').html();
+                        let chosenLocID = $(this).find('td:nth-child(3)').html();
+    
+                        $('#modifyDepartmentID').val(chosenDeptId);
+                        $('#modifyDepartmentName').val(chosenDeptName);
+                        $('#currentLocationID').html(chosenLocID);
+    
+                        modifyDepartmentModal.show();
+                    });
+                }
+            });
+        }
+    });
+
+    $('#locationSearcher').change(function() {
+        deleteTableRows("locationTable");
+
+        let locationSearchCondition = $('#locationSearcher').val();
+
+        if(locationSearchCondition)
+        {
+            $.ajax({
+                url: "libs/php/searchLocation.php",
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    id: locationSearchCondition,
+                    name: locationSearchCondition
+                },
+
+                success: function(result, status, xhr) {
+                    console.log(JSON.stringify(result));
+
+                    generateChosenTable("table#locationTable", result['data']);
+
+                    $('#locationTable tbody tr').on("click", function() {
+
+                        let chosenLocationID = $(this).find('td:nth-child(1)').html();
+                        let chosenLocationName = $(this).find('td:nth-child(2)').html();
+    
+                        $('#modifyLocationID').val(chosenLocationID);
+                        $('#modifyLocationName').val(chosenLocationName);
+                        
+                        modifyLocationModal.show();
+                    });
+
+                }
+            })
+        }
+    })
+
     $('#clearPersonnelSearch').click(function() {
+        location.reload();
+    });
+
+    $('#clearDepartmentSearch').click(function() {
+        location.reload();
+    });
+
+    $('#clearLocationSearch').click(function() {
         location.reload();
     })
 

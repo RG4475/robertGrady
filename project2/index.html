@@ -29,27 +29,11 @@
             <div class="tab-content" id="tableSelectorData">
                 <div class="tab-pane fade show active" id="location" role="tabpanel" aria-labelledby="location-tab">
                     <h4><button type="button" class="btn btn-success btn-sm" id="newLocation">+</button><strong>SEARCH: </strong><input type="text" id="locationSearcher">
-                    <button type="button" class="btn btn-primary btn-sm" id="searchLocation">Search</button></h4>
+                    <button type="button" class="btn btn-danger btn-sm" id="clearLocationSearch">Clear</button></h4>
                     <table class="table table-bordered table-hover" id="locationTable">
                         <thead>
                         </thead>
                         <tbody>
-                            <!--
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>London</td>
-                                <td><button type="button" class="btn btn-primary">Modify</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Paris</td>
-                                <td><button type="button" class="btn btn-primary">Modify</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            -->
                         </tbody>
                     </table>
                     <div class="modal fade" id="addLocationModal">
@@ -59,7 +43,6 @@
                                     <h3>Add New Location</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <!--Location ID: <input type="text" id="newLocationID" disabled><br>-->
                                     Location Name:<sup>*</sup> <input type="text" id="newLocationName">
                                 </div>
                                 <div class="modal-footer">
@@ -91,26 +74,8 @@
                 </div>
                 <div class="tab-pane fade" id="department" role="tabpanel" aria-labelledby="department-tab">
                     <h4><button type="button" class="btn btn-success btn-sm" id="newDepartment">+</button><strong>SEARCH: </strong><input type="text" id="departmentSearcher">
-                        <button type="button" class="btn btn-primary btn-sm" id="searchDepartment">Search</button></h4>
+                        <button type="button" class="btn btn-danger btn-sm" id="clearDepartmentSearch">Clear</button></h4>
                     <table class="table table-bordered table-hover" id="departmentTable">
-                            <!--
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Human Resources</td>
-                                <td>1</td>
-                                <td><button type="button" class="btn btn-primary">Modify</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Business Development</td>
-                                <td>1</td>
-                                <td><button type="button" class="btn btn-primary">Modify</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            -->
                     </table>
                     <div class="modal fade" id="addDepartmentModal">
                         <div class="modal-dialog modal-dialog-centered">
@@ -119,7 +84,6 @@
                                     <h3>Add New Department</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <!--Department ID: <input type="text" id="newDepartmentID" disabled><br>-->
                                     Department Name:<sup>*</sup> <input type="text" id="newDepartmentName"><br>
                                     Location ID:<sup>*</sup> <select class="locationIDSelect" id="locationIDSelectAdd">
                                     </select>
@@ -140,8 +104,8 @@
                                 <div class="modal-body">
                                     Department ID: <input type="text" id="modifyDepartmentID" disabled><br>
                                     Department Name: <input type="text" id="modifyDepartmentName"><br>
-                                    Location ID: <select class="locationIDSelect" id="locationIDSelectModify">
-                                    </select>Current Location ID: <strong><span id="currentLocationID"></span></strong><br><br>
+                                    Location: <select class="locationIDSelect" id="locationIDSelectModify">
+                                    </select>Current Location: <strong><span id="currentLocationID"></span></strong><br><br>
                                     <p id="modifyDepartmentError"><strong></strong></p>
                                 </div>
                                 <div class="modal-footer">
@@ -155,38 +119,11 @@
                 </div>
                 <div class="tab-pane fade" id="personnel" role="tabpanel" aria-labelledby="personnel-tab">
                     <h4><button type="button" class="btn btn-success btn-sm" id="newPersonnel">+</button><strong>SEARCH: </strong><input type="text" id="personnelSearcher">
-                        <!--<button type="button" class="btn btn-primary btn-sm" id="searchPersonnel">Search</button>-->
                         <button type="button" class="btn btn-danger btn-sm" id="clearPersonnelSearch">Clear</button></h4>
                     <table class="table table-bordered table-hover" id="personnelTable">
                         <thead>
-                                    <!--<button type="button" class="btn btn-success" id="addPersonnel">Add</button>-->
-                                    <!--<button type="button" class="btn btn-success" id="modifyPersonnel">Modify</button>-->
                         </thead>
                         <tbody>
-                            <!--
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Richard</td>
-                                <td>Ricklingson</td>
-                                <td>Products Manager</td>
-                                <td>ricklingsonR@email.com</td>
-                                <td>2</td>
-                                <td><button type="button" class="btn btn-primary">Modify</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>James</td>
-                                <td>Sorrendon</td>
-                                <td>Head of Resources</td>
-                                <td>sorrendonJ@email.com</td>
-                                <td>1</td>
-                                <td><button type="button" class="btn btn-primary">Modify</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            -->
                         </tbody>
                     </table>
                     <div class="modal fade" id="addPersonnelModal">
@@ -196,7 +133,6 @@
                                     <h3>Add New Personnel</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <!--Personnel ID: <input type="text" id="newPersonnelID" disabled><br>-->
                                     First Name:<sup>*</sup> <input type="text" id="newPersonnelFirstName"><br>
                                     Last Name:<sup>*</sup> <input type="text" id="newPersonnelLastName"><br>
                                     Job Title: <input type="text" id="newPersonnelJobTitle"><br>
