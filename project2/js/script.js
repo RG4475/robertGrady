@@ -31,6 +31,11 @@ function generateChosenTable(table, data) {
     generateTableHead(chosenTable, chosenKeys);
 }
 
+function deleteTableRows(table) {
+    document.getElementById(table).deleteTHead();
+    $('#' + table).find("tbody").remove();
+}
+
 $(window).on('load', function() {
     if($('#preloader').length) {
         $('#preloader').delay(500).fadeOut('slow', function() {
@@ -201,7 +206,7 @@ $(window).on('load', function() {
     });
 
     $.ajax({
-        url: "libs/php/getAllPersonnel.php",
+        url: "libs/php/getAll.php",
         type: 'GET',
         dataType: 'json',
 
@@ -223,18 +228,18 @@ $(window).on('load', function() {
                 $('#personnelTable tbody tr').on("click", function() {
 
                     let chosenPersonID = $(this).find('td:nth-child(1)').html();
-                    let chosenPersonFirstName = $(this).find('td:nth-child(2)').html();
-                    let chosenPersonLastName = $(this).find('td:nth-child(3)').html();
+                    let chosenPersonLastName = $(this).find('td:nth-child(2)').html();
+                    let chosenPersonFirstName = $(this).find('td:nth-child(3)').html();
                     let chosenJobTitle = $(this).find('td:nth-child(4)').html();
                     let chosenEmail = $(this).find('td:nth-child(5)').html();
-                    let chosenDeptID = $(this).find('td:nth-child(6)').html();
+                    let chosenDepartment = $(this).find('td:nth-child(6)').html();
 
                     $('#modifyPersonnelID').val(chosenPersonID);
                     $('#modifyPersonnelFirstName').val(chosenPersonFirstName);
                     $('#modifyPersonnelLastName').val(chosenPersonLastName);
                     $('#modifyPersonnelJobTitle').val(chosenJobTitle);
                     $('#modifyPersonnelEmail').val(chosenEmail);
-                    $('#currentDepartmentID').html(chosenDeptID);
+                    $('#currentDepartment').html(chosenDepartment);
 
                     modifyPersonnelModal.show();
                 });
@@ -808,6 +813,44 @@ $(window).on('load', function() {
             $('#modifyLocationError strong').html("No location deleted because you have forgotten the Location ID");
         }
     });
+
+    $('#personnelSearcher').change(function() {
+
+        deleteTableRows("personnelTable");
+
+        let personnelSearchCondition = $('#personnelSearcher').val();
+
+        if(personnelSearchCondition)
+        {
+            $.ajax({
+                url: "libs/php/searchPersonnel.php",
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    id: personnelSearchCondition,
+                    lastName: personnelSearchCondition,
+                    firstName: personnelSearchCondition,
+                    jobTitle: personnelSearchCondition,
+                    email: personnelSearchCondition,
+                    dName: personnelSearchCondition,
+                    lName: personnelSearchCondition
+                },
+
+                success: function(result, status, xhr) {
+                    console.log(JSON.stringify(result));
+
+                    //$('#errorMessage').html(result['data'].length);
+
+                    generateChosenTable("table#personnelTable", result['data']);
+                }
+            })
+        }
+
+    });
+
+    $('#clearPersonnelSearch').click(function() {
+        location.reload();
+    })
 
 
 });

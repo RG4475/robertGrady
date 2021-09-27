@@ -155,7 +155,8 @@
                 </div>
                 <div class="tab-pane fade" id="personnel" role="tabpanel" aria-labelledby="personnel-tab">
                     <h4><button type="button" class="btn btn-success btn-sm" id="newPersonnel">+</button><strong>SEARCH: </strong><input type="text" id="personnelSearcher">
-                        <button type="button" class="btn btn-primary btn-sm" id="searchPersonnel">Search</button></h4>
+                        <!--<button type="button" class="btn btn-primary btn-sm" id="searchPersonnel">Search</button>-->
+                        <button type="button" class="btn btn-danger btn-sm" id="clearPersonnelSearch">Clear</button></h4>
                     <table class="table table-bordered table-hover" id="personnelTable">
                         <thead>
                                     <!--<button type="button" class="btn btn-success" id="addPersonnel">Add</button>-->
@@ -222,9 +223,9 @@
                                     Last Name: <input type="text" id="modifyPersonnelLastName"><br>
                                     Job Title: <input type="text" id="modifyPersonnelJobTitle"><br>
                                     Email: <input type="text" id="modifyPersonnelEmail"><br>
-                                    Department ID: <select class="departmentIDSelect" id="departmentIDSelectModify"><br>
+                                    Department: <select class="departmentIDSelect" id="departmentIDSelectModify"><br>
                                     </select><br>
-                                    Current Department ID: <strong><span id="currentDepartmentID"></span></strong><br><br>
+                                    Current Department: <strong><span id="currentDepartment"></span></strong><br><br>
                                     <p id="modifyPersonnelError"><strong></strong></p>
                                 </div>
                                 <div class="modal-footer">
