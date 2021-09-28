@@ -166,9 +166,12 @@ $(window).on('load', function() {
 
             if(result.status.name == "OK")
             {
+                $('.leaflet-pane .leaflet-tooltip-pane').append($('h4#h4Country'));
+                $('.leaflet-pane .leaflet-tooltip-pane h4').add($('select'));
                 for(let i = 0; i < result['data'].length; i++)
                 {
                     let optionNum = i + 1;
+                    $('#countrySelect').add($('option'));
                     $('#countrySelect option:nth-child('+ optionNum +')').html(result['data'][i]['name']).attr("value", result['data'][i]['code']);
                 }
             }

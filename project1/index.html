@@ -22,8 +22,7 @@
     </head>
     <body>
         <div class="header">
-                <h1>GAZETTEER</h1>
-                <h4>SELECT COUNTRY
+                <h4 id="h4Country">
                 <select id="countrySelect">
                     <option></option>
                     <option></option>
@@ -253,6 +252,12 @@
                             </ul>
                         </div>
                         <div class="modal-footer">
+                            <p>Cities from <a href="https://rapidapi.com/wirefreethought/api/geodb-cities/">GeoDB Cities</a></p>
+                            <p>Country information (including flag pictures) from <a href="https://restcountries.com/">Rest Countries</a></p>
+                            <p>Icons from <a href="https://fontawesome.com/start">Font Awesome</a></p>
+                            <p>Country of current location information from <a href="https://opencagedata.com/">Open Cage</a></p>
+                            <p>Wikipedia Links from <a href="https://www.geonames.org/">Geonames</a></p>
+                            
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -299,6 +304,7 @@
                             </table>
                         </div>
                         <div class="modal-footer">
+                            <p>Weather Information from <a href="https://openweathermap.org/api">Open Weather</a></p>
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -357,6 +363,7 @@
                             </table>
                         </div>
                         <div class="modal-footer">
+                            <p>Covid 19 Data from <a href="https://about-corona.net/">About Corona</a></p>
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -471,6 +478,7 @@
                             </table>
                         </div>
                         <div class="modal-footer">
+                            <p>Country National Holiday information from <a href="https://calendarific.com/">Calendarific</a></p>
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -791,6 +799,7 @@
                             </table>
                         </div>
                         <div class="modal-footer">
+                            <p>Country National News from <a href="https://newsapi.org/">News API</a></p>
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -1025,6 +1034,7 @@
                             </table>
                         </div>
                         <div class="modal-footer">
+                            <p>Exchange Rates from <a href="https://openexchangerates.org/">Open Exchange Rates</a></p>
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -1033,20 +1043,6 @@
             </div>
         </div>
         <div class="footer">
-            <ul id="copyrightInfo">
-                <li>Country information (including flag pictures) from <a href="https://restcountries.eu/">Rest Countries</a> - </li>
-                <li>Country of current location information from <a href="https://opencagedata.com/">Open Cage</a> - </li>
-                <li>Wikipedia Links from <a href="https://www.geonames.org/">Geonames</a> - </li>
-                <li>Cities from <a href="https://rapidapi.com/wirefreethought/api/geodb-cities/">GeoDB Cities</a> - </li>
-                <li>Weather Information from <a href="https://openweathermap.org/api">Open Weather</a> - </li>
-                <li>Exchange Rates from <a href="https://openexchangerates.org/">Open Exchange Rates</a> - </li>
-                <li>Covid 19 Data from <a href="https://about-corona.net/">About Corona</a> - </li>
-                <li>Country National Holiday information from <a href="https://calendarific.com/">Calendarific</a> - </li>
-                <li>Country National News from <a href="https://newsapi.org/">News API</a> - </li>
-                <li>Icons from <a href="https://fontawesome.com/start">Font Awesome</a></li>
-            </ul>
-                <p>For copyright info of map see bottom right corner of map</p>
-
         </div>
         <div id="preloader"></div>
         <script src="vendors/leaflet/leaflet.js"></script>

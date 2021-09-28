@@ -24,12 +24,15 @@
 }
 
 #mapid {
-    height: 80vh;
-    width: 99vw;
+    height: 99.5vh;
+    width: 100vw;
+    margin-top: -15px;
 }
 
-div.header h4{
-    text-align: center;
+.leaflet-pane .leaflet-tooltip-pane select{
+    position: sticky;
+    margin-left: 800px;
+    font-family: "segoe ui";
 }
 
 #flag {
