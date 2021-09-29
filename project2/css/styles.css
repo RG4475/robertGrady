@@ -32,6 +32,10 @@ sup{
     font-weight: bold;
 }
 
+th {
+    font-size: 1.2em;
+}
+
 @-webkit-keyframes animate-preloader {
     0% {
         -webkit-transform: rotate(0deg);

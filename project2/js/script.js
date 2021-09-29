@@ -28,11 +28,10 @@ function generateChosenTable(table, data) {
     let chosenTable = document.querySelector(table);
     let chosenKeys = Object.keys(chosenData[0]);
     generateTable(chosenTable, chosenData);
-    generateTableHead(chosenTable, chosenKeys);
 }
 
 function deleteTableRows(table) {
-    document.getElementById(table).deleteTHead();
+    //document.getElementById(table).deleteTHead();
     $('#' + table).find("tbody").remove();
 }
 
@@ -80,56 +79,6 @@ $(window).on('load', function() {
     });
 
     $.ajax({
-        url: "libs/php/getAllDepartments.php",
-        type: 'GET',
-        dataType: 'json',
-
-        success: function(result, status, xhr) {
-            console.log(JSON.stringify(result));
-
-            if(result.status.name == "ok")
-            {
-
-                generateChosenTable("table#departmentTable", result['data']);
-
-                for(let i = 0; i < result['data'].length; i++)
-                {
-                    $('.departmentIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['id'] + ' - ' + result['data'][i]['name'] + '</option>');
-                }
-
-                let findHighestID = result['data'].length - 1;
-                $('#newDepartmentID').val(parseInt(result['data'][findHighestID]['id']) + 1);
-
-                $('#newDepartment').click(function() {
-                    addDepartmentModal.show();
-                });
-
-                $('#departmentTable tbody tr').on("click", function() {
-
-                    let chosenDeptId = $(this).find('td:nth-child(1)').html();
-                    let chosenDeptName = $(this).find('td:nth-child(2)').html();
-                    let chosenLocID = $(this).find('td:nth-child(3)').html();
-
-                    $('#modifyDepartmentID').val(chosenDeptId);
-                    $('#modifyDepartmentName').val(chosenDeptName);
-                    $('#currentLocationID').html(chosenLocID);
-
-                    modifyDepartmentModal.show();
-                });
-
-            }
-        },
-
-        error: function(jqXHR, textStatus, errorThrown){
-            JSON.stringify(jqXHR);
-            JSON.stringify(errorThrown);
-
-            $('#errorMessage').html(jqXHR + errorThrown);
-        }
-
-    });
-
-    $.ajax({
         url: "libs/php/getAll.php",
         type: 'GET',
         dataType: 'json',
@@ -140,7 +89,7 @@ $(window).on('load', function() {
             if(result.status.name == "ok")
             {
 
-                generateChosenTable("table#personnelTable", result['data']);
+                generateChosenTable("table#personnelTable tbody", result['data']);
 
                 let findHighestID = result['data'].length - 1;
                 $('#newPersonnelID').val(parseInt(result['data'][findHighestID]['id']) + 1);
@@ -181,6 +130,56 @@ $(window).on('load', function() {
     });
 
     $.ajax({
+        url: "libs/php/getAllDepartments.php",
+        type: 'GET',
+        dataType: 'json',
+
+        success: function(result, status, xhr) {
+            console.log(JSON.stringify(result));
+
+            if(result.status.name == "ok")
+            {
+
+                generateChosenTable("table#departmentTable tbody", result['data']);
+
+                for(let i = 0; i < result['data'].length; i++)
+                {
+                    $('.departmentIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['name'] + '</option>');
+                }
+
+                let findHighestID = result['data'].length - 1;
+                $('#newDepartmentID').val(parseInt(result['data'][findHighestID]['id']) + 1);
+
+                $('#newDepartment').click(function() {
+                    addDepartmentModal.show();
+                });
+
+                $('#departmentTable tbody tr').on("click", function() {
+
+                    let chosenDeptId = $(this).find('td:nth-child(1)').html();
+                    let chosenDeptName = $(this).find('td:nth-child(2)').html();
+                    let chosenLocID = $(this).find('td:nth-child(3)').html();
+
+                    $('#modifyDepartmentID').val(chosenDeptId);
+                    $('#modifyDepartmentName').val(chosenDeptName);
+                    $('#currentLocationID').html(chosenLocID);
+
+                    modifyDepartmentModal.show();
+                });
+
+            }
+        },
+
+        error: function(jqXHR, textStatus, errorThrown){
+            JSON.stringify(jqXHR);
+            JSON.stringify(errorThrown);
+
+            $('#errorMessage').html(jqXHR + errorThrown);
+        }
+
+    });
+
+    $.ajax({
         url: "libs/php/getAllLocations.php",
         type: 'GET',
         dataType: 'json',
@@ -191,11 +190,11 @@ $(window).on('load', function() {
             if(result.status.name == "ok")
             {
 
-                generateChosenTable("table#locationTable", result['data']);
+                generateChosenTable("table#locationTable tbody", result['data']);
 
                 for(let i = 0; i < result['data'].length; i++)
                 {
-                    $('.locationIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['id'] + ' - ' + result['data'][i]['name'] + '</option>');
+                    $('.locationIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['name'] + '</option>');
                 }
 
                 let findHighestID = result['data'].length - 1;
