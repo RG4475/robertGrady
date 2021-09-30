@@ -28,11 +28,33 @@ function generateChosenTable(table, data) {
     let chosenTable = document.querySelector(table);
     let chosenKeys = Object.keys(chosenData[0]);
     generateTable(chosenTable, chosenData);
+    //generateTableHead(chosenTable, chosenKeys);
+
+    /*
+    let str = "firstName";
+    let myArr = str.match(/[A-Z]/g);
+    let replacingStrings = str.replace(myArr, ","+myArr);
+    let splitStrings = replacingStrings.split(",");
+    document.getElementById("demo").innerHTML = splitStrings;
+    */
+
+    /*
+    let str = "firstName";
+    let myArr = str.match(/[A-Z]/g);
+    let splitString = str.split(/(myArr)/);
+    document.getElementById("demo").innerHTML = splitString;
+    */
+
+    /*
+    let string = "firstName";    
+    let splitString = string.split(/([A-Z])/);
+    document.getElementById("demo").innerHTML = splitString;
+    */
 }
 
 function deleteTableRows(table) {
     //document.getElementById(table).deleteTHead();
-    $('#' + table).find("tbody").remove();
+    $('#' + table).find("tr").remove();
 }
 
 $(window).on('load', function() {
@@ -732,7 +754,7 @@ $(window).on('load', function() {
 
     $('#personnelSearcher').change(function() {
 
-        deleteTableRows("personnelTable");
+        deleteTableRows("personnelTable tbody");
 
         let personnelSearchCondition = $('#personnelSearcher').val();
 
@@ -755,7 +777,7 @@ $(window).on('load', function() {
                 success: function(result, status, xhr) {
                     console.log(JSON.stringify(result));
 
-                    generateChosenTable("table#personnelTable", result['data']);
+                    generateChosenTable("table#personnelTable tbody", result['data']);
 
                     $('#personnelTable tbody tr').on("click", function() {
 
@@ -789,7 +811,7 @@ $(window).on('load', function() {
     });
 
     $('#departmentSearcher').change(function() {
-        deleteTableRows("departmentTable");
+        deleteTableRows("departmentTable tbody");
 
         let departmentSearchCondition = $('#departmentSearcher').val();
 
@@ -808,7 +830,7 @@ $(window).on('load', function() {
                 success: function(result, status, xhr) {
                     console.log(JSON.stringify(result));
 
-                    generateChosenTable("table#departmentTable", result['data']);
+                    generateChosenTable("table#departmentTable tbody", result['data']);
 
                     $('#departmentTable tbody tr').on("click", function() {
 
@@ -835,7 +857,7 @@ $(window).on('load', function() {
     });
 
     $('#locationSearcher').change(function() {
-        deleteTableRows("locationTable");
+        deleteTableRows("locationTable tbody");
 
         let locationSearchCondition = $('#locationSearcher').val();
 
@@ -853,7 +875,7 @@ $(window).on('load', function() {
                 success: function(result, status, xhr) {
                     console.log(JSON.stringify(result));
 
-                    generateChosenTable("table#locationTable", result['data']);
+                    generateChosenTable("table#locationTable tbody", result['data']);
 
                     $('#locationTable tbody tr').on("click", function() {
 
