@@ -105,6 +105,7 @@ $(window).on('load', function() {
             {
 
                 generateChosenTable("table#personnelTable tbody", result['data']);
+                $('table#personnelTable tbody tr td:nth-child(1)').hide();
 
                 let findHighestID = result['data'].length - 1;
                 $('#newPersonnelID').val(parseInt(result['data'][findHighestID]['id']) + 1);
@@ -156,6 +157,7 @@ $(window).on('load', function() {
             {
 
                 generateChosenTable("table#departmentTable tbody", result['data']);
+                $('table#departmentTable tbody tr td:nth-child(1)').hide();
 
                 for(let i = 0; i < result['data'].length; i++)
                 {
@@ -206,6 +208,7 @@ $(window).on('load', function() {
             {
 
                 generateChosenTable("table#locationTable tbody", result['data']);
+                $('table#locationTable tbody tr td:nth-child(1)').hide();
 
                 for(let i = 0; i < result['data'].length; i++)
                 {
@@ -274,11 +277,13 @@ $(window).on('load', function() {
                 }
             });
         }
+        /*
         else
         {
             
             $('#addDepartmentError strong').html("The new Department details were not sent because you were missing the Department Name or Location ID");
         }
+        */
     });
 
     $('#addLocation').click(function() {
@@ -313,10 +318,12 @@ $(window).on('load', function() {
                 }
             });
         }
+        /*
         else
         {
             $('#addLocationError strong').html("The new Location details were not sent because you were missing the Location Name");
         }
+        */
     });
 
     $('#addPersonnel').click(function() {
@@ -359,10 +366,12 @@ $(window).on('load', function() {
                 }
             });
         }
+        /*
         else
         {
             $('#addPersonnelError strong').html("The new Personnel details were not sent because you were missing some bits of information. Everything but the Job Title is required");
         }
+        */
     });
 
     $('#modifyLocation').click(function() {
@@ -389,7 +398,7 @@ $(window).on('load', function() {
     
                         if(result.status.name == "ok")
                         {
-                            location.reload();
+                            window.location.href = window.location.href;
                         }
                     },
                     
@@ -438,7 +447,7 @@ $(window).on('load', function() {
 
                         if(result.status.name == "ok")
                         {
-                            location.reload();
+                            window.location.href = window.location.href;
                         }
                     },
 
@@ -493,7 +502,7 @@ $(window).on('load', function() {
 
                         if(result.status.name == "ok")
                         {
-                            location.reload();
+                            window.location.href = window.location.href;
                         }
                     },
 
@@ -768,6 +777,7 @@ $(window).on('load', function() {
                     console.log(JSON.stringify(result));
 
                     generateChosenTable("table#personnelTable tbody", result['data']);
+                    $('table#personnelTable tbody tr td:nth-child(1)').hide();
 
                     $('#personnelTable tbody tr').on("click", function() {
 
@@ -821,6 +831,7 @@ $(window).on('load', function() {
                     console.log(JSON.stringify(result));
 
                     generateChosenTable("table#departmentTable tbody", result['data']);
+                    $('table#departmentTable tbody tr td:nth-child(1)').hide();
 
                     $('#departmentTable tbody tr').on("click", function() {
 
@@ -866,6 +877,7 @@ $(window).on('load', function() {
                     console.log(JSON.stringify(result));
 
                     generateChosenTable("table#locationTable tbody", result['data']);
+                    $('table#locationTable tbody tr td:nth-child(1)').hide();
 
                     $('#locationTable tbody tr').on("click", function() {
 
