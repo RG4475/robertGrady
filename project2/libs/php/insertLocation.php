@@ -26,8 +26,8 @@
         exit;
     }
 
-    $sqlQuery = $conn->prepare('INSERT INTO location (id, name) VALUES(?,?)');
-    $sqlQuery->bind_param("is", $_POST['id'], $_POST['name']);
+    $sqlQuery = $conn->prepare('INSERT INTO location (name) VALUES(?)');
+    $sqlQuery->bind_param("s", $_POST['name']);
     $sqlQuery->execute();
 
     if(false === $sqlQuery) 

@@ -54,7 +54,7 @@
                                     <input type="hidden" id="newLocationID"><br>
                                     Location Name:<sup>*</sup> <input type="text" id="newLocationName"><br><br>
                                     -->
-                                    <form id="addLocation">
+                                    <form>
                                         <div class="form-group row">
                                           <label for="newLocationName" class="col-4 col-form-label">Location Name</label> 
                                           <div class="col-8">
@@ -70,7 +70,7 @@
                                         </div> 
                                         <div class="form-group row">
                                           <div class="offset-4 col-8">
-                                            <button name="submit" type="submit" class="btn btn-success">Add Location</button>
+                                            <button name="submit" type="submit" class="btn btn-success" id="addLocation">Add Location</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                           </div>
                                         </div>
@@ -94,7 +94,13 @@
                                     Location ID: <input type="text" id="modifyLocationID" disabled><br>
                                     Location Name:<sup>*</sup> <input type="text" id="modifyLocationName"><br><br>
                                     -->
-                                    <form id="modifyLocation">
+                                    <form>
+                                        <div class="form-group row">
+                                            <label for="modifyLocationID" class="col-4 col-form-label"><!--Department ID--></label> 
+                                            <div class="col-8">
+                                              <input id="modifyLocationID" name="modifyLocationID" type="hidden" class="form-control">
+                                            </div>
+                                        </div>
                                         <div class="form-group row">
                                           <label for="modifyLocationName" class="col-4 col-form-label">Location Name</label> 
                                           <div class="col-8">
@@ -103,7 +109,8 @@
                                                 <div class="input-group-text">
                                                   <i class="fa fa-location-arrow"></i>
                                                 </div>
-                                              </div> 
+                                              </div>
+                                              <input type="hidden" id="modifyLocationID"> 
                                               <input id="modifyLocationName" name="modifyLocationName" type="text" required="required" class="form-control">
                                             </div>
                                           </div>
@@ -111,7 +118,7 @@
                                         <div class="form-group row">
                                           <div class="offset-4 col-8">
                                             <button type="button" class="btn btn-danger" id="deleteLocation">Delete</button>
-                                            <button name="submit" type="submit" class="btn btn-success">Modify</button>
+                                            <button name="submit" type="submit" class="btn btn-success" id="modifyLocation">Modify</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                           </div>
                                         </div>
@@ -151,7 +158,7 @@
                                     <h3>Add New Department</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="addDepartment">
+                                    <form>
                                         <div class="form-group row">
                                           <label for="newDepartmentName" class="col-4 col-form-label">Department Name</label> 
                                           <div class="col-8">
@@ -173,7 +180,7 @@
                                         </div> 
                                         <div class="form-group row">
                                           <div class="offset-4 col-8">
-                                            <button name="submit" type="submit" class="btn btn-success">Add Department</button>
+                                            <button name="submit" type="submit" class="btn btn-success" id="addDepartment">Add Department</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                           </div>
                                         </div>
@@ -202,7 +209,13 @@
                                     <h3>Modify Department</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="modifyDepartment">
+                                    <form>
+                                        <div class="form-group row">
+                                            <label for="modifyDepartmentID" class="col-4 col-form-label"><!--Department ID--></label> 
+                                            <div class="col-8">
+                                              <input id="modifyDepartmentID" name="modifyDepartmentID" type="hidden" class="form-control">
+                                            </div>
+                                        </div>
                                         <div class="form-group row">
                                           <label for="modifyDepartmentName" class="col-4 col-form-label">Department Name</label> 
                                           <div class="col-8">
@@ -226,7 +239,7 @@
                                         <div class="form-group row">
                                           <div class="offset-4 col-8">
                                             <button type="button" class="btn btn-danger" id="deleteDepartment">Delete</button>
-                                            <button name="submit" type="submit" class="btn btn-success">Modify</button>
+                                            <button name="submit" type="submit" class="btn btn-success" id="modifyDepartment">Modify</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                           </div>
                                         </div>
@@ -275,7 +288,7 @@
                                     <h3>Add New Personnel</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="addPersonnel">
+                                    <form>
                                         <div class="form-group row">
                                           <label for="newPersonnelFirstName" class="col-4 col-form-label">First Name</label> 
                                           <div class="col-8">
@@ -336,7 +349,7 @@
                                         </div> 
                                         <div class="form-group row">
                                           <div class="offset-4 col-8">
-                                            <button name="submit" type="submit" class="btn btn-success">Add Personnel</button>
+                                            <button name="submit" type="submit" class="btn btn-success" id="addPersonnel">Add Personnel</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                           </div>
                                         </div>
@@ -368,70 +381,76 @@
                                     <h3>Modify Personnel</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="modifyPersonnel">
+                                    <form>
                                         <div class="form-group row">
-                                          <label for="modifyPersonnelFirstName" class="col-4 col-form-label">First Name</label> 
-                                          <div class="col-8">
-                                            <div class="input-group">
-                                              <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                  <i class="fa fa-address-card"></i>
-                                                </div>
-                                              </div> 
-                                              <input id="modifyPersonnelFirstName" name="modifyPersonnelFirstName" type="text" class="form-control" required="required">
+                                            <label for="modifyPersonnelID" class="col-4 col-form-label"><!--Personnel ID--></label> 
+                                            <div class="col-8">
+                                              <input id="modifyPersonnelID" name="modifyPersonnelID" type="hidden" class="form-control">
+                                            </div>
+                                        </div>
+                                          <div class="form-group row">
+                                            <label for="modifyPersonnelFirstName" class="col-4 col-form-label">First Name</label> 
+                                            <div class="col-8">
+                                              <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                  <div class="input-group-text">
+                                                    <i class="fa fa-address-card"></i>
+                                                  </div>
+                                                </div> 
+                                                <input id="modifyPersonnelFirstName" name="modifyPersonnelFirstName" type="text" class="form-control" required="required">
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                        <div class="form-group row">
-                                          <label for="modifyPersonnelLastName" class="col-4 col-form-label">Last Name</label> 
-                                          <div class="col-8">
-                                            <div class="input-group">
-                                              <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                  <i class="fa fa-address-card"></i>
-                                                </div>
-                                              </div> 
-                                              <input id="modifyPersonnelLastName" name="modifyPersonnelLastName" type="text" class="form-control" required="required">
+                                          <div class="form-group row">
+                                            <label for="modifyPersonnelLastName" class="col-4 col-form-label">Last Name</label> 
+                                            <div class="col-8">
+                                              <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                  <div class="input-group-text">
+                                                    <i class="fa fa-address-card"></i>
+                                                  </div>
+                                                </div> 
+                                                <input id="modifyPersonnelLastName" name="modifyPersonnelLastName" type="text" class="form-control" required="required">
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                        <div class="form-group row">
-                                          <label for="modifyPersonnelJobTitle" class="col-4 col-form-label">Job Title</label> 
-                                          <div class="col-8">
-                                            <div class="input-group">
-                                              <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                  <i class="fa fa-address-card"></i>
-                                                </div>
-                                              </div> 
-                                              <input id="modifyPersonnelJobTitle" name="modifyPersonnelJobTitle" type="text" class="form-control">
+                                          <div class="form-group row">
+                                            <label for="modifyPersonnelJobTitle" class="col-4 col-form-label">Job Title</label> 
+                                            <div class="col-8">
+                                              <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                  <div class="input-group-text">
+                                                    <i class="fa fa-address-card"></i>
+                                                  </div>
+                                                </div> 
+                                                <input id="modifyPersonnelJobTitle" name="modifyPersonnelJobTitle" type="text" class="form-control">
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                        <div class="form-group row">
-                                          <label for="modifyPersonnelEmail" class="col-4 col-form-label">Email</label> 
-                                          <div class="col-8">
-                                            <div class="input-group">
-                                              <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                  <i class="fa fa-address-card"></i>
-                                                </div>
-                                              </div> 
-                                              <input id="modifyPersonnelEmail" name="modifyPersonnelEmail" type="text" required="required" class="form-control">
+                                          <div class="form-group row">
+                                            <label for="modifyPersonnelEmail" class="col-4 col-form-label">Email</label> 
+                                            <div class="col-8">
+                                              <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                  <div class="input-group-text">
+                                                    <i class="fa fa-address-card"></i>
+                                                  </div>
+                                                </div> 
+                                                <input id="modifyPersonnelEmail" name="modifyPersonnelEmail" type="text" required="required" class="form-control">
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                        <div class="form-group row">
-                                          <label for="departmentIDSelectModify" class="col-4 col-form-label">Department</label> 
-                                          <div class="col-8">
-                                            <select id="departmentIDSelectModify" name="departmentIDSelectModify" class="custom-select departmentIDSelect" required="required"></select>
-                                            Current Department: <strong><span id="currentDepartment"></span></strong><br><br>
-                                          </div>
-                                        </div> 
+                                          <div class="form-group row">
+                                            <label for="departmentIDSelectModify" class="col-4 col-form-label">Department</label> 
+                                            <div class="col-8">
+                                              <select id="departmentIDSelectModify" name="departmentIDSelectModify" class="custom-select departmentIDSelect" required="required"></select>
+                                              Current Department: <strong><span id="currentDepartment"></span></strong><br><br>
+                                            </div>
+                                          </div> 
                                         <div class="form-group row">
                                           <div class="offset-4 col-8">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="deletePersonnel">Delete</button>
-                                            <button name="submit" type="submit" class="btn btn-success">Modify</button>
+                                            <button name="submit" type="submit" class="btn btn-success" id="modifyPersonnel">Modify</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                           </div>
                                         </div>

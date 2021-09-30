@@ -26,8 +26,8 @@
         exit;
     }
 
-    $sqlQuery = $conn->prepare('INSERT INTO personnel (id, firstName, lastName, jobTitle, email, departmentID) VALUES(?,?,?,?,?,?)');
-    $sqlQuery->bind_param("issssi", $_POST['id'], $_POST['firstName'], $_POST['lastName'], $_POST['jobTitle'], $_POST['email'], $_POST['departmentID']);
+    $sqlQuery = $conn->prepare('INSERT INTO personnel (firstName, lastName, jobTitle, email, departmentID) VALUES(?,?,?,?,?)');
+    $sqlQuery->bind_param("ssssi", $_POST['firstName'], $_POST['lastName'], $_POST['jobTitle'], $_POST['email'], $_POST['departmentID']);
     $sqlQuery->execute();
 
     if(false === $sqlQuery) 

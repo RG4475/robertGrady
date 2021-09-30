@@ -254,7 +254,6 @@ $(window).on('load', function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    id: departmentID,
                     name: departmentName,
                     locationID: chosenLocationID
                 },
@@ -294,7 +293,6 @@ $(window).on('load', function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    id: locationID,
                     name: locationName
                 },
 
@@ -337,7 +335,6 @@ $(window).on('load', function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    id: personnelID,
                     firstName: personnelFirstName,
                     lastName: personnelLastName,
                     jobTitle: personnelJobTitle,
