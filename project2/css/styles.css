@@ -36,6 +36,10 @@ th {
     font-size: 1.2em;
 }
 
+#confirmModifyLocation, #confirmModifyDepartment, #confirmModifyPersonnel {
+    text-align: center;
+}
+
 @-webkit-keyframes animate-preloader {
     0% {
         -webkit-transform: rotate(0deg);

@@ -93,6 +93,24 @@ $(window).on('load', function() {
         focus: true
     });
 
+    var confirmModifyingLocation = new bootstrap.Modal(document.getElementById('confirmModifyLocation'), {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    });
+
+    var confirmModifyingDepartment = new bootstrap.Modal(document.getElementById('confirmModifyDepartment'), {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    });
+
+    var confirmModifyingPersonnel = new bootstrap.Modal(document.getElementById('confirmModifyPersonnel'), {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    });
+
     $.ajax({
         url: "libs/php/getAll.php",
         type: 'GET',
@@ -354,13 +372,14 @@ $(window).on('load', function() {
     $('#modifyLocation').submit(function(e) {
 
         e.preventDefault();
+
         let selectedLocationID = $('#modifyLocationID').val();
         let modifiedLocationName = $('#modifyLocationName').val();
 
-        let confirmLocationModify = confirm("Are you sure you wish to proceed modifying this location?");
+        confirmModifyingLocation.show();
 
-        if(confirmLocationModify)
-        {
+        $('#confirmLocationModification').click(function() {
+            
             $.ajax({
                 url: "libs/php/modifyLocation.php",
                 type: 'POST',
@@ -386,11 +405,13 @@ $(window).on('load', function() {
                     $('#errorMessage').html(jqXHR + errorThrown);
                 }
             });
-        }
-        else
-        {
-            $('#modifyLocationError strong').html("LOCATION ID " + selectedLocationID + " NOT UPDATED");
-        }
+        });
+
+        $('#noconfirmLocationModification').click(function() {
+            
+            confirmModifyingLocation.hide();
+            $('#modifyLocationError strong').html("LOCATION NOT UPDATED");
+        }); 
     });
 
     $('#modifyDepartment').submit(function(e) {
@@ -400,10 +421,10 @@ $(window).on('load', function() {
         let modifiedDepartmentName = $('#modifyDepartmentName').val();
         let modifiedLocationID = $('#locationIDSelectModify').val();
 
-        let confirmDepartmentModify = confirm("Are you sure you wish to proceed modifying this department?");
+        confirmModifyingDepartment.show();
 
-        if(confirmDepartmentModify)
-        {
+        $('#confirmDepartmentModification').click(function() {
+
             $.ajax({
                 url: "libs/php/modifyDepartment.php",
                 type: 'POST',
@@ -430,11 +451,14 @@ $(window).on('load', function() {
                     $('#errorMessage').html(jqXHR + errorThrown);
                 }
             });
-        }
-        else
-        {
-            $('#modifyDepartmentError strong').html("DEPARTMENT ID " + selectedDepartmentID + " NOT UPDATED");
-        }
+        });
+
+        $('#noconfirmDepartmentModification').click(function() {
+            
+            confirmModifyingDepartment.hide();
+            $('#modifyDepartmentError strong').html("DEPARTMENT NOT UPDATED");
+        });
+
     });
 
     $('#modifyPersonnel').submit(function(e) {
@@ -448,10 +472,10 @@ $(window).on('load', function() {
         let modifiedPersonnelEmail = $('#modifyPersonnelEmail').val();
         let modifiedDepartmentID = $('#departmentIDSelectModify').val();
 
-        let confirmPersonnelModify = confirm("Are you sure you wish to proceed modifying this personnel?");
+        confirmModifyingPersonnel.show();
 
-        if(confirmPersonnelModify)
-        {
+        $('#confirmPersonnelModification').click(function() {
+
             $.ajax({
                 url: "libs/php/modifyPersonnel.php",
                 type: 'POST',
@@ -481,11 +505,14 @@ $(window).on('load', function() {
                     $('#errorMessage').html(jqXHR + errorThrown);
                 }
             });
-        }
-        else 
-        {
-            $('#modifyPersonnelError strong').html("PERSONNEL ID " + selectedPersonnelID + " NOT UPDATED");
-        }
+        });
+        
+        $('#noconfirmPersonnelModification').click(function() {
+
+            confirmModifyingPersonnel.hide();
+            $('#modifyPersonnelError strong').html("PERSONNEL NOT UPDATED");
+
+        });
     });
 
     $('#deletePersonnel').click(function() {
