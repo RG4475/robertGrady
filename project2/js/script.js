@@ -243,90 +243,76 @@ $(window).on('load', function() {
         }
     });
 
-    $('#addDepartment').click(function() {
+    $('#addDepartment').submit(function(e) {
+
+        e.preventDefault();
 
         let departmentID = $('#newDepartmentID').val();
         let departmentName = $('#newDepartmentName').val();
         let chosenLocationID = $('#locationIDSelectAdd').val();
 
-        if(departmentName && chosenLocationID)
-        {
+        $.ajax({
+            url: "libs/php/insertDepartment.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                name: departmentName,
+                locationID: chosenLocationID
+            },
 
-            $.ajax({
-                url: "libs/php/insertDepartment.php",
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    name: departmentName,
-                    locationID: chosenLocationID
-                },
+            success: function(result, status, xhr) {
+                console.log(JSON.stringify(result));
 
-                success: function(result, status, xhr) {
-                    console.log(JSON.stringify(result));
-
-                    if(result.status.name == "ok") {
-                        location.reload();
-                    }
-                },
-
-                error: function(jqXHR, textStatus, errorThrown) {
-                    JSON.stringify(jqXHR);
-                    JSON.stringify(errorThrown);
-        
-                    $('#errorMessage').html(jqXHR + errorThrown);
+                if(result.status.name == "ok") {
+                    location.reload();
                 }
-            });
-        }
-        /*
-        else
-        {
-            
-            $('#addDepartmentError strong').html("The new Department details were not sent because you were missing the Department Name or Location ID");
-        }
-        */
+            },
+
+            error: function(jqXHR, textStatus, errorThrown) {
+                JSON.stringify(jqXHR);
+                JSON.stringify(errorThrown);
+        
+                $('#errorMessage').html(jqXHR + errorThrown);
+            }
+        });
     });
 
-    $('#addLocation').click(function() {
+    $('#addLocation').submit(function(e) {
+
+        e.preventDefault();
 
         let locationID = $('#newLocationID').val();
         let locationName = $('#newLocationName').val();
 
-        if(locationName)
-        {
-            $.ajax({
-                url: "libs/php/insertLocation.php",
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    name: locationName
-                },
+        $.ajax({
+            url: "libs/php/insertLocation.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                name: locationName
+            },
 
-                success: function(result, status, xhr) {
-                    console.log(JSON.stringify(result));
+            success: function(result, status, xhr) {
+                console.log(JSON.stringify(result));
 
-                    if(result.status.name == "ok")
-                    {
-                        location.reload();
-                    }
-                },
-
-                error: function(jqXHR, textStatus, errorThrown) {
-                    JSON.stringify(jqXHR);
-                    JSON.stringify(errorThrown);
-        
-                    $('#errorMessage').html(jqXHR + errorThrown);
+                if(result.status.name == "ok")
+                {
+                    location.reload();
                 }
-            });
-        }
-        /*
-        else
-        {
-            $('#addLocationError strong').html("The new Location details were not sent because you were missing the Location Name");
-        }
-        */
+            },
+
+            error: function(jqXHR, textStatus, errorThrown) {
+                JSON.stringify(jqXHR);
+                JSON.stringify(errorThrown);
+        
+                $('#errorMessage').html(jqXHR + errorThrown);
+            }
+        });
     });
 
-    $('#addPersonnel').click(function() {
+    $('#addPersonnel').submit(function(e) {
+
+        e.preventDefault();
 
         let personnelID = $('#newPersonnelID').val();
         let personnelFirstName = $('#newPersonnelFirstName').val();
@@ -335,43 +321,34 @@ $(window).on('load', function() {
         let personnelEmail = $('#newPersonnelEmail').val();
         let personnelDepartment = $('#departmentIDSelectAdd').val();
 
-        if(personnelFirstName && personnelLastName && personnelEmail && personnelDepartment)
-        {
-            $.ajax({
-                url: "libs/php/insertPersonnel.php",
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    firstName: personnelFirstName,
-                    lastName: personnelLastName,
-                    jobTitle: personnelJobTitle,
-                    email: personnelEmail,
-                    departmentID: personnelDepartment
-                },
+        $.ajax({
+            url: "libs/php/insertPersonnel.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                firstName: personnelFirstName,
+                lastName: personnelLastName,
+                jobTitle: personnelJobTitle,
+                email: personnelEmail,
+                departmentID: personnelDepartment
+            },
 
-                success: function(result, status, xhr) {
-                    console.log(JSON.stringify(result));
+            success: function(result, status, xhr) {
+                console.log(JSON.stringify(result));
 
-                    if(result.status.name == "ok")
-                    {
-                        location.reload();
-                    }
-                },
-
-                error: function(jqXHR, textStatus, errorThrown) {
-                    JSON.stringify(jqXHR);
-                    JSON.stringify(errorThrown);
-        
-                    $('#errorMessage').html(jqXHR + errorThrown);
+                if(result.status.name == "ok")
+                {
+                    location.reload();
                 }
-            });
-        }
-        /*
-        else
-        {
-            $('#addPersonnelError strong').html("The new Personnel details were not sent because you were missing some bits of information. Everything but the Job Title is required");
-        }
-        */
+            },
+
+            error: function(jqXHR, textStatus, errorThrown) {
+                JSON.stringify(jqXHR);
+                JSON.stringify(errorThrown);
+        
+                $('#errorMessage').html(jqXHR + errorThrown);
+            }
+        });
     });
 
     $('#modifyLocation').submit(function(e) {

@@ -7,7 +7,8 @@
         <meta name="description" content="Project 2 - Company Directory">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css"> <!--Downloaded version of Bootstrap on server-->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> <!--Linked version of Bootstrap for Bootstrap forms-->
+        <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">--> <!--Linked version of Bootstrap for Bootstrap forms-->
+        <link rel="stylesheet" href="libs/bootstrap4.1.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/styles.css">
     </head>
@@ -53,7 +54,7 @@
                                     <input type="hidden" id="newLocationID"><br>
                                     Location Name:<sup>*</sup> <input type="text" id="newLocationName"><br><br>
                                     -->
-                                    <form>
+                                    <form id="addLocation">
                                         <div class="form-group row">
                                           <label for="newLocationName" class="col-4 col-form-label">Location Name</label> 
                                           <div class="col-8">
@@ -69,7 +70,7 @@
                                         </div> 
                                         <div class="form-group row">
                                           <div class="offset-4 col-8">
-                                            <button name="submit" type="submit" class="btn btn-success" id="addLocation">Add Location</button>
+                                            <button name="submit" type="submit" class="btn btn-success">Add Location</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                           </div>
                                         </div>
@@ -156,7 +157,7 @@
                                     <h3>Add New Department</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form id="addDepartment">
                                         <div class="form-group row">
                                           <label for="newDepartmentName" class="col-4 col-form-label">Department Name</label> 
                                           <div class="col-8">
@@ -178,7 +179,7 @@
                                         </div> 
                                         <div class="form-group row">
                                           <div class="offset-4 col-8">
-                                            <button name="submit" type="submit" class="btn btn-success" id="addDepartment">Add Department</button>
+                                            <button name="submit" type="submit" class="btn btn-success">Add Department</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                           </div>
                                         </div>
@@ -285,7 +286,7 @@
                                     <h3>Add New Personnel</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form id="addPersonnel">
                                         <div class="form-group row">
                                           <label for="newPersonnelFirstName" class="col-4 col-form-label">First Name</label> 
                                           <div class="col-8">
@@ -346,7 +347,7 @@
                                         </div> 
                                         <div class="form-group row">
                                           <div class="offset-4 col-8">
-                                            <button name="submit" type="submit" class="btn btn-success" id="addPersonnel">Add Personnel</button>
+                                            <button name="submit" type="submit" class="btn btn-success">Add Personnel</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                           </div>
                                         </div>
