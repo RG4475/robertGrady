@@ -135,23 +135,56 @@ $(window).on('load', function() {
                 $('#personnelTable tbody tr').on("click", function() {
 
                     let chosenPersonID = $(this).find('td:nth-child(1)').html();
-                    let chosenPersonLastName = $(this).find('td:nth-child(2)').html();
-                    let chosenPersonFirstName = $(this).find('td:nth-child(3)').html();
-                    let chosenJobTitle = $(this).find('td:nth-child(4)').html();
-                    let chosenEmail = $(this).find('td:nth-child(5)').html();
-                    let chosenDepartment = $(this).find('td:nth-child(6)').html();
+                    let chosenPersonLastName;
+                    let chosenPersonFirstName;
+                    let chosenJobTitle;
+                    let chosenEmail;
+                    let chosenDepartment;
 
-                    $('#modifyPersonnelID').val(chosenPersonID);
-                    $('#modifyPersonnelFirstName').val(chosenPersonFirstName);
-                    $('#modifyPersonnelLastName').val(chosenPersonLastName);
-                    $('#modifyPersonnelJobTitle').val(chosenJobTitle);
-                    $('#modifyPersonnelEmail').val(chosenEmail);
-                    $('#currentDepartment').html(chosenDepartment);
+                    $.ajax({
+                        url: "libs/php/getPersonnelByID.php",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            id: chosenPersonID
+                        },
 
-                    modifyPersonnelModal.show();
+                        success: function(result, status, xhr) {
+                            console.log(JSON.stringify(result));
+
+                            if(result.status.name == "ok")
+                            {
+                                chosenPersonID = result['data']['personnel'][0]['id'];
+                                chosenPersonLastName = result['data']['personnel'][0]['lastName'];
+                                chosenPersonFirstName = result['data']['personnel'][0]['firstName'];
+                                chosenJobTitle = result['data']['personnel'][0]['jobTitle'];
+                                chosenEmail = result['data']['personnel'][0]['email'];
+                                chosenDepartment = result['data']['personnel'][0]['departmentID'];
+
+                                for(let i = 0; i < result['data']['department'].length; i++)
+                                {
+                                    $('#departmentIDSelectModify').append('<option value=' + result['data']['department'][i]['id'] + '>' + result['data']['department'][i]['name'] + '</option>');
+                                }
+
+                                $('#modifyPersonnelID').val(chosenPersonID);
+                                $('#modifyPersonnelFirstName').val(chosenPersonFirstName);
+                                $('#modifyPersonnelLastName').val(chosenPersonLastName);
+                                $('#modifyPersonnelJobTitle').val(chosenJobTitle);
+                                $('#modifyPersonnelEmail').val(chosenEmail);
+                                $('#departmentIDSelectModify').val(chosenDepartment)
+
+                                modifyPersonnelModal.show();
+                            }
+                        },
+
+                        error: function(jqXHR, textStatus, errorThrown){
+                            JSON.stringify(jqXHR);
+                            JSON.stringify(errorThrown);
+                
+                            $('#errorMessage').html(jqXHR + errorThrown);
+                        }
+                    });
                 });
-
-
             }
         },
 
@@ -179,7 +212,7 @@ $(window).on('load', function() {
 
                 for(let i = 0; i < result['data'].length; i++)
                 {
-                    $('.departmentIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['name'] + '</option>');
+                    $('#departmentIDSelectAdd').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['name'] + '</option>');
                 }
 
                 let findHighestID = result['data'].length - 1;
@@ -243,12 +276,39 @@ $(window).on('load', function() {
                 $('#locationTable tbody tr').on("click", function() {
 
                     let chosenLocationID = $(this).find('td:nth-child(1)').html();
-                    let chosenLocationName = $(this).find('td:nth-child(2)').html();
+                    let chosenLocationName;
 
-                    $('#modifyLocationID').val(chosenLocationID);
-                    $('#modifyLocationName').val(chosenLocationName);
+                    $.ajax({
+                        url: "libs/php/getLocationByID.php",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            id: chosenLocationID
+                        },
+
+                        success: function(result, status, xhr) {
+                            console.log(JSON.stringify(result));
+
+                            if(result.status.name == "ok") {
+
+                                chosenLocationID = result['data'][0]['id'];
+                                chosenLocationName = result['data'][0]['name'];
+
+                                $('#modifyLocationID').val(chosenLocationID);
+                                $('#modifyLocationName').val(chosenLocationName);
+
+                                modifyLocationModal.show();
+                            }
+                        },
+
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            JSON.stringify(jqXHR);
+                            JSON.stringify(errorThrown);
                     
-                    modifyLocationModal.show();
+                            $('#errorMessage').html(jqXHR + errorThrown);
+                        }
+                    });
+                    
                 });
             }
         },
@@ -872,12 +932,39 @@ $(window).on('load', function() {
                     $('#locationTable tbody tr').on("click", function() {
 
                         let chosenLocationID = $(this).find('td:nth-child(1)').html();
-                        let chosenLocationName = $(this).find('td:nth-child(2)').html();
+                    
+                        let chosenLocationName;
     
-                        $('#modifyLocationID').val(chosenLocationID);
-                        $('#modifyLocationName').val(chosenLocationName);
+                        $.ajax({
+                            url: "libs/php/getLocationByID.php",
+                            type: 'GET',
+                            dataType: 'json',
+                            data: {
+                                id: chosenLocationID
+                            },
+    
+                            success: function(result, status, xhr) {
+                                console.log(JSON.stringify(result));
+    
+                                if(result.status.name == "ok") {
+    
+                                    $('#modifyLocationID').val(chosenLocationID);
+    
+                                    chosenLocationName = result['data'][0]['name'];
+                                    $('#modifyLocationName').val(chosenLocationName);
+    
+                                    modifyLocationModal.show();
+                                }
+                            },
+    
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                JSON.stringify(jqXHR);
+                                JSON.stringify(errorThrown);
                         
-                        modifyLocationModal.show();
+                                $('#errorMessage').html(jqXHR + errorThrown);
+                            }
+                        });
+                        
                     });
 
                 },
