@@ -163,7 +163,13 @@ $(window).on('load', function() {
 
                                 for(let i = 0; i < result['data']['department'].length; i++)
                                 {
-                                    $('#departmentIDSelectModify').append('<option value=' + result['data']['department'][i]['id'] + '>' + result['data']['department'][i]['name'] + '</option>');
+                                    let noOfDeptOptions = $('#departmentIDSelectModify option').length;
+                                    let deptsReturnedFromDatabase = result['data']['department'].length;
+
+                                    if(noOfDeptOptions < deptsReturnedFromDatabase)
+                                    {
+                                        $('#departmentIDSelectModify').append('<option value=' + result['data']['department'][i]['id'] + '>' + result['data']['department'][i]['name'] + '</option>');
+                                    }
                                 }
 
                                 $('#modifyPersonnelID').val(chosenPersonID);
@@ -212,7 +218,13 @@ $(window).on('load', function() {
 
                 for(let i = 0; i < result['data'].length; i++)
                 {
-                    $('#departmentIDSelectAdd').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['name'] + '</option>');
+                    let noOfDeptOptions = $('#departmentIDSelectAdd option').length;
+                    let deptsReturnedFromDatabase = result['data'].length;
+
+                    if(noOfDeptOptions < deptsReturnedFromDatabase)
+                    {
+                        $('#departmentIDSelectAdd').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['name'] + '</option>');
+                    }
                 }
 
                 let findHighestID = result['data'].length - 1;
@@ -224,15 +236,48 @@ $(window).on('load', function() {
 
                 $('#departmentTable tbody tr').on("click", function() {
 
-                    let chosenDeptId = $(this).find('td:nth-child(1)').html();
-                    let chosenDeptName = $(this).find('td:nth-child(2)').html();
-                    let chosenLocID = $(this).find('td:nth-child(3)').html();
+                    let chosenDeptID = $(this).find('td:nth-child(1)').html();
+                    let chosenDeptName;
+                    let chosenLocID;
 
-                    $('#modifyDepartmentID').val(chosenDeptId);
-                    $('#modifyDepartmentName').val(chosenDeptName);
-                    $('#currentLocationID').html(chosenLocID);
+                    $.ajax({
+                        url: "libs/php/getDepartmentByID.php",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            id: chosenDeptID
+                        },
 
-                    modifyDepartmentModal.show();
+                        success: function(result, status, xhr) {
+                            console.log(JSON.stringify(result));
+
+                            if(result.status.name == "ok")
+                            {
+                                chosenDeptID = result['data']['department'][0]['id'];
+                                chosenDeptName = result['data']['department'][0]['name'];
+                                chosenLocID = result['data']['department'][0]['locationID'];
+
+                                for(let i = 0; i < result['data']['location'].length; i++)
+                                {
+                                    let noOfLocOptions = $('#locationIDSelectModify option').length;
+                                    let locsReturnedFromDatabase = result['data']['location'].length;
+
+                                    if(noOfLocOptions < locsReturnedFromDatabase)
+                                    {
+                                        $('#locationIDSelectModify').append('<option value=' + result['data']['location'][i]['id'] + '>' + result['data']['location'][i]['name'] + '</option>');
+                                    }
+                                }
+
+                                $('#modifyDepartmentID').val(chosenDeptID);
+                                $('#modifyDepartmentName').val(chosenDeptName);
+                                $('#locationIDSelectModify').val(chosenLocID)
+            
+                                modifyDepartmentModal.show();
+                            }
+                        }
+                    });
+
+
                 });
 
             }
@@ -263,7 +308,14 @@ $(window).on('load', function() {
 
                 for(let i = 0; i < result['data'].length; i++)
                 {
-                    $('.locationIDSelect').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['name'] + '</option>');
+                    let noOfLocOptions = $('#locationIDSelectAdd option').length;
+                    let locsReturnedFromDatabase = result['data'].length;
+
+                    if(noOfLocOptions < locsReturnedFromDatabase)
+                    {
+                        $('#locationIDSelectAdd').append('<option value=' + result['data'][i]['id'] + '>' + result['data'][i]['name'] + '</option>');
+                    }
+
                 }
 
                 let findHighestID = result['data'].length - 1;
@@ -832,20 +884,61 @@ $(window).on('load', function() {
                     $('#personnelTable tbody tr').on("click", function() {
 
                         let chosenPersonID = $(this).find('td:nth-child(1)').html();
-                        let chosenPersonLastName = $(this).find('td:nth-child(2)').html();
-                        let chosenPersonFirstName = $(this).find('td:nth-child(3)').html();
-                        let chosenJobTitle = $(this).find('td:nth-child(4)').html();
-                        let chosenEmail = $(this).find('td:nth-child(5)').html();
-                        let chosenDepartment = $(this).find('td:nth-child(6)').html();
+                        let chosenPersonLastName;
+                        let chosenPersonFirstName;
+                        let chosenJobTitle;
+                        let chosenEmail;
+                        let chosenDepartment;
     
-                        $('#modifyPersonnelID').val(chosenPersonID);
-                        $('#modifyPersonnelFirstName').val(chosenPersonFirstName);
-                        $('#modifyPersonnelLastName').val(chosenPersonLastName);
-                        $('#modifyPersonnelJobTitle').val(chosenJobTitle);
-                        $('#modifyPersonnelEmail').val(chosenEmail);
-                        $('#currentDepartment').html(chosenDepartment);
+                        $.ajax({
+                            url: "libs/php/getPersonnelByID.php",
+                            type: 'GET',
+                            dataType: 'json',
+                            data: {
+                                id: chosenPersonID
+                            },
     
-                        modifyPersonnelModal.show();
+                            success: function(result, status, xhr) {
+                                console.log(JSON.stringify(result));
+    
+                                if(result.status.name == "ok")
+                                {
+                                    chosenPersonID = result['data']['personnel'][0]['id'];
+                                    chosenPersonLastName = result['data']['personnel'][0]['lastName'];
+                                    chosenPersonFirstName = result['data']['personnel'][0]['firstName'];
+                                    chosenJobTitle = result['data']['personnel'][0]['jobTitle'];
+                                    chosenEmail = result['data']['personnel'][0]['email'];
+                                    chosenDepartment = result['data']['personnel'][0]['departmentID'];
+    
+                                    for(let i = 0; i < result['data']['department'].length; i++)
+                                    {
+                                        let noOfDeptOptions = $('#departmentIDSelectModify option').length;
+                                        let deptsReturnedFromDatabase = result['data']['department'].length;
+    
+                                        if(noOfDeptOptions < deptsReturnedFromDatabase)
+                                        {
+                                            $('#departmentIDSelectModify').append('<option value=' + result['data']['department'][i]['id'] + '>' + result['data']['department'][i]['name'] + '</option>');
+                                        }
+                                    }
+    
+                                    $('#modifyPersonnelID').val(chosenPersonID);
+                                    $('#modifyPersonnelFirstName').val(chosenPersonFirstName);
+                                    $('#modifyPersonnelLastName').val(chosenPersonLastName);
+                                    $('#modifyPersonnelJobTitle').val(chosenJobTitle);
+                                    $('#modifyPersonnelEmail').val(chosenEmail);
+                                    $('#departmentIDSelectModify').val(chosenDepartment)
+    
+                                    modifyPersonnelModal.show();
+                                }
+                            },
+    
+                            error: function(jqXHR, textStatus, errorThrown){
+                                JSON.stringify(jqXHR);
+                                JSON.stringify(errorThrown);
+                    
+                                $('#errorMessage').html(jqXHR + errorThrown);
+                            }
+                        });
                     });
                 },
 
@@ -885,15 +978,48 @@ $(window).on('load', function() {
 
                     $('#departmentTable tbody tr').on("click", function() {
 
-                        let chosenDeptId = $(this).find('td:nth-child(1)').html();
-                        let chosenDeptName = $(this).find('td:nth-child(2)').html();
-                        let chosenLocID = $(this).find('td:nth-child(3)').html();
+                        let chosenDeptID = $(this).find('td:nth-child(1)').html();
+                        let chosenDeptName;
+                        let chosenLocID;
     
-                        $('#modifyDepartmentID').val(chosenDeptId);
-                        $('#modifyDepartmentName').val(chosenDeptName);
-                        $('#currentLocationID').html(chosenLocID);
+                        $.ajax({
+                            url: "libs/php/getDepartmentByID.php",
+                            type: 'GET',
+                            dataType: 'json',
+                            data: {
+                                id: chosenDeptID
+                            },
     
-                        modifyDepartmentModal.show();
+                            success: function(result, status, xhr) {
+                                console.log(JSON.stringify(result));
+    
+                                if(result.status.name == "ok")
+                                {
+                                    chosenDeptID = result['data']['department'][0]['id'];
+                                    chosenDeptName = result['data']['department'][0]['name'];
+                                    chosenLocID = result['data']['department'][0]['locationID'];
+    
+                                    for(let i = 0; i < result['data']['location'].length; i++)
+                                    {
+                                        let noOfLocOptions = $('#locationIDSelectModify option').length;
+                                        let locsReturnedFromDatabase = result['data']['location'].length;
+    
+                                        if(noOfLocOptions < locsReturnedFromDatabase)
+                                        {
+                                            $('#locationIDSelectModify').append('<option value=' + result['data']['location'][i]['id'] + '>' + result['data']['location'][i]['name'] + '</option>');
+                                        }
+                                    }
+    
+                                    $('#modifyDepartmentID').val(chosenDeptID);
+                                    $('#modifyDepartmentName').val(chosenDeptName);
+                                    $('#locationIDSelectModify').val(chosenLocID)
+                
+                                    modifyDepartmentModal.show();
+                                }
+                            }
+                        });
+    
+    
                     });
                 },
 
