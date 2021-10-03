@@ -111,6 +111,24 @@ $(window).on('load', function() {
         focus: true
     });
 
+    var confirmDeletingPersonnel = new bootstrap.Modal(document.getElementById('confirmDeletePersonnel'), {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    });
+
+    var confirmDeletingDepartment = new bootstrap.Modal(document.getElementById('confirmDeleteDepartment'), {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    });
+
+    var preventDeletingDepartment = new bootstrap.Modal(document.getElementById('preventDeleteDepartment'), {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    });
+
     $.ajax({
         url: "libs/php/getAll.php",
         type: 'GET',
@@ -271,6 +289,38 @@ $(window).on('load', function() {
                                 $('#modifyDepartmentID').val(chosenDeptID);
                                 $('#modifyDepartmentName').val(chosenDeptName);
                                 $('#locationIDSelectModify').val(chosenLocID)
+
+                                $.ajax({
+                                    url: "libs/php/findDepartment.php",
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    data: {
+                                        id: chosenDeptID
+                                    },
+                
+                                    success: function(result, status, xhr) {
+                                        console.log(JSON.stringify(result));
+                
+                                        if(result.status.name == "ok")
+                                        {
+                                            if(result['data'].length != 0)
+                                            {
+                                                $('#modifyDepartmentError strong').html("This department has personnel working here");
+                                            }
+                                            else
+                                            {
+                                                $('#modifyDepartmentError strong').html("");
+                                            }
+                                        }
+                                    },
+
+                                    error: function(jqXHR, textStatus, errorThrown){
+                                        JSON.stringify(jqXHR);
+                                        JSON.stringify(errorThrown);
+                            
+                                        $('#errorMessage').html(jqXHR + errorThrown);
+                                    }
+                                });
             
                                 modifyDepartmentModal.show();
                             }
@@ -627,21 +677,68 @@ $(window).on('load', function() {
         });
     });
 
-    $('#deletePersonnel').click(function() {
+    $('#deletePersonnel').submit(function(e) {
+
+        e.preventDefault();
+
         let deletePersonnel = $('#modifyPersonnelID').val();
 
-        if(deletePersonnel)
-        {
-            let confirmPersonnelDeletion = confirm("Are you sure you wish to delete this personnel?");
+        confirmDeletingPersonnel.show();
 
-            if(confirmPersonnelDeletion)
-            {
+        $('#confirmPersonnelDeletion').click(function() {
+
+            $.ajax({
+                url: "libs/php/deletePersonnelByID.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: deletePersonnel
+                },
+
+                success: function(result, status, xhr) {
+                    console.log(JSON.stringify(result));
+
+                    if(result.status.name == "ok")
+                    {
+                        location.reload();
+                    }
+                },
+
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JSON.stringify(jqXHR);
+                    JSON.stringify(errorThrown);
+        
+                    $('#errorMessage').html(jqXHR + errorThrown);
+                }
+            });
+        });
+
+        $('#noconfirmPersonnelDeletion').click(function() {
+
+            confirmDeletingPersonnel.hide();
+            $('#modifyPersonnelError strong').html("PERSONNEL NOT DELETED");
+        });
+    });
+
+    $('#deleteDepartment').submit(function(e) {
+
+        e.preventDefault();
+        let checkDepartmentDeletion = $('#modifyDepartmentError strong').html();
+        let deleteDepartment = $('#modifyDepartmentID').val();
+    
+
+        if(checkDepartmentDeletion != "This department has personnel working here")
+        {
+            confirmDeletingDepartment.show();
+
+            $('#confirmDepartmentDeletion').click(function() {
+
                 $.ajax({
-                    url: "libs/php/deletePersonnelByID.php",
+                    url: "libs/php/deleteDepartmentByID.php",
                     type: 'POST',
                     dataType: 'json',
                     data: {
-                        id: deletePersonnel
+                        id: deleteDepartment
                     },
 
                     success: function(result, status, xhr) {
@@ -652,7 +749,7 @@ $(window).on('load', function() {
                             location.reload();
                         }
                     },
-
+                    
                     error: function(jqXHR, textStatus, errorThrown) {
                         JSON.stringify(jqXHR);
                         JSON.stringify(errorThrown);
@@ -660,21 +757,22 @@ $(window).on('load', function() {
                         $('#errorMessage').html(jqXHR + errorThrown);
                     }
                 });
-            }
-            else
-            {
-                $('#modifyPersonnelError strong').html("PERSONNEL ID " + deletePersonnel + " NOT DELETED");
-            }
+            });
+
+            $('#noconfirmDepartmentDeletion').click(function() {
+
+                confirmDeletingDepartment.hide();
+                $('#modifyDepartmentError strong').html("DEPARTMENT NOT DELETED");
+            })
         }
         else
         {
-            $('#modifyPersonnelError strong').html("No personnel deleted because you have forgotten the personnel ID");
+            preventDeletingDepartment.show();
         }
     });
 
-    $('#deleteDepartment').click(function() {
-        let deleteDepartment = $('#modifyDepartmentID').val();
 
+        /*
         if(deleteDepartment)
         {
             let confirmDepartmentDeletion = confirm("Are you sure you wish to delete this department?");
@@ -746,7 +844,7 @@ $(window).on('load', function() {
         {
             $('#modifyDepartmentError strong').html("No department deleted because you have forgotten the Department ID");
         }
-    });
+        */
 
     $('#deleteLocation').click(function() {
         let deleteLocation = $('#modifyLocationID').val();

@@ -36,7 +36,7 @@ th {
     font-size: 1.2em;
 }
 
-#confirmModifyLocation, #confirmModifyDepartment, #confirmModifyPersonnel {
+#confirmModifyLocation, #confirmModifyDepartment, #confirmModifyPersonnel, #confirmDeletePersonnel, #confirmDeleteDepartment {
     text-align: center;
 }
 
