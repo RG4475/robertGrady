@@ -26,7 +26,7 @@
         exit;
     }
 
-    $sqlQuery = $conn->prepare('SELECT l.id AS locationID, l.name AS locationName, COUNT(d.locationID) AS totalDepartmentsInLocation FROM department d LEFT JOIN location l ON d.locationID = l.id GROUP BY l.id HAVING l.id = ?');
+    $sqlQuery = $conn->prepare('SELECT count(id) as departmentsInLocation FROM department WHERE locationID = ?');
     $sqlQuery->bind_param("i", $_GET['id']);
     $sqlQuery->execute();
 

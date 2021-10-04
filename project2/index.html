@@ -98,7 +98,7 @@
                                         <div class="form-group row">
                                             <label for="modifyLocationID" class="col-4 col-form-label"><!--Department ID--></label> 
                                             <div class="col-8">
-                                              <input id="modifyLocationID" name="modifyLocationID" type="hidden" class="form-control">
+
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -110,18 +110,20 @@
                                                   <i class="fa fa-location-arrow"></i>
                                                 </div>
                                               </div>
-                                              <input type="hidden" id="modifyLocationID"> 
                                               <input id="modifyLocationName" name="modifyLocationName" type="text" required="required" class="form-control">
                                             </div>
                                           </div>
                                         </div> 
                                         <div class="form-group row">
                                           <div class="offset-4 col-8">
-                                            <button type="button" class="btn btn-danger" id="deleteLocation">Delete</button>
                                             <button name="submit" type="submit" class="btn btn-success">Modify</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                           </div>
                                         </div>
+                                    </form>
+                                    <form id="deleteLocation">
+                                      <input id="modifyLocationID" name="modifyLocationID" type="hidden" class="form-control">
+                                      <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
                                     <h5 id="modifyLocationError"><strong></strong></h5>
                                 </div>
@@ -144,6 +146,31 @@
                           <div class="modal-body">
                             <button name="button" type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="confirmLocationModification">Yes</button>
                             <button name="button" type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="noconfirmLocationModification">No</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal fade" id="preventDeleteLocation" data-bs-backdrop="static">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5>This location cannot be deleted as there are still some departments assigned to it.</h5>
+                          </div>
+                          <div class="modal-body">
+                            <button name="button" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal fade" id="confirmDeleteLocation" data-bs-backdrop="static">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h3>Confirm Deletion?</h3>
+                          </div>
+                          <div class="modal-body">
+                            <button name="button" type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="confirmLocationDeletion">Yes</button>
+                            <button name="button" type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="noconfirmLocationDeletion">No</button>
                           </div>
                         </div>
                       </div>

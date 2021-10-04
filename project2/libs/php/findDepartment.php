@@ -26,7 +26,7 @@
         exit;
     }
 
-    $sqlQuery = $conn->prepare('SELECT d.id AS departmentID, d.name AS departmentName, COUNT(p.departmentID) AS totalPersonnelInDepartment FROM personnel p LEFT JOIN department d ON p.departmentID = d.id GROUP BY d.id HAVING d.id = ?');
+    $sqlQuery = $conn->prepare('SELECT count(id) as personnelInDepartment FROM personnel WHERE departmentID = ?');
     $sqlQuery->bind_param("i", $_GET['id']);
     $sqlQuery->execute();
 

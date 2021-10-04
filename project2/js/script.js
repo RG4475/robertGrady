@@ -123,7 +123,19 @@ $(window).on('load', function() {
         focus: true
     });
 
+    var confirmDeletingLocation = new bootstrap.Modal(document.getElementById('confirmDeleteLocation'), {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    });
+
     var preventDeletingDepartment = new bootstrap.Modal(document.getElementById('preventDeleteDepartment'), {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    });
+
+    var preventDeletingLocation = new bootstrap.Modal(document.getElementById('preventDeleteLocation'), {
         backdrop: true,
         keyboard: true,
         focus: true
@@ -303,7 +315,7 @@ $(window).on('load', function() {
                 
                                         if(result.status.name == "ok")
                                         {
-                                            if(result['data'].length != 0)
+                                            if(result['data'][0]['personnelInDepartment'] != 0)
                                             {
                                                 $('#modifyDepartmentError strong').html("This department has personnel working here");
                                             }
@@ -399,15 +411,40 @@ $(window).on('load', function() {
                                 $('#modifyLocationID').val(chosenLocationID);
                                 $('#modifyLocationName').val(chosenLocationName);
 
+                                $.ajax({
+                                    url: "libs/php/findLocation.php",
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    data: {
+                                        id: chosenLocationID
+                                    },
+                
+                                    success: function(result, status, xhr) {
+                                        console.log(JSON.stringify(result));
+                
+                                        if(result.status.name == "ok")
+                                        {
+                                            if(result['data'][0]['departmentsInLocation'] != 0)
+                                            {
+                                                $('#modifyLocationError strong').html("This location has departments assigned to it.");
+                                            }
+                                            else
+                                            {
+                                                $('#modifyLocationError strong').html("");
+                                            }
+                                        }
+                                    },
+
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                        JSON.stringify(jqXHR);
+                                        JSON.stringify(errorThrown);
+                                
+                                        $('#errorMessage').html(jqXHR + errorThrown);
+                                    }
+                                });
+
                                 modifyLocationModal.show();
                             }
-                        },
-
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            JSON.stringify(jqXHR);
-                            JSON.stringify(errorThrown);
-                    
-                            $('#errorMessage').html(jqXHR + errorThrown);
                         }
                     });
                     
@@ -846,15 +883,67 @@ $(window).on('load', function() {
         }
         */
 
-    $('#deleteLocation').click(function() {
+    $('#deleteLocation').submit(function(e) {
+        
+        e.preventDefault();
+
+        let checkLocationDeletion = $('#modifyLocationError strong').html();
         let deleteLocation = $('#modifyLocationID').val();
 
+        if(checkLocationDeletion != "This location has departments assigned to it.")
+        {
+            confirmDeletingLocation.show();
+
+            $('#confirmLocationDeletion').click(function() {
+
+                $.ajax({
+                    url: "libs/php/deleteLocationByID.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        id: deleteLocation
+                    },
+    
+                    success: function(result, status, xhr) {
+                        console.log(JSON.stringify(result));
+    
+                        if(result.status.name == "ok")
+                        {
+                            location.reload();
+                        }
+                    },
+    
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        JSON.stringify(jqXHR);
+                        JSON.stringify(errorThrown);
+            
+                        $('#errorMessage').html(jqXHR + errorThrown);
+                    }
+                });
+            });
+
+            $('#noconfirmLocationDeletion').click(function() {
+
+                confirmDeletingLocation.hide();
+                $('#modifyLocationError strong').html("LOCATION NOT DELETED");
+            }); 
+        }
+        else
+        {
+            preventDeletingLocation.show();
+        }
+        
+
+    });
+
+        /*
         if(deleteLocation)
         {
             let confirmLocationDeletion = confirm("Are you sure you wish to delete this location?");
 
             if(confirmLocationDeletion)
             {
+                
                 $.ajax({
                     url: "libs/php/findLocation.php",
                     type: 'GET',
@@ -949,7 +1038,8 @@ $(window).on('load', function() {
         {
             $('#modifyLocationError strong').html("No location deleted because you have forgotten the Location ID");
         }
-    });
+        */
+
 
     $('#personnelSearcher').change(function() {
 
@@ -1111,13 +1201,43 @@ $(window).on('load', function() {
                                     $('#modifyDepartmentID').val(chosenDeptID);
                                     $('#modifyDepartmentName').val(chosenDeptName);
                                     $('#locationIDSelectModify').val(chosenLocID)
+    
+                                    $.ajax({
+                                        url: "libs/php/findDepartment.php",
+                                        type: 'GET',
+                                        dataType: 'json',
+                                        data: {
+                                            id: chosenDeptID
+                                        },
+                    
+                                        success: function(result, status, xhr) {
+                                            console.log(JSON.stringify(result));
+                    
+                                            if(result.status.name == "ok")
+                                            {
+                                                if(result['data'][0]['personnelInDepartment'] != 0)
+                                                {
+                                                    $('#modifyDepartmentError strong').html("This department has personnel working here");
+                                                }
+                                                else
+                                                {
+                                                    $('#modifyDepartmentError strong').html("");
+                                                }
+                                            }
+                                        },
+    
+                                        error: function(jqXHR, textStatus, errorThrown){
+                                            JSON.stringify(jqXHR);
+                                            JSON.stringify(errorThrown);
+                                
+                                            $('#errorMessage').html(jqXHR + errorThrown);
+                                        }
+                                    });
                 
                                     modifyDepartmentModal.show();
                                 }
                             }
                         });
-    
-    
                     });
                 },
 
@@ -1156,7 +1276,6 @@ $(window).on('load', function() {
                     $('#locationTable tbody tr').on("click", function() {
 
                         let chosenLocationID = $(this).find('td:nth-child(1)').html();
-                    
                         let chosenLocationName;
     
                         $.ajax({
@@ -1172,23 +1291,49 @@ $(window).on('load', function() {
     
                                 if(result.status.name == "ok") {
     
-                                    $('#modifyLocationID').val(chosenLocationID);
-    
+                                    chosenLocationID = result['data'][0]['id'];
                                     chosenLocationName = result['data'][0]['name'];
+    
+                                    $('#modifyLocationID').val(chosenLocationID);
                                     $('#modifyLocationName').val(chosenLocationName);
+    
+                                    $.ajax({
+                                        url: "libs/php/findLocation.php",
+                                        type: 'GET',
+                                        dataType: 'json',
+                                        data: {
+                                            id: chosenLocationID
+                                        },
+                    
+                                        success: function(result, status, xhr) {
+                                            console.log(JSON.stringify(result));
+                    
+                                            if(result.status.name == "ok")
+                                            {
+                                                if(result['data'][0]['departmentsInLocation'] != 0)
+                                                {
+                                                    $('#modifyLocationError strong').html("This location has departments assigned to it.");
+                                                }
+                                                else
+                                                {
+                                                    $('#modifyLocationError strong').html("");
+                                                }
+                                            }
+                                        },
+    
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            JSON.stringify(jqXHR);
+                                            JSON.stringify(errorThrown);
+                                    
+                                            $('#errorMessage').html(jqXHR + errorThrown);
+                                        }
+                                    });
     
                                     modifyLocationModal.show();
                                 }
-                            },
-    
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                JSON.stringify(jqXHR);
-                                JSON.stringify(errorThrown);
-                        
-                                $('#errorMessage').html(jqXHR + errorThrown);
                             }
                         });
-                        
+                      
                     });
 
                 },
