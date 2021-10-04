@@ -13,10 +13,37 @@ function generateTableHead(table, data) {
 function generateTable(table, data) {
     for(let element of data) {
         let row = table.insertRow();
-        for(key in element) {
-            let cell = row.insertCell();
+        for(let key in element) {
+
+            let cell;
+
+            if(table != "table#personnelTable tbody" && key != "firstName")
+            {
+                cell = row.insertCell();
+            }
             let text = document.createTextNode(element[key]);
-            cell.appendChild(text);
+
+            if(table != "table#personnelTable tbody" && key != "firstName")
+            {
+                cell.appendChild(text);
+            }
+            else
+            {
+                let tableID = document.getElementById('personnelTable');
+                let tableBody = tableID.getElementsByTagName('tbody')[0];
+                let tableRows = tableBody.getElementsByTagName('tr');
+
+                for(let i = 0; i < tableRows.length; i++)
+                {
+                    let chosenRow = tableRows[i].getElementsByTagName('td')[1];
+
+                    let space = document.createTextNode(" ");
+
+                    chosenRow.appendChild(space);
+                    chosenRow.appendChild(text);
+                }
+            }
+
         }
     }
 }
@@ -28,25 +55,9 @@ function generateChosenTable(table, data) {
     let chosenTable = document.querySelector(table);
     let chosenKeys = Object.keys(chosenData[0]);
     generateTable(chosenTable, chosenData);
-    //generateTableHead(chosenTable, chosenKeys);
-
-    /*
-    let str = "firstName";
-    let myArr = str.match(/[A-Z]/g);
-    let replacingStrings = str.replace(myArr, ","+myArr);
-    let splitStrings = replacingStrings.split(",");
-
-    let firstLetter = splitStrings[0].charAt(0).toUpperCase();
-    let capitaliseFirstWord = firstLetter + splitStrings[0].substr(1)
-    let concatStrings = capitaliseFirstWord.concat(" " + splitStrings[1]);
-
-    document.getElementById("demo").innerHTML = concatStrings;
-
-    */
 }
 
 function deleteTableRows(table) {
-    //document.getElementById(table).deleteTHead();
     $('#' + table).find("tr").remove();
 }
 
@@ -808,81 +819,6 @@ $(window).on('load', function() {
         }
     });
 
-
-        /*
-        if(deleteDepartment)
-        {
-            let confirmDepartmentDeletion = confirm("Are you sure you wish to delete this department?");
-
-            if(confirmDepartmentDeletion)
-            {
-                $.ajax({
-                    url: "libs/php/findDepartment.php",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: {
-                        id: deleteDepartment
-                    },
-
-                    success: function(result, status, xhr) {
-                        console.log(JSON.stringify(result));
-
-                        if(result.status.name == "ok")
-                        {
-                            if(result['data'].length == 0)
-                            {
-                                $.ajax({
-                                    url: "libs/php/deleteDepartmentByID.php",
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    data: {
-                                        id: deleteDepartment
-                                    },
-
-                                    success: function(result, status, xhr) {
-                                        console.log(JSON.stringify(result));
-
-                                        if(result.status.name == "ok")
-                                        {
-                                            location.reload();
-                                        }
-                                    },
-                                    
-                                    error: function(jqXHR, textStatus, errorThrown) {
-                                        JSON.stringify(jqXHR);
-                                        JSON.stringify(errorThrown);
-                            
-                                        $('#errorMessage').html(jqXHR + errorThrown);
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                $('#modifyDepartmentError strong').html("Department ID " + deleteDepartment + " cannot be deleted as there are still some personnel who work at this department");
-                            }
-                        }
-                    },
-
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        JSON.stringify(jqXHR);
-                        JSON.stringify(errorThrown);
-            
-                        $('#errorMessage').html(jqXHR + errorThrown);
-                    }
-
-                });
-            }
-            else
-            {
-                $('#modifyDepartmentError strong').html("DEPARTMENT ID " + deleteDepartment + " NOT DELETED");
-            }
-        }
-        else
-        {
-            $('#modifyDepartmentError strong').html("No department deleted because you have forgotten the Department ID");
-        }
-        */
-
     $('#deleteLocation').submit(function(e) {
         
         e.preventDefault();
@@ -935,110 +871,6 @@ $(window).on('load', function() {
         
 
     });
-
-        /*
-        if(deleteLocation)
-        {
-            let confirmLocationDeletion = confirm("Are you sure you wish to delete this location?");
-
-            if(confirmLocationDeletion)
-            {
-                
-                $.ajax({
-                    url: "libs/php/findLocation.php",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: {
-                        id: deleteLocation
-                    },
-
-                    success: function(result, status, xhr) {
-                        console.log(JSON.stringify(result));
-
-                        if(result.status.name == "ok")
-                        {
-                            if(result['data'].length == 0)
-                            {
-                                $.ajax({
-                                    url: "libs/php/findPersonnelInLocation.php",
-                                    type: 'GET',
-                                    dataType: 'json',
-                                    data: {
-                                        locationId: deleteLocation
-                                    },
-
-                                    success: function(result, status, xhr) {
-                                        console.log(JSON.stringify(result));
-
-                                        if(result.status.name == "ok")
-                                        {
-                                            if(result['data'].length == 0)
-                                            {
-                                                $.ajax({
-                                                    url: "libs/php/deleteLocationByID.php",
-                                                    type: 'POST',
-                                                    dataType: 'json',
-                                                    data: {
-                                                        id: deleteLocation
-                                                    },
-
-                                                    success: function(result, status, xhr) {
-                                                        console.log(JSON.stringify(result));
-
-                                                        if(result.status.name == "ok")
-                                                        {
-                                                            location.reload();
-                                                        }
-                                                    },
-
-                                                    error: function(jqXHR, textStatus, errorThrown) {
-                                                        JSON.stringify(jqXHR);
-                                                        JSON.stringify(errorThrown);
-                                            
-                                                        $('#errorMessage').html(jqXHR + errorThrown);
-                                                    }
-                                                });
-                                            }
-                                            else
-                                            {
-                                                $('#modifyLocationError strong').html("Location ID " + deleteLocation + " cannot be deleted as there are still some personnel who work at this location");
-                                            }
-                                        }
-                                    },
-
-                                    error: function(jqXHR, textStatus, errorThrown) {
-                                        JSON.stringify(jqXHR);
-                                        JSON.stringify(errorThrown);
-                            
-                                        $('#errorMessage').html(jqXHR + errorThrown);
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                $('#modifyLocationError strong').html("Location ID " + deleteLocation + " cannot be deleted as there are still some departments at this location");
-                            }
-                        }
-                    },
-
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        JSON.stringify(jqXHR);
-                        JSON.stringify(errorThrown);
-            
-                        $('#errorMessage').html(jqXHR + errorThrown);
-                    }
-                });
-            }
-            else
-            {
-                $('#modifyLocationError strong').html("LOCATION ID " + deleteLocation + " NOT DELETED");
-            }
-        }
-        else
-        {
-            $('#modifyLocationError strong').html("No location deleted because you have forgotten the Location ID");
-        }
-        */
 
 
     $('#personnelSearcher').change(function() {
