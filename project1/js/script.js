@@ -245,6 +245,7 @@ $('#countrySelect').change(function() {
             //Rest API
             let countryFullName;
             let countryISO2Code;
+            let countryAltCode;
             let countryCapital;
             let countryRegion;
             let countryNativeName;
@@ -329,6 +330,15 @@ $('#countrySelect').change(function() {
                         countryCurrencyName = result['data']['currencies'][0]['name'];
                         countryCurrencySymbol = result['data']['currencies'][0]['symbol'];
                         countryFlag = result['data']['flag'];
+
+                        if(countryISO3Code != "GBR")
+                        {
+                            countryAltCode = result['data']['altSpellings'][0];
+                        }
+                        else
+                        {
+                            countryAltCode = result['data']['altSpellings'][1];
+                        }
                         
                     }
 
@@ -351,447 +361,6 @@ $('#countrySelect').change(function() {
                                     wikipediaUrls.push(result['data'][i]);
                                 }
                             }
-
-                            $.ajax({
-                                url: "php/getCountryWeather.php",
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {
-                                    latitude: countryLatitude,
-                                    longitude: countryLongitude
-                                },
-
-                                success: function(result){
-                                    console.log(JSON.stringify(result));
-
-                                    if(result.status.name == "OK")
-                                    {
-                                        mainWeather = result['data']['weather'][0]['main'];
-                                        description = result['data']['weather'][0]['description'];
-
-                                        currentTemperature = result['data']['main']['temp'];
-                                        temperatureCelsius = Math.round(currentTemperature - 273.15);
-                                        temperatureFahrenheit = Math.round((temperatureCelsius * 9/5) + 32);
-
-                                        feelsLike = result['data']['main']['feels_like'];
-                                        feelsLikeCelsius = Math.round(feelsLike - 273.15);
-                                        feelsLikeFahrenheit = Math.round((feelsLikeCelsius * 9/5) + 32);
-
-                                        pressure = result['data']['main']['pressure'];
-                                        humidity = result['data']['main']['humidity'];
-                                        windSpeed = result['data']['wind']['speed'];
-                                    }
-
-                                    $.ajax({
-                                        url: "php/getCities.php",
-                                        type: 'POST',
-                                        dataType: 'json',
-                                        data: {
-                                            iso2: countryISO2Code
-                                        },
-
-                                        success: function(result){
-                                            console.log(JSON.stringify(result));
-
-                                            if(result.status.name == "OK")
-                                            {
-
-                                                for(let i = 0; i < result['data'].length; i++)
-                                                {
-                                                    cityLats.push(result['data'][i]['latitude']);
-                                                    cityLngs.push(result['data'][i]['longitude']);
-                                                    cityNames.push(result['data'][i]['name']);
-
-                                                }
-
-                                                if(cityMarkers)
-                                                {
-                                                    cityMarkers.clearLayers();
-                                                }
-                                                var redMarker = L.AwesomeMarkers.icon({
-                                                    prefix: 'fa',
-                                                    icon: 'fas fa-location-arrow',
-                                                    markerColor: 'red'
-                                                  });
-
-                                                cityMarkers = L.markerClusterGroup();
-
-                                                for(let i = 0; i < result['data'].length; i++)
-                                                {
-                                                    cityMarkers.addLayer(L.marker([cityLats[i], cityLngs[i]], {icon: redMarker}).bindPopup(cityNames[i]));
-                                                    
-                                                }
-
-                                                mymap.addLayer(cityMarkers);
-                                                
-                                            }
-
-                                            $.ajax({
-                                                url: "php/getExchangeRates.php",
-                                                type: 'POST',
-                                                dataType: 'json',
-                                                data: {
-                                                    currencyCode: countryCurrencyCode
-                                                },
-        
-                                                success: function(result){
-                                                    console.log(JSON.stringify(result));
-        
-                                                    if(result.status.name == "OK")
-                                                    {
-                                                        for(let property in result['data']['rates'])
-                                                        {
-                                                            currentCurrencyRates.push(`${property}: ${result['data']['rates'][property]}`);
-                                                        }
-
-        
-                                                        $('.selectedCountry').html(countryFullName);
-                                                        $('.flag').attr("src", countryFlag);
-                                                        $('#capitalCity').html(countryCapital);
-                                                        $('#population').html(countryPopulation);
-                                                        $('#nativeName').html(countryNativeName);
-                                                        $('#region').html(countryRegion);
-                                                        $('#language').html(`${countryLanguage} (${countryLanguageNativeName})`);
-                                                        $('#currentTemperature').html(`${temperatureFahrenheit}&#8457;/ ${temperatureCelsius}&#8451;`);
-                                                        $('#feelsLike').html(`${feelsLikeFahrenheit}&#8457;/ ${feelsLikeCelsius}&#8451;`);
-                                                        $('#weather').html(`${mainWeather} (${description})`);
-                                                        $('#pressure').html(pressure);
-                                                        $('#humidity').html(humidity);
-                                                        $('#windSpeed').html(windSpeed);
-        
-                                                        for(let i = 0; i < wikipediaUrls.length; i++)
-                                                        {
-                                                            let linkNo = i + 1;
-                                                            $('#wikipediaLinks li:nth-child(' + linkNo + ') a').attr("href", "https://" + wikipediaUrls[i]).html("https://" + wikipediaUrls[i]);
-                                                        }
-        
-                                                        $('#currency').html(`${countryCurrencyName} (${countryCurrencyCode})`);
-
-                                                        let majori = 1;
-
-                                                        for(let majorCurrency in result['data']['rates']) {
-
-                                                            if(majorCurrency == "AUD" || majorCurrency == "BTC" || majorCurrency == "CAD" || majorCurrency == "EUR" || majorCurrency == "GBP" || majorCurrency == "JPY" || majorCurrency == "NZD" || majorCurrency == "USD")
-                                                            {
-                                                                $('#majorRates tr:nth-child(' + majori + ') td:nth-child(1)').html(majorCurrency);
-                                                                $('#majorRates tr:nth-child(' + majori + ') td:nth-child(2)').html(result['data']['rates'][majorCurrency]);
-
-                                                                majori++;
-                                                            }
-                                                        }
-
-                                                        let allCurri = 1;
-
-                                                        for(let allCurrency in result['data']['rates']) {
-                                                            $('#allRates tr:nth-child(' + allCurri + ') td:nth-child(1)').html(allCurrency);
-                                                            $('#allRates tr:nth-child(' + allCurri + ') td:nth-child(2)').html(result['data']['rates'][allCurrency]);
-                                                            
-                                                            allCurri++;
-                                                        }
-
-                                                        $.ajax({
-                                                            url: "php/getCovidData.php",
-                                                            type: 'POST',
-                                                            dataType: 'json',
-                                                            data: {
-                                                                countryISO2: countryISO2Code
-                                                            },
-
-                                                            success: function(result) {
-                                                                console.log(JSON.stringify(result));
-
-                                                                if(result.status.name == "OK") 
-                                                                {
-                                                                    todayDeaths = result['todaysData']['deaths'];
-                                                                    todayCases = result['todaysData']['confirmed'];
-                                                                    totalDeaths = result['totalData']['deaths'];
-                                                                    totalCases = result['totalData']['confirmed'];
-                                                                    totalRecovered = result['totalData']['recovered'];
-                                                                    totalCritical = result['totalData']['critical'];
-                                                                    deathRate = result['totalData']['calculated']['death_rate'];
-                                                                    recoveryRate = result['totalData']['calculated']['recovery_rate'];
-                                                                    casesPerMillionPopulation = result['totalData']['calculated']['cases_per_million_population'];
-                                                                    //$('#errorMessage').html(casesPerMillionPopulation);
-
-                                                                    $('#todayCases').html(todayCases);
-                                                                    $('#todayDeaths').html(todayDeaths);
-                                                                    $('#totalCases').html(totalCases);
-                                                                    $('#totalDeaths').html(totalDeaths);
-                                                                    $('#totalRecovered').html(totalRecovered);
-                                                                    $('#totalCritical').html(totalCritical);
-                                                                    $('#deathRate').html(deathRate);
-                                                                    $('#recoveryRate').html(recoveryRate);
-                                                                    $('#casesPerMillion').html(casesPerMillionPopulation);
-                                                                }
-
-                                                                $.ajax({
-                                                                    url: "php/getNationalHolidays.php",
-                                                                    type: 'POST',
-                                                                    dataType: 'json',
-                                                                    data: {
-                                                                        countryISO2: countryISO2Code
-                                                                    },
-
-                                                                    success: function(result) {
-                                                                        console.log(JSON.stringify(result));
-
-                                                                        if(result.status.name == "OK")
-                                                                        {
-                                                                            let totalNationalHolidays = result['data'].length;
-                                                                            $('#holidayTable tr:nth-child(1) th:nth-child(2)').html(totalNationalHolidays);
-
-                                                                            for(let i = 1; i <= 30; i++)
-                                                                            {
-                                                                                $('#holidayTable tbody tr:nth-child(' + i +') td:nth-child(1)').empty();
-                                                                                $('#holidayTable tbody tr:nth-child(' + i + ') td:nth-child(2)').empty();
-                                                                            }
-
-                                                                            for(let i = 0; i < totalNationalHolidays; i++)
-                                                                            {
-                                                                                let holidayNo = i + 1;
-
-                                                                                if(countryISO3Code == "USA")
-                                                                                {
-                                                                                    $('#holidayTable tbody tr:nth-child(' + holidayNo +') td:nth-child(1)').html(Date.parse(result['data'][i]['date']).toString("M/d/yyyy"));
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    $('#holidayTable tbody tr:nth-child(' + holidayNo +') td:nth-child(1)').html(Date.parse(result['data'][i]['date']).toString("d/M/yyyy"));
-                                                                                }
-
-                                                                                $('#holidayTable tbody tr:nth-child(' + holidayNo + ') td:nth-child(2)').html(result['data'][i]['name']);
-                                                                            }
-                                                                        }
-
-                                                                        $.ajax({
-                                                                            url: "php/getCountryNews.php",
-                                                                            type: 'POST',
-                                                                            dataType: 'json',
-                                                                            data: {
-                                                                                countryISO2: countryISO2Code
-                                                                            },
-
-                                                                            success: function(result) {
-                                                                                console.log(JSON.stringify(result));
-
-                                                                                if(result.status.name == "OK")
-                                                                                {
-                                                                                    for(let i = 0; i < result['data'].length; i++)
-                                                                                    {
-                                                                                        let newsNo = i + 1;
-
-                                                                                        $('.recentNews:nth-child(' + newsNo +') tr:nth-child(1) th a').html(result['data'][i]['title']);
-                                                                                        $('.recentNews:nth-child(' + newsNo +') tr:nth-child(1) th a').attr("href", result['data'][i]['url']);
-                                                                                        $('.recentNews:nth-child(' + newsNo + ') tr:nth-child(2) td:nth-child(2)').html(result['data'][i]['source']);
-                                                                                        $('.recentNews:nth-child(' + newsNo + ') tr:nth-child(3) td:nth-child(2)').html(result['data'][i]['author']);
-                                                                                    }
-                                                                                }
-                                                                            },
-                                                                            error: function(jqXHR, textStatus, errorThrown) {
-                                                                                JSON.stringify(jqXHR);
-                                                                    
-                                                                                if(jqXHR.status == '204')
-                                                                                {
-                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: No Response");
-                                                                                }
-                                                                                else if(jqXHR.status == '400')
-                                                                                {
-                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Bad Request");
-                                                                                }
-                                                                                else if(jqXHR.status == '401')
-                                                                                {
-                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Unauthorised Request");
-                                                                                }
-                                                                                else if(jqXHR.status == '403')
-                                                                                {
-                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Request Forbidden"); 
-                                                                                }
-                                                                                else if(jqXHR.status == '404')
-                                                                                {
-                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Request Not Found"); 
-                                                                                }
-                                                                                else if(jqXHR.status == '500')
-                                                                                {
-                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Internal Server Error"); 
-                                                                                }
-                                                                                else if(jqXHR.status == '503')
-                                                                                {
-                                                                                    $('#errorMessage').html(jqXHR.status + "NEWS API: Service Unavailable");
-                                                                                }
-                                                                            }
-                                                                        });
-                                                                    },
-                                                                    error: function(jqXHR, textStatus, errorThrown) {
-                                                                        JSON.stringify(jqXHR);
-                                                            
-                                                                        if(jqXHR.status == '204')
-                                                                        {
-                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: No Response");
-                                                                        }
-                                                                        else if(jqXHR.status == '400')
-                                                                        {
-                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Bad Request");
-                                                                        }
-                                                                        else if(jqXHR.status == '401')
-                                                                        {
-                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Unauthorised Request");
-                                                                        }
-                                                                        else if(jqXHR.status == '403')
-                                                                        {
-                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Request Forbidden"); 
-                                                                        }
-                                                                        else if(jqXHR.status == '404')
-                                                                        {
-                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Request Not Found"); 
-                                                                        }
-                                                                        else if(jqXHR.status == '500')
-                                                                        {
-                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Internal Server Error"); 
-                                                                        }
-                                                                        else if(jqXHR.status == '503')
-                                                                        {
-                                                                            $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Service Unavailable");
-                                                                        }
-                                                                    }
-                                                                });
-                                                            },
-                                                            error: function(jqXHR, textStatus, errorThrown) {
-                                                                JSON.stringify(jqXHR);
-                                                    
-                                                                if(jqXHR.status == '204')
-                                                                {
-                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: No Response");
-                                                                }
-                                                                else if(jqXHR.status == '400')
-                                                                {
-                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Bad Request");
-                                                                }
-                                                                else if(jqXHR.status == '401')
-                                                                {
-                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Unauthorised Request");
-                                                                }
-                                                                else if(jqXHR.status == '403')
-                                                                {
-                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Request Forbidden"); 
-                                                                }
-                                                                else if(jqXHR.status == '404')
-                                                                {
-                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Request Not Found"); 
-                                                                }
-                                                                else if(jqXHR.status == '500')
-                                                                {
-                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Internal Server Error"); 
-                                                                }
-                                                                else if(jqXHR.status == '503')
-                                                                {
-                                                                    $('#errorMessage').html(jqXHR.status + "CORONA API: Service Unavailable");
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                },
-                                                error: function(jqXHR, textStatus, errorThrown) {
-                                                    JSON.stringify(jqXHR);
-                                        
-                                                    if(jqXHR.status == '204')
-                                                    {
-                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: No Response");
-                                                    }
-                                                    else if(jqXHR.status == '400')
-                                                    {
-                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Bad Request");
-                                                    }
-                                                    else if(jqXHR.status == '401')
-                                                    {
-                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Unauthorised Request");
-                                                    }
-                                                    else if(jqXHR.status == '403')
-                                                    {
-                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Request Forbidden"); 
-                                                    }
-                                                    else if(jqXHR.status == '404')
-                                                    {
-                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Request Not Found"); 
-                                                    }
-                                                    else if(jqXHR.status == '500')
-                                                    {
-                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Internal Server Error"); 
-                                                    }
-                                                    else if(jqXHR.status == '503')
-                                                    {
-                                                        $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Service Unavailable");
-                                                    }
-                                                }
-                                            });
-                                        },
-                                        error: function(jqXHR, textStatus, errorThrown) {
-                                            JSON.stringify(jqXHR);
-                                
-                                            if(jqXHR.status == '204')
-                                            {
-                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: No Response");
-                                            }
-                                            else if(jqXHR.status == '400')
-                                            {
-                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Bad Request");
-                                            }
-                                            else if(jqXHR.status == '401')
-                                            {
-                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Unauthorised Request");
-                                            }
-                                            else if(jqXHR.status == '403')
-                                            {
-                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Request Forbidden"); 
-                                            }
-                                            else if(jqXHR.status == '404')
-                                            {
-                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Request Not Found"); 
-                                            }
-                                            else if(jqXHR.status == '500')
-                                            {
-                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Internal Server Error"); 
-                                            }
-                                            else if(jqXHR.status == '503')
-                                            {
-                                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Service Unavailable");
-                                            }
-                                        }
-
-                                    });
-                                },
-                                error: function(jqXHR, textStatus, errorThrown) {
-                                    JSON.stringify(jqXHR);
-                        
-                                    if(jqXHR.status == '204')
-                                    {
-                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: No Response");
-                                    }
-                                    else if(jqXHR.status == '400')
-                                    {
-                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Bad Request");
-                                    }
-                                    else if(jqXHR.status == '401')
-                                    {
-                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Unauthorised Request");
-                                    }
-                                    else if(jqXHR.status == '403')
-                                    {
-                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Request Forbidden"); 
-                                    }
-                                    else if(jqXHR.status == '404')
-                                    {
-                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Request Not Found"); 
-                                    }
-                                    else if(jqXHR.status == '500')
-                                    {
-                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Internal Server Error"); 
-                                    }
-                                    else if(jqXHR.status == '503')
-                                    {
-                                        $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Service Unavailable");
-                                    }
-                                }
-                            });
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             JSON.stringify(jqXHR);
@@ -823,6 +392,448 @@ $('#countrySelect').change(function() {
                             else if(jqXHR.status == '503')
                             {
                                 $('#errorMessage').html(jqXHR.status + "GEONAMES: Service Unavailable");
+                            }
+                        }
+                    });
+
+                    $.ajax({
+                        url: "php/getCountryWeather.php",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            latitude: countryLatitude,
+                            longitude: countryLongitude
+                        },
+
+                        success: function(result){
+                            console.log(JSON.stringify(result));
+
+                            if(result.status.name == "OK")
+                            {
+                                mainWeather = result['data']['weather'][0]['main'];
+                                description = result['data']['weather'][0]['description'];
+
+                                currentTemperature = result['data']['main']['temp'];
+                                temperatureCelsius = Math.round(currentTemperature - 273.15);
+                                temperatureFahrenheit = Math.round((temperatureCelsius * 9/5) + 32);
+
+                                feelsLike = result['data']['main']['feels_like'];
+                                feelsLikeCelsius = Math.round(feelsLike - 273.15);
+                                feelsLikeFahrenheit = Math.round((feelsLikeCelsius * 9/5) + 32);
+
+                                pressure = result['data']['main']['pressure'];
+                                humidity = result['data']['main']['humidity'];
+                                windSpeed = result['data']['wind']['speed'];
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            JSON.stringify(jqXHR);
+                
+                            if(jqXHR.status == '204')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: No Response");
+                            }
+                            else if(jqXHR.status == '400')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Bad Request");
+                            }
+                            else if(jqXHR.status == '401')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Unauthorised Request");
+                            }
+                            else if(jqXHR.status == '403')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Request Forbidden"); 
+                            }
+                            else if(jqXHR.status == '404')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Request Not Found"); 
+                            }
+                            else if(jqXHR.status == '500')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Internal Server Error"); 
+                            }
+                            else if(jqXHR.status == '503')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN WEATHER: Service Unavailable");
+                            }
+                        }
+                    });
+
+                    $.ajax({
+                        url: "php/getCities.php",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            iso2: countryISO2Code
+                        },
+
+                        success: function(result){
+                            console.log(JSON.stringify(result));
+
+                            if(result.status.name == "OK")
+                            {
+
+                                for(let i = 0; i < result['data'].length; i++)
+                                {
+                                    cityLats.push(result['data'][i]['latitude']);
+                                    cityLngs.push(result['data'][i]['longitude']);
+                                    cityNames.push(result['data'][i]['name']);
+
+                                }
+
+                                if(cityMarkers)
+                                {
+                                    cityMarkers.clearLayers();
+                                }
+                                var redMarker = L.AwesomeMarkers.icon({
+                                    prefix: 'fa',
+                                    icon: 'fas fa-location-arrow',
+                                    markerColor: 'red'
+                                });
+
+                                cityMarkers = L.markerClusterGroup();
+
+                                for(let i = 0; i < result['data'].length; i++)
+                                {
+                                    cityMarkers.addLayer(L.marker([cityLats[i], cityLngs[i]], {icon: redMarker}).bindPopup(cityNames[i]));
+                                                    
+                                }
+
+                                mymap.addLayer(cityMarkers);
+                                                
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            JSON.stringify(jqXHR);
+                
+                            if(jqXHR.status == '204')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: No Response");
+                            }
+                            else if(jqXHR.status == '400')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Bad Request");
+                            }
+                            else if(jqXHR.status == '401')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Unauthorised Request");
+                            }
+                            else if(jqXHR.status == '403')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Request Forbidden"); 
+                            }
+                            else if(jqXHR.status == '404')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Request Not Found"); 
+                            }
+                            else if(jqXHR.status == '500')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Internal Server Error"); 
+                            }
+                            else if(jqXHR.status == '503')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "GEONAMES: Service Unavailable");
+                            }
+                        }
+
+                    });
+
+                    $.ajax({
+                        url: "php/getExchangeRates.php",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            currencyCode: countryCurrencyCode
+                        },
+        
+                        success: function(result){
+                            console.log(JSON.stringify(result));
+        
+                            if(result.status.name == "OK")
+                            {
+                                for(let property in result['data']['rates'])
+                                {
+                                    currentCurrencyRates.push(`${property}: ${result['data']['rates'][property]}`);
+                                }
+
+        
+                                $('.selectedCountry').html(countryFullName);
+                                $('.flag').attr("src", countryFlag);
+                                $('#capitalCity').html(countryCapital);
+                                $('#population').html(countryPopulation);
+                                $('#nativeName').html(countryNativeName);
+                                $('#region').html(countryRegion);
+                                $('#language').html(`${countryLanguage} (${countryLanguageNativeName})`);
+                                $('#currentTemperature').html(`${temperatureFahrenheit}&#8457;/ ${temperatureCelsius}&#8451;`);
+                                $('#feelsLike').html(`${feelsLikeFahrenheit}&#8457;/ ${feelsLikeCelsius}&#8451;`);
+                                $('#weather').html(`${mainWeather} (${description})`);
+                                $('#pressure').html(pressure);
+                                $('#humidity').html(humidity);
+                                $('#windSpeed').html(windSpeed);
+        
+                                for(let i = 0; i < wikipediaUrls.length; i++)
+                                {
+                                    let linkNo = i + 1;
+                                    $('#wikipediaLinks li:nth-child(' + linkNo + ') a').attr("href", "https://" + wikipediaUrls[i]).html("https://" + wikipediaUrls[i]);
+                                }
+        
+                                $('#currency').html(`${countryCurrencyName} (${countryCurrencyCode})`);
+
+                                let majori = 1;
+
+                                for(let majorCurrency in result['data']['rates']) {
+
+                                    if(majorCurrency == "AUD" || majorCurrency == "BTC" || majorCurrency == "CAD" || majorCurrency == "EUR" || majorCurrency == "GBP" || majorCurrency == "JPY" || majorCurrency == "NZD" || majorCurrency == "USD")
+                                    {
+                                        $('#majorRates tr:nth-child(' + majori + ') td:nth-child(1)').html(majorCurrency);
+                                        $('#majorRates tr:nth-child(' + majori + ') td:nth-child(2)').html(result['data']['rates'][majorCurrency]);
+
+                                        majori++;
+                                    }
+                                }
+
+                                let allCurri = 1;
+
+                                for(let allCurrency in result['data']['rates']) {
+                                    $('#allRates tr:nth-child(' + allCurri + ') td:nth-child(1)').html(allCurrency);
+                                    $('#allRates tr:nth-child(' + allCurri + ') td:nth-child(2)').html(result['data']['rates'][allCurrency]);
+                                                            
+                                    allCurri++;
+                                }
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            JSON.stringify(jqXHR);
+                
+                            if(jqXHR.status == '204')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: No Response");
+                            }
+                            else if(jqXHR.status == '400')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Bad Request");
+                            }
+                            else if(jqXHR.status == '401')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Unauthorised Request");
+                            }
+                            else if(jqXHR.status == '403')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Request Forbidden"); 
+                            }
+                            else if(jqXHR.status == '404')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Request Not Found"); 
+                            }
+                            else if(jqXHR.status == '500')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Internal Server Error"); 
+                            }
+                            else if(jqXHR.status == '503')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Service Unavailable");
+                            }
+                        }
+                    });
+
+                    $.ajax({
+                        url: "php/getCovidData.php",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            countryISO2: countryISO2Code
+                        },
+
+                        success: function(result) {
+                            console.log(JSON.stringify(result));
+
+                            if(result.status.name == "OK") 
+                            {
+                                todayDeaths = result['todaysData']['deaths'];
+                                todayCases = result['todaysData']['confirmed'];
+                                totalDeaths = result['totalData']['deaths'];
+                                totalCases = result['totalData']['confirmed'];
+                                totalRecovered = result['totalData']['recovered'];
+                                totalCritical = result['totalData']['critical'];
+                                deathRate = result['totalData']['calculated']['death_rate'];
+                                recoveryRate = result['totalData']['calculated']['recovery_rate'];
+                                casesPerMillionPopulation = result['totalData']['calculated']['cases_per_million_population'];
+                                //$('#errorMessage').html(casesPerMillionPopulation);
+
+                                $('#todayCases').html(todayCases);
+                                $('#todayDeaths').html(todayDeaths);
+                                $('#totalCases').html(totalCases);
+                                $('#totalDeaths').html(totalDeaths);
+                                $('#totalRecovered').html(totalRecovered);
+                                $('#totalCritical').html(totalCritical);
+                                $('#deathRate').html(deathRate);
+                                $('#recoveryRate').html(recoveryRate);
+                                $('#casesPerMillion').html(casesPerMillionPopulation);
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            JSON.stringify(jqXHR);
+                
+                            if(jqXHR.status == '204')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CORONA API: No Response");
+                            }
+                            else if(jqXHR.status == '400')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CORONA API: Bad Request");
+                            }
+                            else if(jqXHR.status == '401')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CORONA API: Unauthorised Request");
+                            }
+                            else if(jqXHR.status == '403')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CORONA API: Request Forbidden"); 
+                            }
+                            else if(jqXHR.status == '404')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CORONA API: Request Not Found"); 
+                            }
+                            else if(jqXHR.status == '500')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CORONA API: Internal Server Error"); 
+                            }
+                            else if(jqXHR.status == '503')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CORONA API: Service Unavailable");
+                            }
+                        }
+                    });
+
+                    $.ajax({
+                        url: "php/getNationalHolidays.php",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            countryISO2: countryISO2Code
+                        },
+
+                        success: function(result) {
+                            console.log(JSON.stringify(result));
+
+                            if(result.status.name == "OK")
+                            {
+                                let totalNationalHolidays = result['data'].length;
+                                $('#holidayTable tr:nth-child(1) th:nth-child(2)').html(totalNationalHolidays);
+
+                                for(let i = 1; i <= 30; i++)
+                                {
+                                    $('#holidayTable tbody tr:nth-child(' + i +') td:nth-child(1)').empty();
+                                    $('#holidayTable tbody tr:nth-child(' + i + ') td:nth-child(2)').empty();
+                                }
+
+                                for(let i = 0; i < totalNationalHolidays; i++)
+                                {
+                                    let holidayNo = i + 1;
+
+                                    if(countryISO3Code == "USA")
+                                    {
+                                        $('#holidayTable tbody tr:nth-child(' + holidayNo +') td:nth-child(1)').html(Date.parse(result['data'][i]['date']).toString("M/d/yyyy"));
+                                    }
+                                    else
+                                    {
+                                        $('#holidayTable tbody tr:nth-child(' + holidayNo +') td:nth-child(1)').html(Date.parse(result['data'][i]['date']).toString("d/M/yyyy"));
+                                    }
+
+                                    $('#holidayTable tbody tr:nth-child(' + holidayNo + ') td:nth-child(2)').html(result['data'][i]['name']);
+                                }
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            JSON.stringify(jqXHR);
+                
+                            if(jqXHR.status == '204')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: No Response");
+                            }
+                            else if(jqXHR.status == '400')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Bad Request");
+                            }
+                            else if(jqXHR.status == '401')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Unauthorised Request");
+                            }
+                            else if(jqXHR.status == '403')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Request Forbidden"); 
+                            }
+                            else if(jqXHR.status == '404')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Request Not Found"); 
+                            }
+                            else if(jqXHR.status == '500')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Internal Server Error"); 
+                            }
+                            else if(jqXHR.status == '503')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "CALENDARIFIC: Service Unavailable");
+                            }
+                        }
+                    });
+                    $.ajax({
+                        url: "php/getCountryNews.php",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            countryAlt: countryAltCode
+                        },
+
+                        success: function(result) {
+                            console.log(JSON.stringify(result));
+
+                            if(result.status.name == "OK")
+                            {
+                                for(let i = 0; i < result['data'].length; i++)
+                                {
+                                    let newsNo = i + 1;
+
+                                    $('.recentNews:nth-child(' + newsNo +') tr:nth-child(1) th a').html(result['data'][i]['title']);
+                                    $('.recentNews:nth-child(' + newsNo +') tr:nth-child(1) th a').attr("href", result['data'][i]['url']);
+                                    $('.recentNews:nth-child(' + newsNo + ') tr:nth-child(2) td:nth-child(2)').html(result['data'][i]['summary']);
+                                    $('.recentNews:nth-child(' + newsNo + ') tr:nth-child(3) td:nth-child(2)').html(result['data'][i]['author']);
+                                }
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            JSON.stringify(jqXHR);
+                            JSON.stringify(textStatus);
+                            JSON.stringify(errorThrown);
+
+                            if(jqXHR.status == '204')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "NEWS API: No Response");
+                            }
+                            else if(jqXHR.status == '400')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "NEWS API: Bad Request");
+                            }
+                            else if(jqXHR.status == '401')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "NEWS API: Unauthorised Request");
+                            }
+                            else if(jqXHR.status == '403')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "NEWS API: Request Forbidden"); 
+                            }
+                            else if(jqXHR.status == '404')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "NEWS API: Request Not Found"); 
+                            }
+                            else if(jqXHR.status == '500')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "NEWS API: Internal Server Error"); 
+                            }
+                            else if(jqXHR.status == '503')
+                            {
+                                $('#errorMessage').html(jqXHR.status + "NEWS API: Service Unavailable");
                             }
                         }
                     });

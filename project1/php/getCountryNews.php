@@ -3,8 +3,8 @@
     error_reporting(E_ALL);
 
     $startTimeExecution = microtime(true);
-    $apiKey = "6c0b26539fed4568989ff9f0e3cc5da8";
-    $url = 'https://newsapi.org/v2/top-headlines?country=' . $_REQUEST['countryISO2'] . '&apiKey=' . $apiKey;
+    $apiKey = "33b670cdcc3248ebbe8fc77c48aee290";
+    $url = 'https://api.worldnewsapi.com/search-news?source-countries=' . $_REQUEST['countryAlt'] . '&number=20' . '&api-key=' . $apiKey;
 
     $ci = curl_init();
     curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);
@@ -19,11 +19,11 @@
 
     $countryArticles = [];
 
-    foreach($decode['articles'] as $article) {
+    foreach($decode['news'] as $article) {
         $temp = null;
-        $temp['source'] = $article['source']['name'];
-        $temp['author'] = $article['author'];
         $temp['title'] = $article['title'];
+        $temp['author'] = $article['author'];
+        $temp['summary'] = $article['summary'];
         $temp['url'] = $article['url'];
 
         array_push($countryArticles, $temp);
