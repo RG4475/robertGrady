@@ -4,7 +4,7 @@
 
     $startTimeExecution = microtime(true);
     $apiKey = "33b670cdcc3248ebbe8fc77c48aee290";
-    $url = 'https://api.worldnewsapi.com/search-news?source-countries=' . $_REQUEST['countryAlt'] . '&number=20' . '&api-key=' . $apiKey;
+    $url = 'https://api.worldnewsapi.com/search-news?source-countries=' . $_REQUEST['countryISO2'] . '&number=20' . '&api-key=' . $apiKey;
 
     $ci = curl_init();
     curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);
@@ -23,7 +23,7 @@
         $temp = null;
         $temp['title'] = $article['title'];
         $temp['author'] = $article['author'];
-        $temp['summary'] = $article['summary'];
+        $temp['text'] = $article['text'];
         $temp['url'] = $article['url'];
 
         array_push($countryArticles, $temp);

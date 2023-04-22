@@ -783,7 +783,7 @@ $('#countrySelect').change(function() {
                         type: 'POST',
                         dataType: 'json',
                         data: {
-                            countryAlt: countryAltCode
+                            countryISO2: countryISO2Code.toLowerCase()
                         },
 
                         success: function(result) {
@@ -797,7 +797,7 @@ $('#countrySelect').change(function() {
 
                                     $('.recentNews:nth-child(' + newsNo +') tr:nth-child(1) th a').html(result['data'][i]['title']);
                                     $('.recentNews:nth-child(' + newsNo +') tr:nth-child(1) th a').attr("href", result['data'][i]['url']);
-                                    $('.recentNews:nth-child(' + newsNo + ') tr:nth-child(2) td:nth-child(2)').html(result['data'][i]['summary']);
+                                    $('.recentNews:nth-child(' + newsNo + ') tr:nth-child(2) td:nth-child(2)').html(result['data'][i]['text']);
                                     $('.recentNews:nth-child(' + newsNo + ') tr:nth-child(3) td:nth-child(2)').html(result['data'][i]['author']);
                                 }
                             }
