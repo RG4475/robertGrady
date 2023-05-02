@@ -101,12 +101,6 @@ $(window).on('load', function() {
             focus: true
         });
 
-        var covidModal = new bootstrap.Modal(document.getElementById('covidModal'), {
-            backdrop: true,
-            keyboard: true,
-            focus: true
-        });
-
         var holidayModal = new bootstrap.Modal(document.getElementById('holidayModal'), {
             backdrop: true,
             keyboard: true,
@@ -131,10 +125,6 @@ $(window).on('load', function() {
 
         L.easyButton('fa-cloud-sun-rain', function() {
             weatherModal.show();
-        }).addTo(mymap);
-
-        L.easyButton('fa-virus', function() {
-            covidModal.show();
         }).addTo(mymap);
 
         L.easyButton('fa-gifts', function() {
@@ -633,75 +623,6 @@ $('#countrySelect').change(function() {
                             else if(jqXHR.status == '503')
                             {
                                 $('#errorMessage').html(jqXHR.status + "OPEN EXCHANGE RATES: Service Unavailable");
-                            }
-                        }
-                    });
-
-                    $.ajax({
-                        url: "php/getCovidData.php",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: {
-                            countryISO2: countryISO2Code
-                        },
-
-                        success: function(result) {
-                            console.log(JSON.stringify(result));
-
-                            if(result.status.name == "OK") 
-                            {
-                                todayDeaths = result['todaysData']['deaths'];
-                                todayCases = result['todaysData']['confirmed'];
-                                totalDeaths = result['totalData']['deaths'];
-                                totalCases = result['totalData']['confirmed'];
-                                totalRecovered = result['totalData']['recovered'];
-                                totalCritical = result['totalData']['critical'];
-                                deathRate = result['totalData']['calculated']['death_rate'];
-                                recoveryRate = result['totalData']['calculated']['recovery_rate'];
-                                casesPerMillionPopulation = result['totalData']['calculated']['cases_per_million_population'];
-                                //$('#errorMessage').html(casesPerMillionPopulation);
-
-                                $('#todayCases').html(todayCases);
-                                $('#todayDeaths').html(todayDeaths);
-                                $('#totalCases').html(totalCases);
-                                $('#totalDeaths').html(totalDeaths);
-                                $('#totalRecovered').html(totalRecovered);
-                                $('#totalCritical').html(totalCritical);
-                                $('#deathRate').html(deathRate);
-                                $('#recoveryRate').html(recoveryRate);
-                                $('#casesPerMillion').html(casesPerMillionPopulation);
-                            }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            JSON.stringify(jqXHR);
-                
-                            if(jqXHR.status == '204')
-                            {
-                                $('#errorMessage').html(jqXHR.status + "CORONA API: No Response");
-                            }
-                            else if(jqXHR.status == '400')
-                            {
-                                $('#errorMessage').html(jqXHR.status + "CORONA API: Bad Request");
-                            }
-                            else if(jqXHR.status == '401')
-                            {
-                                $('#errorMessage').html(jqXHR.status + "CORONA API: Unauthorised Request");
-                            }
-                            else if(jqXHR.status == '403')
-                            {
-                                $('#errorMessage').html(jqXHR.status + "CORONA API: Request Forbidden"); 
-                            }
-                            else if(jqXHR.status == '404')
-                            {
-                                $('#errorMessage').html(jqXHR.status + "CORONA API: Request Not Found"); 
-                            }
-                            else if(jqXHR.status == '500')
-                            {
-                                $('#errorMessage').html(jqXHR.status + "CORONA API: Internal Server Error"); 
-                            }
-                            else if(jqXHR.status == '503')
-                            {
-                                $('#errorMessage').html(jqXHR.status + "CORONA API: Service Unavailable");
                             }
                         }
                     });
